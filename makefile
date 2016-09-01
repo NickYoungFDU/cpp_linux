@@ -5,7 +5,7 @@ GEN_OBJ := $(patsubst %.cpp, %.o, $(GEN_SRC))
 THRIFT_DIR := /usr/local/include/
 BOOST_DIR := /usr/local/include/
 
-INC := -I$(THRIFT_DIR)
+INC := -I$(THRIFT_DIR) -I.
 
 .PHONY: all clean
 
