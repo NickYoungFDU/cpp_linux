@@ -41,8 +41,8 @@ int run_server(int port, unsigned int threadCount) {
 }
 
 int main(int argc, char* argv[]) {
-	auto port = 0;
-	auto threadCount = 0U;
+	int port = 0;
+	unsigned int threadCount = 0U;
 
 	// Parse command line options
 	for (int i = 1; i < argc; i++)
