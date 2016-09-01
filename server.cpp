@@ -11,6 +11,9 @@
 #include "thrift/transport/TServerSocket.h"
 #include "thrift/transport/TBufferTransports.h"
 #include "thrift/processor/TMultiplexedProcessor.h"
+#include <iostream>
+#include <string.h>
+#include <stdlib.h>
 
 using namespace azure::storage::cpp_linux;
 
