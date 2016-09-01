@@ -4,6 +4,7 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <stdexcept>
+#include <iostream>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
