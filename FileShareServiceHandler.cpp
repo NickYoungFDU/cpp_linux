@@ -10,6 +10,7 @@ namespace azure {
 		{
 			void FileShareServiceHandler::MapFileShare(std::string& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) {
 				// Your implementation goes here
+				mountPoints.emplace(smbShareAddress, mountPoint);
 				std::string xsmbVersion = "2.1";
 				std::string mountCommand = "mount -t cifs " + smbShareAddress + " " + mountPoint + " -o vers='" + xsmbVersion + "',username='" + username + "',password='" + password + "',dir_mode=0777,file_mode=0777";
 				std::string ret = exec(mountCommand.c_str());

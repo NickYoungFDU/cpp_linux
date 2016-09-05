@@ -25,6 +25,8 @@ namespace azure {
 					// Your initialization goes here
 				}
 
+				std::string& GetMountPoint(const std::string& fullPath);
+
 				bool CreateDirectory(const std::string& dirPath);
 				bool DeleteDirectory(const std::string& dirPath, const bool isRecursive);
 				bool CreateFile(const std::string& filePath, const int64_t fileSize, const bool noBuffering);
