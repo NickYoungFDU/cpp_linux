@@ -1,4 +1,6 @@
 #include <FileShareServiceHandler.h>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 using boost::shared_ptr;
 
@@ -10,6 +12,11 @@ namespace azure {
 		{
 			void FileShareServiceHandler::MapFileShare(std::string& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) {
 				// Your implementation goes here
+				boost::filesystem::path mountPointPath(mountPoint);
+				if (!boost::filesystem::exists(mountPointPath)) {
+					boost::filesystem::create_directory(mountPointPath);
+				}
+
 				std::string xsmbVersion = "2.1";
 				std::string mountCommand = "mount -t cifs " + smbShareAddress + " " + mountPoint + " -o vers='" + xsmbVersion + "',username='" + username + "',password='" + password + "',dir_mode=0777,file_mode=0777";
 				std::string ret = exec(mountCommand.c_str());
