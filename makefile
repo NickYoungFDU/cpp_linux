@@ -15,7 +15,7 @@ all: server
 	g++ -Wall $(INC) -c $< -o $@
 
 server: server.o FileShareServiceHandler.o XSMBServiceHandler.o $(GEN_OBJ) 
-	g++ $^ -o $@ -L/usr/local/lib -lthrift -lboost_filesystem -lboost_system
+	g++ $^ -o $@ -L/usr/local/lib -lthrift -lboost_filesystem -lboost_system -lthriftnb -levent
 
 clean:
 	rm $(LIB_DIR)*.o *.o server
