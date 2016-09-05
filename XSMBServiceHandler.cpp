@@ -20,14 +20,10 @@ namespace azure {
 	namespace storage {
 		namespace cpp_linux 
 		{
-			std::string& XSMBServiceHandler::GetMountPoint(const std::string& fullPath) {
-				return std::string("\\home\\xufyan\\linuxsmbtest2");
-			}
-
 			bool XSMBServiceHandler::CreateDirectory(const std::string& dirPath) {
 				printf("CreateDirectory\n");
 				bool success = false;
-				boost::filesystem::path dir(GetMountPoint(dirPath));
+				boost::filesystem::path dir(dirPath);
 				try {
 					if (boost::filesystem::exists(dir)) {
 						success = false;

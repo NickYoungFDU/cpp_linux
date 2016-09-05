@@ -29,8 +29,6 @@ namespace azure {
 				void UnmapFileContainer(const std::string& mountPoint);
 
 				std::string exec(const char* cmd);
-			private:
-				std::map<std::string, std::string> mountPoints;
 			};
 		}
 	}
