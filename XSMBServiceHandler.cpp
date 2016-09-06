@@ -159,8 +159,7 @@ namespace azure {
 
 			void XSMBServiceHandler::GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) {
 				printf("GetFileLength\n");
-				boost::filesystem::path file(filePath);
-				int64_t fileSize = 0;
+				boost::filesystem::path file(filePath);				
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {						
 						_return.FileLength = (int64_t)boost::filesystem::file_size(file);
