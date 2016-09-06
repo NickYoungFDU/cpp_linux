@@ -6,6 +6,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <XSMBServiceHandler.h>
+#include <infrastructure.h>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -22,17 +23,7 @@ namespace azure {
 		{
 			// TODO: Add logging to these handler functions.
 
-			void SetResponse(LinuxFileResponse& response, bool success, std::string message) {
-				response.Success = success;
-				response.ResponseMessage = message;
-			}
 
-			LinuxFileException GetException(std::string errorMessage, OperationType::type type) {
-				LinuxFileException linuxFileException;
-				linuxFileException.ErrorMessage = errorMessage;
-				linuxFileException.Type = type;
-				return linuxFileException;
-			}
 
 			void XSMBServiceHandler::CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
 				printf("CreateDirectory\n");		
