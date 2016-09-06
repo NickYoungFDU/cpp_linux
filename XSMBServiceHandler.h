@@ -21,7 +21,9 @@ namespace azure {
 		namespace cpp_linux {
 			class XSMBServiceHandler : virtual public XSMBServiceIf {
 			public:
-				XSMBServiceHandler();
+				XSMBServiceHandler() {
+
+				}
 
 				void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath);
 

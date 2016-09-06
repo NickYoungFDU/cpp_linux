@@ -21,7 +21,9 @@ namespace azure {
 		{
 			class FileShareServiceHandler : virtual public FileShareServiceIf {
 			public:
-				FileShareServiceHandler();
+				FileShareServiceHandler() {
+
+				}
 
 				void MapFileShare(LinuxFileResponse& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint);
 
