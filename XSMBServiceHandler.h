@@ -41,7 +41,7 @@ namespace azure {
 
 				void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
 
-				bool XSMBServiceHandler::ListFiles(const std::string& dirPath);
+				bool ListFiles(const std::string& dirPath);
 
 			};
 		}
