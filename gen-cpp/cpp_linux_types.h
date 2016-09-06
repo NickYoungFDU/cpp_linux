@@ -185,19 +185,19 @@ class LinuxFileException : public ::apache::thrift::TException {
 
   LinuxFileException(const LinuxFileException&);
   LinuxFileException& operator=(const LinuxFileException&);
-  LinuxFileException() : ErrorMessage(), OperationType((OperationType::type)0) {
+  LinuxFileException() : ErrorMessage(), Type((OperationType::type)0) {
   }
 
   virtual ~LinuxFileException() throw();
   std::string ErrorMessage;
-  OperationType::type OperationType;
+  OperationType::type Type;
   std::map<std::string, std::string>  AdditionalInfo;
 
   _LinuxFileException__isset __isset;
 
   void __set_ErrorMessage(const std::string& val);
 
-  void __set_OperationType(const OperationType::type val);
+  void __set_Type(const OperationType::type val);
 
   void __set_AdditionalInfo(const std::map<std::string, std::string> & val);
 
@@ -205,7 +205,7 @@ class LinuxFileException : public ::apache::thrift::TException {
   {
     if (!(ErrorMessage == rhs.ErrorMessage))
       return false;
-    if (!(OperationType == rhs.OperationType))
+    if (!(Type == rhs.Type))
       return false;
     if (__isset.AdditionalInfo != rhs.__isset.AdditionalInfo)
       return false;
@@ -240,13 +240,13 @@ class LinuxFileResponse {
 
   LinuxFileResponse(const LinuxFileResponse&);
   LinuxFileResponse& operator=(const LinuxFileResponse&);
-  LinuxFileResponse() : Success(0), ResponseMessage(), OperationType((OperationType::type)0) {
+  LinuxFileResponse() : Success(0), ResponseMessage(), Type((OperationType::type)0) {
   }
 
   virtual ~LinuxFileResponse() throw();
   bool Success;
   std::string ResponseMessage;
-  OperationType::type OperationType;
+  OperationType::type Type;
   std::map<std::string, std::string>  AdditionalInfo;
 
   _LinuxFileResponse__isset __isset;
@@ -255,7 +255,7 @@ class LinuxFileResponse {
 
   void __set_ResponseMessage(const std::string& val);
 
-  void __set_OperationType(const OperationType::type val);
+  void __set_Type(const OperationType::type val);
 
   void __set_AdditionalInfo(const std::map<std::string, std::string> & val);
 
@@ -265,7 +265,7 @@ class LinuxFileResponse {
       return false;
     if (!(ResponseMessage == rhs.ResponseMessage))
       return false;
-    if (!(OperationType == rhs.OperationType))
+    if (!(Type == rhs.Type))
       return false;
     if (__isset.AdditionalInfo != rhs.__isset.AdditionalInfo)
       return false;

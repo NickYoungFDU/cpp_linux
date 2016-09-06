@@ -364,8 +364,8 @@ void LinuxFileException::__set_ErrorMessage(const std::string& val) {
   this->ErrorMessage = val;
 }
 
-void LinuxFileException::__set_OperationType(const OperationType::type val) {
-  this->OperationType = val;
+void LinuxFileException::__set_Type(const OperationType::type val) {
+  this->Type = val;
 }
 
 void LinuxFileException::__set_AdditionalInfo(const std::map<std::string, std::string> & val) {
@@ -388,7 +388,7 @@ uint32_t LinuxFileException::read(::apache::thrift::protocol::TProtocol* iprot) 
   using ::apache::thrift::protocol::TProtocolException;
 
   bool isset_ErrorMessage = false;
-  bool isset_OperationType = false;
+  bool isset_Type = false;
 
   while (true)
   {
@@ -410,8 +410,8 @@ uint32_t LinuxFileException::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_I32) {
           int32_t ecast10;
           xfer += iprot->readI32(ecast10);
-          this->OperationType = (OperationType::type)ecast10;
-          isset_OperationType = true;
+          this->Type = (OperationType::type)ecast10;
+          isset_Type = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -450,7 +450,7 @@ uint32_t LinuxFileException::read(::apache::thrift::protocol::TProtocol* iprot) 
 
   if (!isset_ErrorMessage)
     throw TProtocolException(TProtocolException::INVALID_DATA);
-  if (!isset_OperationType)
+  if (!isset_Type)
     throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
 }
@@ -464,8 +464,8 @@ uint32_t LinuxFileException::write(::apache::thrift::protocol::TProtocol* oprot)
   xfer += oprot->writeString(this->ErrorMessage);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("OperationType", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32((int32_t)this->OperationType);
+  xfer += oprot->writeFieldBegin("Type", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((int32_t)this->Type);
   xfer += oprot->writeFieldEnd();
 
   if (this->__isset.AdditionalInfo) {
@@ -491,20 +491,20 @@ uint32_t LinuxFileException::write(::apache::thrift::protocol::TProtocol* oprot)
 void swap(LinuxFileException &a, LinuxFileException &b) {
   using ::std::swap;
   swap(a.ErrorMessage, b.ErrorMessage);
-  swap(a.OperationType, b.OperationType);
+  swap(a.Type, b.Type);
   swap(a.AdditionalInfo, b.AdditionalInfo);
   swap(a.__isset, b.__isset);
 }
 
 LinuxFileException::LinuxFileException(const LinuxFileException& other19) : TException() {
   ErrorMessage = other19.ErrorMessage;
-  OperationType = other19.OperationType;
+  Type = other19.Type;
   AdditionalInfo = other19.AdditionalInfo;
   __isset = other19.__isset;
 }
 LinuxFileException& LinuxFileException::operator=(const LinuxFileException& other20) {
   ErrorMessage = other20.ErrorMessage;
-  OperationType = other20.OperationType;
+  Type = other20.Type;
   AdditionalInfo = other20.AdditionalInfo;
   __isset = other20.__isset;
   return *this;
@@ -513,7 +513,7 @@ std::ostream& operator<<(std::ostream& out, const LinuxFileException& obj) {
   using apache::thrift::to_string;
   out << "LinuxFileException(";
   out << "ErrorMessage=" << to_string(obj.ErrorMessage);
-  out << ", " << "OperationType=" << to_string(obj.OperationType);
+  out << ", " << "Type=" << to_string(obj.Type);
   out << ", " << "AdditionalInfo="; (obj.__isset.AdditionalInfo ? (out << to_string(obj.AdditionalInfo)) : (out << "<null>"));
   out << ")";
   return out;
@@ -532,8 +532,8 @@ void LinuxFileResponse::__set_ResponseMessage(const std::string& val) {
   this->ResponseMessage = val;
 }
 
-void LinuxFileResponse::__set_OperationType(const OperationType::type val) {
-  this->OperationType = val;
+void LinuxFileResponse::__set_Type(const OperationType::type val) {
+  this->Type = val;
 }
 
 void LinuxFileResponse::__set_AdditionalInfo(const std::map<std::string, std::string> & val) {
@@ -557,7 +557,7 @@ uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   bool isset_Success = false;
   bool isset_ResponseMessage = false;
-  bool isset_OperationType = false;
+  bool isset_Type = false;
 
   while (true)
   {
@@ -587,8 +587,8 @@ uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_I32) {
           int32_t ecast21;
           xfer += iprot->readI32(ecast21);
-          this->OperationType = (OperationType::type)ecast21;
-          isset_OperationType = true;
+          this->Type = (OperationType::type)ecast21;
+          isset_Type = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -629,7 +629,7 @@ uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
     throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_ResponseMessage)
     throw TProtocolException(TProtocolException::INVALID_DATA);
-  if (!isset_OperationType)
+  if (!isset_Type)
     throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
 }
@@ -647,8 +647,8 @@ uint32_t LinuxFileResponse::write(::apache::thrift::protocol::TProtocol* oprot) 
   xfer += oprot->writeString(this->ResponseMessage);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("OperationType", ::apache::thrift::protocol::T_I32, 3);
-  xfer += oprot->writeI32((int32_t)this->OperationType);
+  xfer += oprot->writeFieldBegin("Type", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((int32_t)this->Type);
   xfer += oprot->writeFieldEnd();
 
   if (this->__isset.AdditionalInfo) {
@@ -675,7 +675,7 @@ void swap(LinuxFileResponse &a, LinuxFileResponse &b) {
   using ::std::swap;
   swap(a.Success, b.Success);
   swap(a.ResponseMessage, b.ResponseMessage);
-  swap(a.OperationType, b.OperationType);
+  swap(a.Type, b.Type);
   swap(a.AdditionalInfo, b.AdditionalInfo);
   swap(a.__isset, b.__isset);
 }
@@ -683,14 +683,14 @@ void swap(LinuxFileResponse &a, LinuxFileResponse &b) {
 LinuxFileResponse::LinuxFileResponse(const LinuxFileResponse& other30) {
   Success = other30.Success;
   ResponseMessage = other30.ResponseMessage;
-  OperationType = other30.OperationType;
+  Type = other30.Type;
   AdditionalInfo = other30.AdditionalInfo;
   __isset = other30.__isset;
 }
 LinuxFileResponse& LinuxFileResponse::operator=(const LinuxFileResponse& other31) {
   Success = other31.Success;
   ResponseMessage = other31.ResponseMessage;
-  OperationType = other31.OperationType;
+  Type = other31.Type;
   AdditionalInfo = other31.AdditionalInfo;
   __isset = other31.__isset;
   return *this;
@@ -700,7 +700,7 @@ std::ostream& operator<<(std::ostream& out, const LinuxFileResponse& obj) {
   out << "LinuxFileResponse(";
   out << "Success=" << to_string(obj.Success);
   out << ", " << "ResponseMessage=" << to_string(obj.ResponseMessage);
-  out << ", " << "OperationType=" << to_string(obj.OperationType);
+  out << ", " << "Type=" << to_string(obj.Type);
   out << ", " << "AdditionalInfo="; (obj.__isset.AdditionalInfo ? (out << to_string(obj.AdditionalInfo)) : (out << "<null>"));
   out << ")";
   return out;

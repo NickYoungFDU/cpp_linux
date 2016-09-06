@@ -40,14 +40,14 @@ enum OperationType {
 
 exception LinuxFileException {
     1: required string ErrorMessage,
-    2: required OperationType OperationType,
+    2: required OperationType Type,
     3: optional map<string, string> AdditionalInfo
 }
 
 struct LinuxFileResponse {
     1: required bool Success,
     2: required string ResponseMessage,
-    3: required OperationType OperationType,
+    3: required OperationType Type,
     4: optional map<string, string> AdditionalInfo
 }
 
