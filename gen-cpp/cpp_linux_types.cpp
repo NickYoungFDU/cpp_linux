@@ -706,4 +706,142 @@ std::ostream& operator<<(std::ostream& out, const LinuxFileResponse& obj) {
   return out;
 }
 
+
+GetFileLengthResponse::~GetFileLengthResponse() throw() {
+}
+
+
+void GetFileLengthResponse::__set_FileLength(const int64_t val) {
+  this->FileLength = val;
+}
+
+void GetFileLengthResponse::__set_Success(const bool val) {
+  this->Success = val;
+}
+
+void GetFileLengthResponse::__set_ErrorMessage(const std::string& val) {
+  this->ErrorMessage = val;
+__isset.ErrorMessage = true;
+}
+
+const char* GetFileLengthResponse::ascii_fingerprint = "047A24EC93E49ED134CB8CA922D4BAFD";
+const uint8_t GetFileLengthResponse::binary_fingerprint[16] = {0x04,0x7A,0x24,0xEC,0x93,0xE4,0x9E,0xD1,0x34,0xCB,0x8C,0xA9,0x22,0xD4,0xBA,0xFD};
+
+uint32_t GetFileLengthResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_FileLength = false;
+  bool isset_Success = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->FileLength);
+          isset_FileLength = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->Success);
+          isset_Success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->ErrorMessage);
+          this->__isset.ErrorMessage = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_FileLength)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_Success)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t GetFileLengthResponse::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("GetFileLengthResponse");
+
+  xfer += oprot->writeFieldBegin("FileLength", ::apache::thrift::protocol::T_I64, 1);
+  xfer += oprot->writeI64(this->FileLength);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("Success", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->Success);
+  xfer += oprot->writeFieldEnd();
+
+  if (this->__isset.ErrorMessage) {
+    xfer += oprot->writeFieldBegin("ErrorMessage", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeString(this->ErrorMessage);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(GetFileLengthResponse &a, GetFileLengthResponse &b) {
+  using ::std::swap;
+  swap(a.FileLength, b.FileLength);
+  swap(a.Success, b.Success);
+  swap(a.ErrorMessage, b.ErrorMessage);
+  swap(a.__isset, b.__isset);
+}
+
+GetFileLengthResponse::GetFileLengthResponse(const GetFileLengthResponse& other32) {
+  FileLength = other32.FileLength;
+  Success = other32.Success;
+  ErrorMessage = other32.ErrorMessage;
+  __isset = other32.__isset;
+}
+GetFileLengthResponse& GetFileLengthResponse::operator=(const GetFileLengthResponse& other33) {
+  FileLength = other33.FileLength;
+  Success = other33.Success;
+  ErrorMessage = other33.ErrorMessage;
+  __isset = other33.__isset;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const GetFileLengthResponse& obj) {
+  using apache::thrift::to_string;
+  out << "GetFileLengthResponse(";
+  out << "FileLength=" << to_string(obj.FileLength);
+  out << ", " << "Success=" << to_string(obj.Success);
+  out << ", " << "ErrorMessage="; (obj.__isset.ErrorMessage ? (out << to_string(obj.ErrorMessage)) : (out << "<null>"));
+  out << ")";
+  return out;
+}
+
 }}} // namespace

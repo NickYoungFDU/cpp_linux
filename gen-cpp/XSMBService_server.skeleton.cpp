@@ -52,19 +52,19 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("WriteFile\n");
   }
 
-  void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
+  void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
     // Your implementation goes here
-    printf("ListCloudFiles\n");
+    printf("ListFiles\n");
   }
 
-  int64_t GetCloudFileLength(const std::string& filePath) {
+  void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) {
     // Your implementation goes here
-    printf("GetCloudFileLength\n");
+    printf("GetFileLength\n");
   }
 
-  void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
+  void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
     // Your implementation goes here
-    printf("SetCloudFileLength\n");
+    printf("SetFileLength\n");
   }
 
 };

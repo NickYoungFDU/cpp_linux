@@ -20,90 +20,107 @@ namespace azure {
 	namespace storage {
 		namespace cpp_linux 
 		{
+			// TODO: Add logging to these handler functions.
+
+			void SetResponse(LinuxFileResponse& response, bool success, std::string message) {
+				response.Success = success;
+				response.ResponseMessage = message;
+			}
+
+			LinuxFileException GetException(std::string errorMessage, OperationType::type type) {
+				LinuxFileException linuxFileException;
+				linuxFileException.ErrorMessage = errorMessage;
+				linuxFileException.Type = type;
+				return linuxFileException;
+			}
+
 			void XSMBServiceHandler::CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
-				printf("CreateDirectory\n");
-				bool success = false;
+				printf("CreateDirectory\n");		
+
 				boost::filesystem::path dir(dirPath);
 				try {
-					if (boost::filesystem::exists(dir)) {
-						success = false;
+					if (boost::filesystem::exists(dir) && boost::filesystem::is_directory(dir)) {						
+						SetResponse(_return, false, dirPath + ": directory already exists");						
 					}
 					else {
-						success = boost::filesystem::create_directory(dir);
+						boost::filesystem::create_directory(dir);
+						SetResponse(_return, true, "Successfully created directory " + dirPath);
 					}
 				}
-				catch (const boost::filesystem::filesystem_error& ex) {
-					std::cout << ex.what() << std::endl;
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::CreateDirectory);
 				}
 				return;
-
 			}
 
 			void XSMBServiceHandler::DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
 				printf("DeleteDirectory\n");
-				bool success = false;
+				
 				boost::filesystem::path dir(dirPath);
 				try {
-					if (!(!boost::filesystem::is_empty(dir) && !isRecursive)) {
-						if (boost::filesystem::exists(dir)) {
-							success = boost::filesystem::remove_all(dir);
-						}
-						else {
-							success = true;
-						}
+					if (!boost::filesystem::exists(dir) || !boost::filesystem::is_directory(dir)) {						
+						SetResponse(_return, false, dirPath + " does not exist or is not a directory");
 					}
 					else {
-						std::cout << "Error: " << dirPath << " is not empty while isRecursive is false" << std::endl;
+						if (boost::filesystem::is_empty(dir) || isRecursive) {							
+							boost::filesystem::remove_all(dir);																					
+							SetResponse(_return, true, "Successfully deleted directory " + dirPath);
+						}
+						else {							
+							SetResponse(_return, false, dirPath + " is not empty while isRecursive is false");
+						}
 					}
 				}
-				catch (const boost::filesystem::filesystem_error& ex) {
-					std::cout << ex.what() << std::endl;
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::DeleteDirectory);
 				}
 				return;
 			}
 
 			void XSMBServiceHandler::CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
 				printf("CreateFile\n");
-				bool success = false;
+				
 				boost::filesystem::path file(filePath);
 				try {
-					if (boost::filesystem::exists(file)) {
-						success = false;
+					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
+						SetResponse(_return, false, filePath + " already exists");
 					}
 					else {
 						boost::filesystem::fstream fs;
 						fs.open(file, boost::filesystem::fstream::out);
 						fs.seekp(fileSize - 1);
 						fs.write("", 1);
-						fs.close();
-						success = true;
+						fs.close();					
+						SetResponse(_return, true, "Successfully created " + filePath);
 					}
 				}
-				catch (const boost::filesystem::filesystem_error& ex) {
-					std::cout << ex.what() << std::endl;
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::CreateFile);
 				}
 				return;
 			}
 
 			void XSMBServiceHandler::DeleteFile(LinuxFileResponse& _return, const std::string& filePath) {
 				printf("DeleteFile\n");
-				bool success = false;
+				
 				boost::filesystem::path file(filePath);
 				try {
-					if (boost::filesystem::exists(file)) {
-						success = boost::filesystem::remove(file);
+					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
+						SetResponse(_return, false, filePath + " does not exist or is not a file");
 					}
 					else {
-						success = true;
+						boost::filesystem::remove(file);
+						SetResponse(_return, true, "Successfully deleted file " + filePath);
 					}
 				}
-				catch (const boost::filesystem::filesystem_error& ex) {
-					std::cout << ex.what() << std::endl;
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::DeleteFile);
 				}
 				return;
 			}
 
 			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+				printf("ReadFile\n");
 				return;
 			}
 
@@ -126,7 +143,7 @@ namespace azure {
 				return true;
 			}
 
-			void XSMBServiceHandler::ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
+			void XSMBServiceHandler::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
 				printf("ListCloudFiles\n");
 				boost::filesystem::path dir(dirPath);
 				try {
@@ -140,49 +157,41 @@ namespace azure {
 				return;
 			}
 
-			int64_t XSMBServiceHandler::GetCloudFileLength(const std::string& filePath) {
+			void XSMBServiceHandler::GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) {
+				printf("GetFileLength\n");
 				boost::filesystem::path file(filePath);
 				int64_t fileSize = 0;
 				try {
-					if (boost::filesystem::exists(file)) {
-						if (boost::filesystem::is_regular_file(file)) {
-							fileSize = (int64_t)boost::filesystem::file_size(file);
-							std::cout << file << ": " << fileSize << "bytes" << std::endl;
-						}
-						else if (boost::filesystem::is_directory(file)) {
-							std::cout << file << " is a directory" << std::endl;
-						}
-						else {
-							std::cout << file << " exists, but is neither a file or directory" << std::endl;
-						}
+					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {						
+						_return.FileLength = (int64_t)boost::filesystem::file_size(file);
+						_return.Success = true;							
 					}
 					else {
-						std::cout << file << " does not exist" << std::endl;
+						_return.FileLength = -1;
+						_return.Success = false;
+						_return.ErrorMessage = filePath + " does not exist or is not a file";
 					}
 				}
-				catch (const boost::filesystem::filesystem_error& ex) {
-					std::cout << ex.what() << std::endl;
-				}
-				printf("GetCloudFileLength\n");
-				return 0;
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::GetFileLength);
+				}				
+				return;
 			}
 
-			void XSMBServiceHandler::SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
-				printf("SetCloudFileLength\n");
-				bool success = false;
+			void XSMBServiceHandler::SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
+				printf("SetCloudFileLength\n");				
 				boost::filesystem::path file(filePath);
 				try {
-					if (!boost::filesystem::exists(file)) {
-						success = false;
-						std::cout << file << " does not exist" << std::endl;
+					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {						
+						boost::filesystem::resize_file(file, (uintmax_t)fileLength);
+						SetResponse(_return, true, "Successfully set file length!");
 					}
 					else {
-						boost::filesystem::resize_file(file, (uintmax_t)fileLength);
-						success = true;
+						SetResponse(_return, false, filePath + " does not exist or is not a file");
 					}
 				}
-				catch (const boost::filesystem::filesystem_error& ex) {
-					std::cout << ex.what() << std::endl;
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::SetFileLength);
 				}
 				return;
 			}

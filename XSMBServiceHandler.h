@@ -37,11 +37,11 @@ namespace azure {
 
 				void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
 
-				void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
+				void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
 
-				int64_t GetCloudFileLength(const std::string& filePath);
+				void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath);
 
-				void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
+				void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
 
 				bool ListFiles(const std::string& dirPath);
 

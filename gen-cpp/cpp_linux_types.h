@@ -56,6 +56,8 @@ class LinuxFileException;
 
 class LinuxFileResponse;
 
+class GetFileLengthResponse;
+
 typedef struct _ChunkInfo__isset {
   _ChunkInfo__isset() : OffSet(false), Length(false), Version(false), IsNullDataWritten(false), IsCorrupted(false) {}
   bool OffSet :1;
@@ -286,6 +288,61 @@ class LinuxFileResponse {
 };
 
 void swap(LinuxFileResponse &a, LinuxFileResponse &b);
+
+typedef struct _GetFileLengthResponse__isset {
+  _GetFileLengthResponse__isset() : ErrorMessage(false) {}
+  bool ErrorMessage :1;
+} _GetFileLengthResponse__isset;
+
+class GetFileLengthResponse {
+ public:
+
+  static const char* ascii_fingerprint; // = "047A24EC93E49ED134CB8CA922D4BAFD";
+  static const uint8_t binary_fingerprint[16]; // = {0x04,0x7A,0x24,0xEC,0x93,0xE4,0x9E,0xD1,0x34,0xCB,0x8C,0xA9,0x22,0xD4,0xBA,0xFD};
+
+  GetFileLengthResponse(const GetFileLengthResponse&);
+  GetFileLengthResponse& operator=(const GetFileLengthResponse&);
+  GetFileLengthResponse() : FileLength(0), Success(0), ErrorMessage() {
+  }
+
+  virtual ~GetFileLengthResponse() throw();
+  int64_t FileLength;
+  bool Success;
+  std::string ErrorMessage;
+
+  _GetFileLengthResponse__isset __isset;
+
+  void __set_FileLength(const int64_t val);
+
+  void __set_Success(const bool val);
+
+  void __set_ErrorMessage(const std::string& val);
+
+  bool operator == (const GetFileLengthResponse & rhs) const
+  {
+    if (!(FileLength == rhs.FileLength))
+      return false;
+    if (!(Success == rhs.Success))
+      return false;
+    if (__isset.ErrorMessage != rhs.__isset.ErrorMessage)
+      return false;
+    else if (__isset.ErrorMessage && !(ErrorMessage == rhs.ErrorMessage))
+      return false;
+    return true;
+  }
+  bool operator != (const GetFileLengthResponse &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GetFileLengthResponse & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const GetFileLengthResponse& obj);
+};
+
+void swap(GetFileLengthResponse &a, GetFileLengthResponse &b);
 
 }}} // namespace
 

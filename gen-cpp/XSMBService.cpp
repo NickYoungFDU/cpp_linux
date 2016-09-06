@@ -1453,11 +1453,11 @@ uint32_t XSMBService_WriteFile_presult::read(::apache::thrift::protocol::TProtoc
 }
 
 
-XSMBService_ListCloudFiles_args::~XSMBService_ListCloudFiles_args() throw() {
+XSMBService_ListFiles_args::~XSMBService_ListFiles_args() throw() {
 }
 
 
-uint32_t XSMBService_ListCloudFiles_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t XSMBService_ListFiles_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -1497,19 +1497,19 @@ uint32_t XSMBService_ListCloudFiles_args::read(::apache::thrift::protocol::TProt
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->files.clear();
-            uint32_t _size32;
-            ::apache::thrift::protocol::TType _ktype33;
-            ::apache::thrift::protocol::TType _vtype34;
-            xfer += iprot->readMapBegin(_ktype33, _vtype34, _size32);
-            uint32_t _i36;
-            for (_i36 = 0; _i36 < _size32; ++_i36)
+            uint32_t _size34;
+            ::apache::thrift::protocol::TType _ktype35;
+            ::apache::thrift::protocol::TType _vtype36;
+            xfer += iprot->readMapBegin(_ktype35, _vtype36, _size34);
+            uint32_t _i38;
+            for (_i38 = 0; _i38 < _size34; ++_i38)
             {
-              std::string _key37;
-              xfer += iprot->readString(_key37);
-              MatchInformation::type& _val38 = this->files[_key37];
-              int32_t ecast39;
-              xfer += iprot->readI32(ecast39);
-              _val38 = (MatchInformation::type)ecast39;
+              std::string _key39;
+              xfer += iprot->readString(_key39);
+              MatchInformation::type& _val40 = this->files[_key39];
+              int32_t ecast41;
+              xfer += iprot->readI32(ecast41);
+              _val40 = (MatchInformation::type)ecast41;
             }
             xfer += iprot->readMapEnd();
           }
@@ -1522,19 +1522,19 @@ uint32_t XSMBService_ListCloudFiles_args::read(::apache::thrift::protocol::TProt
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->dirs.clear();
-            uint32_t _size40;
-            ::apache::thrift::protocol::TType _ktype41;
-            ::apache::thrift::protocol::TType _vtype42;
-            xfer += iprot->readMapBegin(_ktype41, _vtype42, _size40);
-            uint32_t _i44;
-            for (_i44 = 0; _i44 < _size40; ++_i44)
+            uint32_t _size42;
+            ::apache::thrift::protocol::TType _ktype43;
+            ::apache::thrift::protocol::TType _vtype44;
+            xfer += iprot->readMapBegin(_ktype43, _vtype44, _size42);
+            uint32_t _i46;
+            for (_i46 = 0; _i46 < _size42; ++_i46)
             {
-              std::string _key45;
-              xfer += iprot->readString(_key45);
-              MatchInformation::type& _val46 = this->dirs[_key45];
-              int32_t ecast47;
-              xfer += iprot->readI32(ecast47);
-              _val46 = (MatchInformation::type)ecast47;
+              std::string _key47;
+              xfer += iprot->readString(_key47);
+              MatchInformation::type& _val48 = this->dirs[_key47];
+              int32_t ecast49;
+              xfer += iprot->readI32(ecast49);
+              _val48 = (MatchInformation::type)ecast49;
             }
             xfer += iprot->readMapEnd();
           }
@@ -1555,10 +1555,10 @@ uint32_t XSMBService_ListCloudFiles_args::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t XSMBService_ListCloudFiles_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t XSMBService_ListFiles_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("XSMBService_ListCloudFiles_args");
+  xfer += oprot->writeStructBegin("XSMBService_ListFiles_args");
 
   xfer += oprot->writeFieldBegin("dirPath", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->dirPath);
@@ -1571,58 +1571,8 @@ uint32_t XSMBService_ListCloudFiles_args::write(::apache::thrift::protocol::TPro
   xfer += oprot->writeFieldBegin("files", ::apache::thrift::protocol::T_MAP, 3);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->files.size()));
-    std::map<std::string, MatchInformation::type> ::const_iterator _iter48;
-    for (_iter48 = this->files.begin(); _iter48 != this->files.end(); ++_iter48)
-    {
-      xfer += oprot->writeString(_iter48->first);
-      xfer += oprot->writeI32((int32_t)_iter48->second);
-    }
-    xfer += oprot->writeMapEnd();
-  }
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("dirs", ::apache::thrift::protocol::T_MAP, 4);
-  {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->dirs.size()));
-    std::map<std::string, MatchInformation::type> ::const_iterator _iter49;
-    for (_iter49 = this->dirs.begin(); _iter49 != this->dirs.end(); ++_iter49)
-    {
-      xfer += oprot->writeString(_iter49->first);
-      xfer += oprot->writeI32((int32_t)_iter49->second);
-    }
-    xfer += oprot->writeMapEnd();
-  }
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-
-XSMBService_ListCloudFiles_pargs::~XSMBService_ListCloudFiles_pargs() throw() {
-}
-
-
-uint32_t XSMBService_ListCloudFiles_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("XSMBService_ListCloudFiles_pargs");
-
-  xfer += oprot->writeFieldBegin("dirPath", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->dirPath)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("isRecursive", ::apache::thrift::protocol::T_BOOL, 2);
-  xfer += oprot->writeBool((*(this->isRecursive)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("files", ::apache::thrift::protocol::T_MAP, 3);
-  {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>((*(this->files)).size()));
     std::map<std::string, MatchInformation::type> ::const_iterator _iter50;
-    for (_iter50 = (*(this->files)).begin(); _iter50 != (*(this->files)).end(); ++_iter50)
+    for (_iter50 = this->files.begin(); _iter50 != this->files.end(); ++_iter50)
     {
       xfer += oprot->writeString(_iter50->first);
       xfer += oprot->writeI32((int32_t)_iter50->second);
@@ -1633,9 +1583,9 @@ uint32_t XSMBService_ListCloudFiles_pargs::write(::apache::thrift::protocol::TPr
 
   xfer += oprot->writeFieldBegin("dirs", ::apache::thrift::protocol::T_MAP, 4);
   {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>((*(this->dirs)).size()));
+    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->dirs.size()));
     std::map<std::string, MatchInformation::type> ::const_iterator _iter51;
-    for (_iter51 = (*(this->dirs)).begin(); _iter51 != (*(this->dirs)).end(); ++_iter51)
+    for (_iter51 = this->dirs.begin(); _iter51 != this->dirs.end(); ++_iter51)
     {
       xfer += oprot->writeString(_iter51->first);
       xfer += oprot->writeI32((int32_t)_iter51->second);
@@ -1651,11 +1601,61 @@ uint32_t XSMBService_ListCloudFiles_pargs::write(::apache::thrift::protocol::TPr
 }
 
 
-XSMBService_ListCloudFiles_result::~XSMBService_ListCloudFiles_result() throw() {
+XSMBService_ListFiles_pargs::~XSMBService_ListFiles_pargs() throw() {
 }
 
 
-uint32_t XSMBService_ListCloudFiles_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t XSMBService_ListFiles_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("XSMBService_ListFiles_pargs");
+
+  xfer += oprot->writeFieldBegin("dirPath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->dirPath)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isRecursive", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool((*(this->isRecursive)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("files", ::apache::thrift::protocol::T_MAP, 3);
+  {
+    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>((*(this->files)).size()));
+    std::map<std::string, MatchInformation::type> ::const_iterator _iter52;
+    for (_iter52 = (*(this->files)).begin(); _iter52 != (*(this->files)).end(); ++_iter52)
+    {
+      xfer += oprot->writeString(_iter52->first);
+      xfer += oprot->writeI32((int32_t)_iter52->second);
+    }
+    xfer += oprot->writeMapEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("dirs", ::apache::thrift::protocol::T_MAP, 4);
+  {
+    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>((*(this->dirs)).size()));
+    std::map<std::string, MatchInformation::type> ::const_iterator _iter53;
+    for (_iter53 = (*(this->dirs)).begin(); _iter53 != (*(this->dirs)).end(); ++_iter53)
+    {
+      xfer += oprot->writeString(_iter53->first);
+      xfer += oprot->writeI32((int32_t)_iter53->second);
+    }
+    xfer += oprot->writeMapEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+XSMBService_ListFiles_result::~XSMBService_ListFiles_result() throw() {
+}
+
+
+uint32_t XSMBService_ListFiles_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -1703,11 +1703,11 @@ uint32_t XSMBService_ListCloudFiles_result::read(::apache::thrift::protocol::TPr
   return xfer;
 }
 
-uint32_t XSMBService_ListCloudFiles_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t XSMBService_ListFiles_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("XSMBService_ListCloudFiles_result");
+  xfer += oprot->writeStructBegin("XSMBService_ListFiles_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
@@ -1724,11 +1724,11 @@ uint32_t XSMBService_ListCloudFiles_result::write(::apache::thrift::protocol::TP
 }
 
 
-XSMBService_ListCloudFiles_presult::~XSMBService_ListCloudFiles_presult() throw() {
+XSMBService_ListFiles_presult::~XSMBService_ListFiles_presult() throw() {
 }
 
 
-uint32_t XSMBService_ListCloudFiles_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t XSMBService_ListFiles_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -1777,11 +1777,11 @@ uint32_t XSMBService_ListCloudFiles_presult::read(::apache::thrift::protocol::TP
 }
 
 
-XSMBService_GetCloudFileLength_args::~XSMBService_GetCloudFileLength_args() throw() {
+XSMBService_GetFileLength_args::~XSMBService_GetFileLength_args() throw() {
 }
 
 
-uint32_t XSMBService_GetCloudFileLength_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t XSMBService_GetFileLength_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -1821,10 +1821,10 @@ uint32_t XSMBService_GetCloudFileLength_args::read(::apache::thrift::protocol::T
   return xfer;
 }
 
-uint32_t XSMBService_GetCloudFileLength_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t XSMBService_GetFileLength_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("XSMBService_GetCloudFileLength_args");
+  xfer += oprot->writeStructBegin("XSMBService_GetFileLength_args");
 
   xfer += oprot->writeFieldBegin("filePath", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->filePath);
@@ -1837,14 +1837,14 @@ uint32_t XSMBService_GetCloudFileLength_args::write(::apache::thrift::protocol::
 }
 
 
-XSMBService_GetCloudFileLength_pargs::~XSMBService_GetCloudFileLength_pargs() throw() {
+XSMBService_GetFileLength_pargs::~XSMBService_GetFileLength_pargs() throw() {
 }
 
 
-uint32_t XSMBService_GetCloudFileLength_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t XSMBService_GetFileLength_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("XSMBService_GetCloudFileLength_pargs");
+  xfer += oprot->writeStructBegin("XSMBService_GetFileLength_pargs");
 
   xfer += oprot->writeFieldBegin("filePath", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->filePath)));
@@ -1857,233 +1857,11 @@ uint32_t XSMBService_GetCloudFileLength_pargs::write(::apache::thrift::protocol:
 }
 
 
-XSMBService_GetCloudFileLength_result::~XSMBService_GetCloudFileLength_result() throw() {
+XSMBService_GetFileLength_result::~XSMBService_GetFileLength_result() throw() {
 }
 
 
-uint32_t XSMBService_GetCloudFileLength_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->success);
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->linuxFileException.read(iprot);
-          this->__isset.linuxFileException = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t XSMBService_GetCloudFileLength_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("XSMBService_GetCloudFileLength_result");
-
-  if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
-    xfer += oprot->writeI64(this->success);
-    xfer += oprot->writeFieldEnd();
-  } else if (this->__isset.linuxFileException) {
-    xfer += oprot->writeFieldBegin("linuxFileException", ::apache::thrift::protocol::T_STRUCT, 1);
-    xfer += this->linuxFileException.write(oprot);
-    xfer += oprot->writeFieldEnd();
-  }
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-XSMBService_GetCloudFileLength_presult::~XSMBService_GetCloudFileLength_presult() throw() {
-}
-
-
-uint32_t XSMBService_GetCloudFileLength_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64((*(this->success)));
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->linuxFileException.read(iprot);
-          this->__isset.linuxFileException = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-
-XSMBService_SetCloudFileLength_args::~XSMBService_SetCloudFileLength_args() throw() {
-}
-
-
-uint32_t XSMBService_SetCloudFileLength_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->filePath);
-          this->__isset.filePath = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->fileLength);
-          this->__isset.fileLength = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t XSMBService_SetCloudFileLength_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("XSMBService_SetCloudFileLength_args");
-
-  xfer += oprot->writeFieldBegin("filePath", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->filePath);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("fileLength", ::apache::thrift::protocol::T_I64, 2);
-  xfer += oprot->writeI64(this->fileLength);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-
-XSMBService_SetCloudFileLength_pargs::~XSMBService_SetCloudFileLength_pargs() throw() {
-}
-
-
-uint32_t XSMBService_SetCloudFileLength_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("XSMBService_SetCloudFileLength_pargs");
-
-  xfer += oprot->writeFieldBegin("filePath", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->filePath)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("fileLength", ::apache::thrift::protocol::T_I64, 2);
-  xfer += oprot->writeI64((*(this->fileLength)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-
-XSMBService_SetCloudFileLength_result::~XSMBService_SetCloudFileLength_result() throw() {
-}
-
-
-uint32_t XSMBService_SetCloudFileLength_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t XSMBService_GetFileLength_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -2131,11 +1909,11 @@ uint32_t XSMBService_SetCloudFileLength_result::read(::apache::thrift::protocol:
   return xfer;
 }
 
-uint32_t XSMBService_SetCloudFileLength_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t XSMBService_GetFileLength_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("XSMBService_SetCloudFileLength_result");
+  xfer += oprot->writeStructBegin("XSMBService_GetFileLength_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
@@ -2152,11 +1930,233 @@ uint32_t XSMBService_SetCloudFileLength_result::write(::apache::thrift::protocol
 }
 
 
-XSMBService_SetCloudFileLength_presult::~XSMBService_SetCloudFileLength_presult() throw() {
+XSMBService_GetFileLength_presult::~XSMBService_GetFileLength_presult() throw() {
 }
 
 
-uint32_t XSMBService_SetCloudFileLength_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t XSMBService_GetFileLength_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+XSMBService_SetFileLength_args::~XSMBService_SetFileLength_args() throw() {
+}
+
+
+uint32_t XSMBService_SetFileLength_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->filePath);
+          this->__isset.filePath = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->fileLength);
+          this->__isset.fileLength = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t XSMBService_SetFileLength_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("XSMBService_SetFileLength_args");
+
+  xfer += oprot->writeFieldBegin("filePath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->filePath);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fileLength", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->fileLength);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+XSMBService_SetFileLength_pargs::~XSMBService_SetFileLength_pargs() throw() {
+}
+
+
+uint32_t XSMBService_SetFileLength_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("XSMBService_SetFileLength_pargs");
+
+  xfer += oprot->writeFieldBegin("filePath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->filePath)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fileLength", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64((*(this->fileLength)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+XSMBService_SetFileLength_result::~XSMBService_SetFileLength_result() throw() {
+}
+
+
+uint32_t XSMBService_SetFileLength_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t XSMBService_SetFileLength_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("XSMBService_SetFileLength_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.linuxFileException) {
+    xfer += oprot->writeFieldBegin("linuxFileException", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->linuxFileException.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+XSMBService_SetFileLength_presult::~XSMBService_SetFileLength_presult() throw() {
+}
+
+
+uint32_t XSMBService_SetFileLength_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -2583,18 +2583,18 @@ void XSMBServiceClient::recv_WriteFile(LinuxFileResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "WriteFile failed: unknown result");
 }
 
-void XSMBServiceClient::ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs)
+void XSMBServiceClient::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs)
 {
-  send_ListCloudFiles(dirPath, isRecursive, files, dirs);
-  recv_ListCloudFiles(_return);
+  send_ListFiles(dirPath, isRecursive, files, dirs);
+  recv_ListFiles(_return);
 }
 
-void XSMBServiceClient::send_ListCloudFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs)
+void XSMBServiceClient::send_ListFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("ListCloudFiles", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("ListFiles", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  XSMBService_ListCloudFiles_pargs args;
+  XSMBService_ListFiles_pargs args;
   args.dirPath = &dirPath;
   args.isRecursive = &isRecursive;
   args.files = &files;
@@ -2606,7 +2606,7 @@ void XSMBServiceClient::send_ListCloudFiles(const std::string& dirPath, const bo
   oprot_->getTransport()->flush();
 }
 
-void XSMBServiceClient::recv_ListCloudFiles(LinuxFileResponse& _return)
+void XSMBServiceClient::recv_ListFiles(LinuxFileResponse& _return)
 {
 
   int32_t rseqid = 0;
@@ -2626,12 +2626,12 @@ void XSMBServiceClient::recv_ListCloudFiles(LinuxFileResponse& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("ListCloudFiles") != 0) {
+  if (fname.compare("ListFiles") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  XSMBService_ListCloudFiles_presult result;
+  XSMBService_ListFiles_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -2644,21 +2644,21 @@ void XSMBServiceClient::recv_ListCloudFiles(LinuxFileResponse& _return)
   if (result.__isset.linuxFileException) {
     throw result.linuxFileException;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ListCloudFiles failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ListFiles failed: unknown result");
 }
 
-int64_t XSMBServiceClient::GetCloudFileLength(const std::string& filePath)
+void XSMBServiceClient::GetFileLength(GetFileLengthResponse& _return, const std::string& filePath)
 {
-  send_GetCloudFileLength(filePath);
-  return recv_GetCloudFileLength();
+  send_GetFileLength(filePath);
+  recv_GetFileLength(_return);
 }
 
-void XSMBServiceClient::send_GetCloudFileLength(const std::string& filePath)
+void XSMBServiceClient::send_GetFileLength(const std::string& filePath)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("GetCloudFileLength", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("GetFileLength", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  XSMBService_GetCloudFileLength_pargs args;
+  XSMBService_GetFileLength_pargs args;
   args.filePath = &filePath;
   args.write(oprot_);
 
@@ -2667,7 +2667,7 @@ void XSMBServiceClient::send_GetCloudFileLength(const std::string& filePath)
   oprot_->getTransport()->flush();
 }
 
-int64_t XSMBServiceClient::recv_GetCloudFileLength()
+void XSMBServiceClient::recv_GetFileLength(GetFileLengthResponse& _return)
 {
 
   int32_t rseqid = 0;
@@ -2687,39 +2687,39 @@ int64_t XSMBServiceClient::recv_GetCloudFileLength()
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("GetCloudFileLength") != 0) {
+  if (fname.compare("GetFileLength") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  int64_t _return;
-  XSMBService_GetCloudFileLength_presult result;
+  XSMBService_GetFileLength_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
   iprot_->getTransport()->readEnd();
 
   if (result.__isset.success) {
-    return _return;
+    // _return pointer has now been filled
+    return;
   }
   if (result.__isset.linuxFileException) {
     throw result.linuxFileException;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "GetCloudFileLength failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "GetFileLength failed: unknown result");
 }
 
-void XSMBServiceClient::SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength)
+void XSMBServiceClient::SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength)
 {
-  send_SetCloudFileLength(filePath, fileLength);
-  recv_SetCloudFileLength(_return);
+  send_SetFileLength(filePath, fileLength);
+  recv_SetFileLength(_return);
 }
 
-void XSMBServiceClient::send_SetCloudFileLength(const std::string& filePath, const int64_t fileLength)
+void XSMBServiceClient::send_SetFileLength(const std::string& filePath, const int64_t fileLength)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("SetCloudFileLength", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("SetFileLength", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  XSMBService_SetCloudFileLength_pargs args;
+  XSMBService_SetFileLength_pargs args;
   args.filePath = &filePath;
   args.fileLength = &fileLength;
   args.write(oprot_);
@@ -2729,7 +2729,7 @@ void XSMBServiceClient::send_SetCloudFileLength(const std::string& filePath, con
   oprot_->getTransport()->flush();
 }
 
-void XSMBServiceClient::recv_SetCloudFileLength(LinuxFileResponse& _return)
+void XSMBServiceClient::recv_SetFileLength(LinuxFileResponse& _return)
 {
 
   int32_t rseqid = 0;
@@ -2749,12 +2749,12 @@ void XSMBServiceClient::recv_SetCloudFileLength(LinuxFileResponse& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("SetCloudFileLength") != 0) {
+  if (fname.compare("SetFileLength") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  XSMBService_SetCloudFileLength_presult result;
+  XSMBService_SetFileLength_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -2767,7 +2767,7 @@ void XSMBServiceClient::recv_SetCloudFileLength(LinuxFileResponse& _return)
   if (result.__isset.linuxFileException) {
     throw result.linuxFileException;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "SetCloudFileLength failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "SetFileLength failed: unknown result");
 }
 
 bool XSMBServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -3131,41 +3131,41 @@ void XSMBServiceProcessor::process_WriteFile(int32_t seqid, ::apache::thrift::pr
   }
 }
 
-void XSMBServiceProcessor::process_ListCloudFiles(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void XSMBServiceProcessor::process_ListFiles(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("XSMBService.ListCloudFiles", callContext);
+    ctx = this->eventHandler_->getContext("XSMBService.ListFiles", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "XSMBService.ListCloudFiles");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "XSMBService.ListFiles");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "XSMBService.ListCloudFiles");
+    this->eventHandler_->preRead(ctx, "XSMBService.ListFiles");
   }
 
-  XSMBService_ListCloudFiles_args args;
+  XSMBService_ListFiles_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "XSMBService.ListCloudFiles", bytes);
+    this->eventHandler_->postRead(ctx, "XSMBService.ListFiles", bytes);
   }
 
-  XSMBService_ListCloudFiles_result result;
+  XSMBService_ListFiles_result result;
   try {
-    iface_->ListCloudFiles(result.success, args.dirPath, args.isRecursive, args.files, args.dirs);
+    iface_->ListFiles(result.success, args.dirPath, args.isRecursive, args.files, args.dirs);
     result.__isset.success = true;
   } catch (LinuxFileException &linuxFileException) {
     result.linuxFileException = linuxFileException;
     result.__isset.linuxFileException = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "XSMBService.ListCloudFiles");
+      this->eventHandler_->handlerError(ctx, "XSMBService.ListFiles");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("ListCloudFiles", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("ListFiles", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -3174,55 +3174,55 @@ void XSMBServiceProcessor::process_ListCloudFiles(int32_t seqid, ::apache::thrif
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "XSMBService.ListCloudFiles");
+    this->eventHandler_->preWrite(ctx, "XSMBService.ListFiles");
   }
 
-  oprot->writeMessageBegin("ListCloudFiles", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("ListFiles", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "XSMBService.ListCloudFiles", bytes);
+    this->eventHandler_->postWrite(ctx, "XSMBService.ListFiles", bytes);
   }
 }
 
-void XSMBServiceProcessor::process_GetCloudFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void XSMBServiceProcessor::process_GetFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("XSMBService.GetCloudFileLength", callContext);
+    ctx = this->eventHandler_->getContext("XSMBService.GetFileLength", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "XSMBService.GetCloudFileLength");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "XSMBService.GetFileLength");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "XSMBService.GetCloudFileLength");
+    this->eventHandler_->preRead(ctx, "XSMBService.GetFileLength");
   }
 
-  XSMBService_GetCloudFileLength_args args;
+  XSMBService_GetFileLength_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "XSMBService.GetCloudFileLength", bytes);
+    this->eventHandler_->postRead(ctx, "XSMBService.GetFileLength", bytes);
   }
 
-  XSMBService_GetCloudFileLength_result result;
+  XSMBService_GetFileLength_result result;
   try {
-    result.success = iface_->GetCloudFileLength(args.filePath);
+    iface_->GetFileLength(result.success, args.filePath);
     result.__isset.success = true;
   } catch (LinuxFileException &linuxFileException) {
     result.linuxFileException = linuxFileException;
     result.__isset.linuxFileException = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "XSMBService.GetCloudFileLength");
+      this->eventHandler_->handlerError(ctx, "XSMBService.GetFileLength");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("GetCloudFileLength", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("GetFileLength", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -3231,55 +3231,55 @@ void XSMBServiceProcessor::process_GetCloudFileLength(int32_t seqid, ::apache::t
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "XSMBService.GetCloudFileLength");
+    this->eventHandler_->preWrite(ctx, "XSMBService.GetFileLength");
   }
 
-  oprot->writeMessageBegin("GetCloudFileLength", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("GetFileLength", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "XSMBService.GetCloudFileLength", bytes);
+    this->eventHandler_->postWrite(ctx, "XSMBService.GetFileLength", bytes);
   }
 }
 
-void XSMBServiceProcessor::process_SetCloudFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void XSMBServiceProcessor::process_SetFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("XSMBService.SetCloudFileLength", callContext);
+    ctx = this->eventHandler_->getContext("XSMBService.SetFileLength", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "XSMBService.SetCloudFileLength");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "XSMBService.SetFileLength");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "XSMBService.SetCloudFileLength");
+    this->eventHandler_->preRead(ctx, "XSMBService.SetFileLength");
   }
 
-  XSMBService_SetCloudFileLength_args args;
+  XSMBService_SetFileLength_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "XSMBService.SetCloudFileLength", bytes);
+    this->eventHandler_->postRead(ctx, "XSMBService.SetFileLength", bytes);
   }
 
-  XSMBService_SetCloudFileLength_result result;
+  XSMBService_SetFileLength_result result;
   try {
-    iface_->SetCloudFileLength(result.success, args.filePath, args.fileLength);
+    iface_->SetFileLength(result.success, args.filePath, args.fileLength);
     result.__isset.success = true;
   } catch (LinuxFileException &linuxFileException) {
     result.linuxFileException = linuxFileException;
     result.__isset.linuxFileException = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "XSMBService.SetCloudFileLength");
+      this->eventHandler_->handlerError(ctx, "XSMBService.SetFileLength");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("SetCloudFileLength", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("SetFileLength", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -3288,17 +3288,17 @@ void XSMBServiceProcessor::process_SetCloudFileLength(int32_t seqid, ::apache::t
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "XSMBService.SetCloudFileLength");
+    this->eventHandler_->preWrite(ctx, "XSMBService.SetFileLength");
   }
 
-  oprot->writeMessageBegin("SetCloudFileLength", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("SetFileLength", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "XSMBService.SetCloudFileLength", bytes);
+    this->eventHandler_->postWrite(ctx, "XSMBService.SetFileLength", bytes);
   }
 }
 

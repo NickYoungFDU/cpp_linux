@@ -21,9 +21,9 @@ class XSMBServiceIf {
   virtual void DeleteFile(LinuxFileResponse& _return, const std::string& filePath) = 0;
   virtual void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
   virtual void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
-  virtual void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
-  virtual int64_t GetCloudFileLength(const std::string& filePath) = 0;
-  virtual void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) = 0;
+  virtual void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
+  virtual void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) = 0;
+  virtual void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) = 0;
 };
 
 class XSMBServiceIfFactory {
@@ -71,14 +71,13 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
   void WriteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const StreamDataLayout& /* data */, const bool /* noBuffering */, const int8_t /* fileVersion */, const bool /* useVersionInData */, const std::string& /* keyName */) {
     return;
   }
-  void ListCloudFiles(LinuxFileResponse& /* _return */, const std::string& /* dirPath */, const bool /* isRecursive */, const std::map<std::string, MatchInformation::type> & /* files */, const std::map<std::string, MatchInformation::type> & /* dirs */) {
+  void ListFiles(LinuxFileResponse& /* _return */, const std::string& /* dirPath */, const bool /* isRecursive */, const std::map<std::string, MatchInformation::type> & /* files */, const std::map<std::string, MatchInformation::type> & /* dirs */) {
     return;
   }
-  int64_t GetCloudFileLength(const std::string& /* filePath */) {
-    int64_t _return = 0;
-    return _return;
+  void GetFileLength(GetFileLengthResponse& /* _return */, const std::string& /* filePath */) {
+    return;
   }
-  void SetCloudFileLength(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* fileLength */) {
+  void SetFileLength(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* fileLength */) {
     return;
   }
 };
@@ -942,32 +941,32 @@ class XSMBService_WriteFile_presult {
   friend std::ostream& operator<<(std::ostream& out, const XSMBService_WriteFile_presult& obj);
 };
 
-typedef struct _XSMBService_ListCloudFiles_args__isset {
-  _XSMBService_ListCloudFiles_args__isset() : dirPath(false), isRecursive(false), files(false), dirs(false) {}
+typedef struct _XSMBService_ListFiles_args__isset {
+  _XSMBService_ListFiles_args__isset() : dirPath(false), isRecursive(false), files(false), dirs(false) {}
   bool dirPath :1;
   bool isRecursive :1;
   bool files :1;
   bool dirs :1;
-} _XSMBService_ListCloudFiles_args__isset;
+} _XSMBService_ListFiles_args__isset;
 
-class XSMBService_ListCloudFiles_args {
+class XSMBService_ListFiles_args {
  public:
 
   static const char* ascii_fingerprint; // = "5286B143CB4AD85C8386E2D2D6CF54BF";
   static const uint8_t binary_fingerprint[16]; // = {0x52,0x86,0xB1,0x43,0xCB,0x4A,0xD8,0x5C,0x83,0x86,0xE2,0xD2,0xD6,0xCF,0x54,0xBF};
 
-  XSMBService_ListCloudFiles_args(const XSMBService_ListCloudFiles_args&);
-  XSMBService_ListCloudFiles_args& operator=(const XSMBService_ListCloudFiles_args&);
-  XSMBService_ListCloudFiles_args() : dirPath(), isRecursive(0) {
+  XSMBService_ListFiles_args(const XSMBService_ListFiles_args&);
+  XSMBService_ListFiles_args& operator=(const XSMBService_ListFiles_args&);
+  XSMBService_ListFiles_args() : dirPath(), isRecursive(0) {
   }
 
-  virtual ~XSMBService_ListCloudFiles_args() throw();
+  virtual ~XSMBService_ListFiles_args() throw();
   std::string dirPath;
   bool isRecursive;
   std::map<std::string, MatchInformation::type>  files;
   std::map<std::string, MatchInformation::type>  dirs;
 
-  _XSMBService_ListCloudFiles_args__isset __isset;
+  _XSMBService_ListFiles_args__isset __isset;
 
   void __set_dirPath(const std::string& val);
 
@@ -977,7 +976,7 @@ class XSMBService_ListCloudFiles_args {
 
   void __set_dirs(const std::map<std::string, MatchInformation::type> & val);
 
-  bool operator == (const XSMBService_ListCloudFiles_args & rhs) const
+  bool operator == (const XSMBService_ListFiles_args & rhs) const
   {
     if (!(dirPath == rhs.dirPath))
       return false;
@@ -989,27 +988,27 @@ class XSMBService_ListCloudFiles_args {
       return false;
     return true;
   }
-  bool operator != (const XSMBService_ListCloudFiles_args &rhs) const {
+  bool operator != (const XSMBService_ListFiles_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const XSMBService_ListCloudFiles_args & ) const;
+  bool operator < (const XSMBService_ListFiles_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_ListCloudFiles_args& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_ListFiles_args& obj);
 };
 
 
-class XSMBService_ListCloudFiles_pargs {
+class XSMBService_ListFiles_pargs {
  public:
 
   static const char* ascii_fingerprint; // = "5286B143CB4AD85C8386E2D2D6CF54BF";
   static const uint8_t binary_fingerprint[16]; // = {0x52,0x86,0xB1,0x43,0xCB,0x4A,0xD8,0x5C,0x83,0x86,0xE2,0xD2,0xD6,0xCF,0x54,0xBF};
 
 
-  virtual ~XSMBService_ListCloudFiles_pargs() throw();
+  virtual ~XSMBService_ListFiles_pargs() throw();
   const std::string* dirPath;
   const bool* isRecursive;
   const std::map<std::string, MatchInformation::type> * files;
@@ -1017,37 +1016,37 @@ class XSMBService_ListCloudFiles_pargs {
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_ListCloudFiles_pargs& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_ListFiles_pargs& obj);
 };
 
-typedef struct _XSMBService_ListCloudFiles_result__isset {
-  _XSMBService_ListCloudFiles_result__isset() : success(false), linuxFileException(false) {}
+typedef struct _XSMBService_ListFiles_result__isset {
+  _XSMBService_ListFiles_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
   bool linuxFileException :1;
-} _XSMBService_ListCloudFiles_result__isset;
+} _XSMBService_ListFiles_result__isset;
 
-class XSMBService_ListCloudFiles_result {
+class XSMBService_ListFiles_result {
  public:
 
   static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
   static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
-  XSMBService_ListCloudFiles_result(const XSMBService_ListCloudFiles_result&);
-  XSMBService_ListCloudFiles_result& operator=(const XSMBService_ListCloudFiles_result&);
-  XSMBService_ListCloudFiles_result() {
+  XSMBService_ListFiles_result(const XSMBService_ListFiles_result&);
+  XSMBService_ListFiles_result& operator=(const XSMBService_ListFiles_result&);
+  XSMBService_ListFiles_result() {
   }
 
-  virtual ~XSMBService_ListCloudFiles_result() throw();
+  virtual ~XSMBService_ListFiles_result() throw();
   LinuxFileResponse success;
   LinuxFileException linuxFileException;
 
-  _XSMBService_ListCloudFiles_result__isset __isset;
+  _XSMBService_ListFiles_result__isset __isset;
 
   void __set_success(const LinuxFileResponse& val);
 
   void __set_linuxFileException(const LinuxFileException& val);
 
-  bool operator == (const XSMBService_ListCloudFiles_result & rhs) const
+  bool operator == (const XSMBService_ListFiles_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
@@ -1055,127 +1054,127 @@ class XSMBService_ListCloudFiles_result {
       return false;
     return true;
   }
-  bool operator != (const XSMBService_ListCloudFiles_result &rhs) const {
+  bool operator != (const XSMBService_ListFiles_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const XSMBService_ListCloudFiles_result & ) const;
+  bool operator < (const XSMBService_ListFiles_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_ListCloudFiles_result& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_ListFiles_result& obj);
 };
 
-typedef struct _XSMBService_ListCloudFiles_presult__isset {
-  _XSMBService_ListCloudFiles_presult__isset() : success(false), linuxFileException(false) {}
+typedef struct _XSMBService_ListFiles_presult__isset {
+  _XSMBService_ListFiles_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
   bool linuxFileException :1;
-} _XSMBService_ListCloudFiles_presult__isset;
+} _XSMBService_ListFiles_presult__isset;
 
-class XSMBService_ListCloudFiles_presult {
+class XSMBService_ListFiles_presult {
  public:
 
   static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
   static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
-  virtual ~XSMBService_ListCloudFiles_presult() throw();
+  virtual ~XSMBService_ListFiles_presult() throw();
   LinuxFileResponse* success;
   LinuxFileException linuxFileException;
 
-  _XSMBService_ListCloudFiles_presult__isset __isset;
+  _XSMBService_ListFiles_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_ListCloudFiles_presult& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_ListFiles_presult& obj);
 };
 
-typedef struct _XSMBService_GetCloudFileLength_args__isset {
-  _XSMBService_GetCloudFileLength_args__isset() : filePath(false) {}
+typedef struct _XSMBService_GetFileLength_args__isset {
+  _XSMBService_GetFileLength_args__isset() : filePath(false) {}
   bool filePath :1;
-} _XSMBService_GetCloudFileLength_args__isset;
+} _XSMBService_GetFileLength_args__isset;
 
-class XSMBService_GetCloudFileLength_args {
+class XSMBService_GetFileLength_args {
  public:
 
   static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
   static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
 
-  XSMBService_GetCloudFileLength_args(const XSMBService_GetCloudFileLength_args&);
-  XSMBService_GetCloudFileLength_args& operator=(const XSMBService_GetCloudFileLength_args&);
-  XSMBService_GetCloudFileLength_args() : filePath() {
+  XSMBService_GetFileLength_args(const XSMBService_GetFileLength_args&);
+  XSMBService_GetFileLength_args& operator=(const XSMBService_GetFileLength_args&);
+  XSMBService_GetFileLength_args() : filePath() {
   }
 
-  virtual ~XSMBService_GetCloudFileLength_args() throw();
+  virtual ~XSMBService_GetFileLength_args() throw();
   std::string filePath;
 
-  _XSMBService_GetCloudFileLength_args__isset __isset;
+  _XSMBService_GetFileLength_args__isset __isset;
 
   void __set_filePath(const std::string& val);
 
-  bool operator == (const XSMBService_GetCloudFileLength_args & rhs) const
+  bool operator == (const XSMBService_GetFileLength_args & rhs) const
   {
     if (!(filePath == rhs.filePath))
       return false;
     return true;
   }
-  bool operator != (const XSMBService_GetCloudFileLength_args &rhs) const {
+  bool operator != (const XSMBService_GetFileLength_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const XSMBService_GetCloudFileLength_args & ) const;
+  bool operator < (const XSMBService_GetFileLength_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_GetCloudFileLength_args& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_GetFileLength_args& obj);
 };
 
 
-class XSMBService_GetCloudFileLength_pargs {
+class XSMBService_GetFileLength_pargs {
  public:
 
   static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
   static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
 
 
-  virtual ~XSMBService_GetCloudFileLength_pargs() throw();
+  virtual ~XSMBService_GetFileLength_pargs() throw();
   const std::string* filePath;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_GetCloudFileLength_pargs& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_GetFileLength_pargs& obj);
 };
 
-typedef struct _XSMBService_GetCloudFileLength_result__isset {
-  _XSMBService_GetCloudFileLength_result__isset() : success(false), linuxFileException(false) {}
+typedef struct _XSMBService_GetFileLength_result__isset {
+  _XSMBService_GetFileLength_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
   bool linuxFileException :1;
-} _XSMBService_GetCloudFileLength_result__isset;
+} _XSMBService_GetFileLength_result__isset;
 
-class XSMBService_GetCloudFileLength_result {
+class XSMBService_GetFileLength_result {
  public:
 
-  static const char* ascii_fingerprint; // = "6B615A494D4BCB837D782F2ADBF7E19A";
-  static const uint8_t binary_fingerprint[16]; // = {0x6B,0x61,0x5A,0x49,0x4D,0x4B,0xCB,0x83,0x7D,0x78,0x2F,0x2A,0xDB,0xF7,0xE1,0x9A};
+  static const char* ascii_fingerprint; // = "B4EB9D3CA0A68165D0777127092F425C";
+  static const uint8_t binary_fingerprint[16]; // = {0xB4,0xEB,0x9D,0x3C,0xA0,0xA6,0x81,0x65,0xD0,0x77,0x71,0x27,0x09,0x2F,0x42,0x5C};
 
-  XSMBService_GetCloudFileLength_result(const XSMBService_GetCloudFileLength_result&);
-  XSMBService_GetCloudFileLength_result& operator=(const XSMBService_GetCloudFileLength_result&);
-  XSMBService_GetCloudFileLength_result() : success(0) {
+  XSMBService_GetFileLength_result(const XSMBService_GetFileLength_result&);
+  XSMBService_GetFileLength_result& operator=(const XSMBService_GetFileLength_result&);
+  XSMBService_GetFileLength_result() {
   }
 
-  virtual ~XSMBService_GetCloudFileLength_result() throw();
-  int64_t success;
+  virtual ~XSMBService_GetFileLength_result() throw();
+  GetFileLengthResponse success;
   LinuxFileException linuxFileException;
 
-  _XSMBService_GetCloudFileLength_result__isset __isset;
+  _XSMBService_GetFileLength_result__isset __isset;
 
-  void __set_success(const int64_t val);
+  void __set_success(const GetFileLengthResponse& val);
 
   void __set_linuxFileException(const LinuxFileException& val);
 
-  bool operator == (const XSMBService_GetCloudFileLength_result & rhs) const
+  bool operator == (const XSMBService_GetFileLength_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
@@ -1183,70 +1182,70 @@ class XSMBService_GetCloudFileLength_result {
       return false;
     return true;
   }
-  bool operator != (const XSMBService_GetCloudFileLength_result &rhs) const {
+  bool operator != (const XSMBService_GetFileLength_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const XSMBService_GetCloudFileLength_result & ) const;
+  bool operator < (const XSMBService_GetFileLength_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_GetCloudFileLength_result& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_GetFileLength_result& obj);
 };
 
-typedef struct _XSMBService_GetCloudFileLength_presult__isset {
-  _XSMBService_GetCloudFileLength_presult__isset() : success(false), linuxFileException(false) {}
+typedef struct _XSMBService_GetFileLength_presult__isset {
+  _XSMBService_GetFileLength_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
   bool linuxFileException :1;
-} _XSMBService_GetCloudFileLength_presult__isset;
+} _XSMBService_GetFileLength_presult__isset;
 
-class XSMBService_GetCloudFileLength_presult {
+class XSMBService_GetFileLength_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "6B615A494D4BCB837D782F2ADBF7E19A";
-  static const uint8_t binary_fingerprint[16]; // = {0x6B,0x61,0x5A,0x49,0x4D,0x4B,0xCB,0x83,0x7D,0x78,0x2F,0x2A,0xDB,0xF7,0xE1,0x9A};
+  static const char* ascii_fingerprint; // = "B4EB9D3CA0A68165D0777127092F425C";
+  static const uint8_t binary_fingerprint[16]; // = {0xB4,0xEB,0x9D,0x3C,0xA0,0xA6,0x81,0x65,0xD0,0x77,0x71,0x27,0x09,0x2F,0x42,0x5C};
 
 
-  virtual ~XSMBService_GetCloudFileLength_presult() throw();
-  int64_t* success;
+  virtual ~XSMBService_GetFileLength_presult() throw();
+  GetFileLengthResponse* success;
   LinuxFileException linuxFileException;
 
-  _XSMBService_GetCloudFileLength_presult__isset __isset;
+  _XSMBService_GetFileLength_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_GetCloudFileLength_presult& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_GetFileLength_presult& obj);
 };
 
-typedef struct _XSMBService_SetCloudFileLength_args__isset {
-  _XSMBService_SetCloudFileLength_args__isset() : filePath(false), fileLength(false) {}
+typedef struct _XSMBService_SetFileLength_args__isset {
+  _XSMBService_SetFileLength_args__isset() : filePath(false), fileLength(false) {}
   bool filePath :1;
   bool fileLength :1;
-} _XSMBService_SetCloudFileLength_args__isset;
+} _XSMBService_SetFileLength_args__isset;
 
-class XSMBService_SetCloudFileLength_args {
+class XSMBService_SetFileLength_args {
  public:
 
   static const char* ascii_fingerprint; // = "1CCCF6FC31CFD1D61BBBB1BAF3590620";
   static const uint8_t binary_fingerprint[16]; // = {0x1C,0xCC,0xF6,0xFC,0x31,0xCF,0xD1,0xD6,0x1B,0xBB,0xB1,0xBA,0xF3,0x59,0x06,0x20};
 
-  XSMBService_SetCloudFileLength_args(const XSMBService_SetCloudFileLength_args&);
-  XSMBService_SetCloudFileLength_args& operator=(const XSMBService_SetCloudFileLength_args&);
-  XSMBService_SetCloudFileLength_args() : filePath(), fileLength(0) {
+  XSMBService_SetFileLength_args(const XSMBService_SetFileLength_args&);
+  XSMBService_SetFileLength_args& operator=(const XSMBService_SetFileLength_args&);
+  XSMBService_SetFileLength_args() : filePath(), fileLength(0) {
   }
 
-  virtual ~XSMBService_SetCloudFileLength_args() throw();
+  virtual ~XSMBService_SetFileLength_args() throw();
   std::string filePath;
   int64_t fileLength;
 
-  _XSMBService_SetCloudFileLength_args__isset __isset;
+  _XSMBService_SetFileLength_args__isset __isset;
 
   void __set_filePath(const std::string& val);
 
   void __set_fileLength(const int64_t val);
 
-  bool operator == (const XSMBService_SetCloudFileLength_args & rhs) const
+  bool operator == (const XSMBService_SetFileLength_args & rhs) const
   {
     if (!(filePath == rhs.filePath))
       return false;
@@ -1254,63 +1253,63 @@ class XSMBService_SetCloudFileLength_args {
       return false;
     return true;
   }
-  bool operator != (const XSMBService_SetCloudFileLength_args &rhs) const {
+  bool operator != (const XSMBService_SetFileLength_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const XSMBService_SetCloudFileLength_args & ) const;
+  bool operator < (const XSMBService_SetFileLength_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetCloudFileLength_args& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetFileLength_args& obj);
 };
 
 
-class XSMBService_SetCloudFileLength_pargs {
+class XSMBService_SetFileLength_pargs {
  public:
 
   static const char* ascii_fingerprint; // = "1CCCF6FC31CFD1D61BBBB1BAF3590620";
   static const uint8_t binary_fingerprint[16]; // = {0x1C,0xCC,0xF6,0xFC,0x31,0xCF,0xD1,0xD6,0x1B,0xBB,0xB1,0xBA,0xF3,0x59,0x06,0x20};
 
 
-  virtual ~XSMBService_SetCloudFileLength_pargs() throw();
+  virtual ~XSMBService_SetFileLength_pargs() throw();
   const std::string* filePath;
   const int64_t* fileLength;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetCloudFileLength_pargs& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetFileLength_pargs& obj);
 };
 
-typedef struct _XSMBService_SetCloudFileLength_result__isset {
-  _XSMBService_SetCloudFileLength_result__isset() : success(false), linuxFileException(false) {}
+typedef struct _XSMBService_SetFileLength_result__isset {
+  _XSMBService_SetFileLength_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
   bool linuxFileException :1;
-} _XSMBService_SetCloudFileLength_result__isset;
+} _XSMBService_SetFileLength_result__isset;
 
-class XSMBService_SetCloudFileLength_result {
+class XSMBService_SetFileLength_result {
  public:
 
   static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
   static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
-  XSMBService_SetCloudFileLength_result(const XSMBService_SetCloudFileLength_result&);
-  XSMBService_SetCloudFileLength_result& operator=(const XSMBService_SetCloudFileLength_result&);
-  XSMBService_SetCloudFileLength_result() {
+  XSMBService_SetFileLength_result(const XSMBService_SetFileLength_result&);
+  XSMBService_SetFileLength_result& operator=(const XSMBService_SetFileLength_result&);
+  XSMBService_SetFileLength_result() {
   }
 
-  virtual ~XSMBService_SetCloudFileLength_result() throw();
+  virtual ~XSMBService_SetFileLength_result() throw();
   LinuxFileResponse success;
   LinuxFileException linuxFileException;
 
-  _XSMBService_SetCloudFileLength_result__isset __isset;
+  _XSMBService_SetFileLength_result__isset __isset;
 
   void __set_success(const LinuxFileResponse& val);
 
   void __set_linuxFileException(const LinuxFileException& val);
 
-  bool operator == (const XSMBService_SetCloudFileLength_result & rhs) const
+  bool operator == (const XSMBService_SetFileLength_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
@@ -1318,40 +1317,40 @@ class XSMBService_SetCloudFileLength_result {
       return false;
     return true;
   }
-  bool operator != (const XSMBService_SetCloudFileLength_result &rhs) const {
+  bool operator != (const XSMBService_SetFileLength_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const XSMBService_SetCloudFileLength_result & ) const;
+  bool operator < (const XSMBService_SetFileLength_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetCloudFileLength_result& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetFileLength_result& obj);
 };
 
-typedef struct _XSMBService_SetCloudFileLength_presult__isset {
-  _XSMBService_SetCloudFileLength_presult__isset() : success(false), linuxFileException(false) {}
+typedef struct _XSMBService_SetFileLength_presult__isset {
+  _XSMBService_SetFileLength_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
   bool linuxFileException :1;
-} _XSMBService_SetCloudFileLength_presult__isset;
+} _XSMBService_SetFileLength_presult__isset;
 
-class XSMBService_SetCloudFileLength_presult {
+class XSMBService_SetFileLength_presult {
  public:
 
   static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
   static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
-  virtual ~XSMBService_SetCloudFileLength_presult() throw();
+  virtual ~XSMBService_SetFileLength_presult() throw();
   LinuxFileResponse* success;
   LinuxFileException linuxFileException;
 
-  _XSMBService_SetCloudFileLength_presult__isset __isset;
+  _XSMBService_SetFileLength_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
-  friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetCloudFileLength_presult& obj);
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetFileLength_presult& obj);
 };
 
 class XSMBServiceClient : virtual public XSMBServiceIf {
@@ -1397,15 +1396,15 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
   void send_WriteFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
   void recv_WriteFile(LinuxFileResponse& _return);
-  void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
-  void send_ListCloudFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
-  void recv_ListCloudFiles(LinuxFileResponse& _return);
-  int64_t GetCloudFileLength(const std::string& filePath);
-  void send_GetCloudFileLength(const std::string& filePath);
-  int64_t recv_GetCloudFileLength();
-  void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
-  void send_SetCloudFileLength(const std::string& filePath, const int64_t fileLength);
-  void recv_SetCloudFileLength(LinuxFileResponse& _return);
+  void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
+  void send_ListFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
+  void recv_ListFiles(LinuxFileResponse& _return);
+  void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath);
+  void send_GetFileLength(const std::string& filePath);
+  void recv_GetFileLength(GetFileLengthResponse& _return);
+  void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
+  void send_SetFileLength(const std::string& filePath, const int64_t fileLength);
+  void recv_SetFileLength(LinuxFileResponse& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -1427,9 +1426,9 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_DeleteFile(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ReadFile(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_WriteFile(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_ListCloudFiles(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_GetCloudFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_SetCloudFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ListFiles(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_GetFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_SetFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   XSMBServiceProcessor(boost::shared_ptr<XSMBServiceIf> iface) :
     iface_(iface) {
@@ -1439,9 +1438,9 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["DeleteFile"] = &XSMBServiceProcessor::process_DeleteFile;
     processMap_["ReadFile"] = &XSMBServiceProcessor::process_ReadFile;
     processMap_["WriteFile"] = &XSMBServiceProcessor::process_WriteFile;
-    processMap_["ListCloudFiles"] = &XSMBServiceProcessor::process_ListCloudFiles;
-    processMap_["GetCloudFileLength"] = &XSMBServiceProcessor::process_GetCloudFileLength;
-    processMap_["SetCloudFileLength"] = &XSMBServiceProcessor::process_SetCloudFileLength;
+    processMap_["ListFiles"] = &XSMBServiceProcessor::process_ListFiles;
+    processMap_["GetFileLength"] = &XSMBServiceProcessor::process_GetFileLength;
+    processMap_["SetFileLength"] = &XSMBServiceProcessor::process_SetFileLength;
   }
 
   virtual ~XSMBServiceProcessor() {}
@@ -1530,32 +1529,33 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
+  void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ListCloudFiles(_return, dirPath, isRecursive, files, dirs);
+      ifaces_[i]->ListFiles(_return, dirPath, isRecursive, files, dirs);
     }
-    ifaces_[i]->ListCloudFiles(_return, dirPath, isRecursive, files, dirs);
+    ifaces_[i]->ListFiles(_return, dirPath, isRecursive, files, dirs);
     return;
   }
 
-  int64_t GetCloudFileLength(const std::string& filePath) {
+  void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->GetCloudFileLength(filePath);
+      ifaces_[i]->GetFileLength(_return, filePath);
     }
-    return ifaces_[i]->GetCloudFileLength(filePath);
+    ifaces_[i]->GetFileLength(_return, filePath);
+    return;
   }
 
-  void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
+  void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->SetCloudFileLength(_return, filePath, fileLength);
+      ifaces_[i]->SetFileLength(_return, filePath, fileLength);
     }
-    ifaces_[i]->SetCloudFileLength(_return, filePath, fileLength);
+    ifaces_[i]->SetFileLength(_return, filePath, fileLength);
     return;
   }
 

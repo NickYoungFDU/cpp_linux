@@ -51,6 +51,12 @@ struct LinuxFileResponse {
     4: optional map<string, string> AdditionalInfo
 }
 
+struct GetFileLengthResponse {
+    1: required i64 FileLength,
+    2: required bool Success, 
+    3: optional string ErrorMessage
+}
+
 service FileShareService {   
     
     LinuxFileResponse MapFileShare(1:string smbShareAddress, 2: string username, 3:string password, 4:string mountPoint)
@@ -78,11 +84,11 @@ service XSMBService {
     LinuxFileResponse WriteFile(1:string filePath, 2:StreamDataLayout data, 3:bool noBuffering, 4:byte fileVersion, 5:bool useVersionInData, 6:string keyName)
                         throws (1:LinuxFileException linuxFileException),        
     
-    LinuxFileResponse ListCloudFiles(1:string dirPath, 2:bool isRecursive, 3:map<string, MatchInformation> files, 4:map<string, MatchInformation> dirs)
+    LinuxFileResponse ListFiles(1:string dirPath, 2:bool isRecursive, 3:map<string, MatchInformation> files, 4:map<string, MatchInformation> dirs)
                         throws (1:LinuxFileException linuxFileException),
     
-    i64 GetCloudFileLength(1:string filePath) throws (1:LinuxFileException linuxFileException),
+    GetFileLengthResponse GetFileLength(1:string filePath) throws (1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse SetCloudFileLength(1:string filePath, 2:i64 fileLength) 
+    LinuxFileResponse SetFileLength(1:string filePath, 2:i64 fileLength) 
                         throws (1:LinuxFileException linuxFileException)
 }
