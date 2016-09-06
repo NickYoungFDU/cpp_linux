@@ -31,7 +31,7 @@ namespace azure {
 
 			}
 
-			/*			
+						
 			std::string FileShareServiceHandler::exec(const char* cmd) {
 				char buffer[128];
 				std::string result = "";
@@ -50,7 +50,7 @@ namespace azure {
 				pclose(pipe);
 				return result;
 			}
-			*/
+			
 		}
 	}
 }
