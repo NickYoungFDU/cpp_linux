@@ -22,14 +22,14 @@ class FileShareServiceHandler : virtual public FileShareServiceIf {
     // Your initialization goes here
   }
 
-  void MapFileShare(std::string& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) {
+  void MapFileShare(LinuxFileResponse& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) {
     // Your implementation goes here
     printf("MapFileShare\n");
   }
 
-  void UnmapFileContainer(const std::string& mountPoint) {
+  void UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint) {
     // Your implementation goes here
-    printf("UnmapFileContainer\n");
+    printf("UnmapFileShare\n");
   }
 
 };

@@ -10,7 +10,7 @@ namespace azure {
 	namespace storage {
 		namespace cpp_linux
 		{
-			void FileShareServiceHandler::MapFileShare(std::string& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) {
+			void FileShareServiceHandler::MapFileShare(LinuxFileResponse& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) {
 				// Your implementation goes here
 				boost::filesystem::path mountPointPath(mountPoint);
 				if (!boost::filesystem::exists(mountPointPath)) {
@@ -23,7 +23,7 @@ namespace azure {
 				std::cout << ret << std::endl;
 			}
 
-			void FileShareServiceHandler::UnmapFileContainer(const std::string& mountPoint) {
+			void FileShareServiceHandler::UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint) {
 				// Your implementation goes here
 				std::string unmountCommand = "umount " + mountPoint;
 				std::string ret = exec(unmountCommand.c_str());

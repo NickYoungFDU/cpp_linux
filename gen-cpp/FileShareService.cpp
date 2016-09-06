@@ -162,9 +162,17 @@ uint32_t FileShareService_MapFileShare_result::read(::apache::thrift::protocol::
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->success);
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
           this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -188,8 +196,12 @@ uint32_t FileShareService_MapFileShare_result::write(::apache::thrift::protocol:
   xfer += oprot->writeStructBegin("FileShareService_MapFileShare_result");
 
   if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
-    xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.linuxFileException) {
+    xfer += oprot->writeFieldBegin("linuxFileException", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->linuxFileException.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -223,9 +235,17 @@ uint32_t FileShareService_MapFileShare_presult::read(::apache::thrift::protocol:
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString((*(this->success)));
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
           this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -243,11 +263,11 @@ uint32_t FileShareService_MapFileShare_presult::read(::apache::thrift::protocol:
 }
 
 
-FileShareService_UnmapFileContainer_args::~FileShareService_UnmapFileContainer_args() throw() {
+FileShareService_UnmapFileShare_args::~FileShareService_UnmapFileShare_args() throw() {
 }
 
 
-uint32_t FileShareService_UnmapFileContainer_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t FileShareService_UnmapFileShare_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -287,10 +307,10 @@ uint32_t FileShareService_UnmapFileContainer_args::read(::apache::thrift::protoc
   return xfer;
 }
 
-uint32_t FileShareService_UnmapFileContainer_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t FileShareService_UnmapFileShare_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("FileShareService_UnmapFileContainer_args");
+  xfer += oprot->writeStructBegin("FileShareService_UnmapFileShare_args");
 
   xfer += oprot->writeFieldBegin("mountPoint", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->mountPoint);
@@ -303,14 +323,14 @@ uint32_t FileShareService_UnmapFileContainer_args::write(::apache::thrift::proto
 }
 
 
-FileShareService_UnmapFileContainer_pargs::~FileShareService_UnmapFileContainer_pargs() throw() {
+FileShareService_UnmapFileShare_pargs::~FileShareService_UnmapFileShare_pargs() throw() {
 }
 
 
-uint32_t FileShareService_UnmapFileContainer_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t FileShareService_UnmapFileShare_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("FileShareService_UnmapFileContainer_pargs");
+  xfer += oprot->writeStructBegin("FileShareService_UnmapFileShare_pargs");
 
   xfer += oprot->writeFieldBegin("mountPoint", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->mountPoint)));
@@ -323,11 +343,11 @@ uint32_t FileShareService_UnmapFileContainer_pargs::write(::apache::thrift::prot
 }
 
 
-FileShareService_UnmapFileContainer_result::~FileShareService_UnmapFileContainer_result() throw() {
+FileShareService_UnmapFileShare_result::~FileShareService_UnmapFileShare_result() throw() {
 }
 
 
-uint32_t FileShareService_UnmapFileContainer_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t FileShareService_UnmapFileShare_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -345,7 +365,28 @@ uint32_t FileShareService_UnmapFileContainer_result::read(::apache::thrift::prot
     if (ftype == ::apache::thrift::protocol::T_STOP) {
       break;
     }
-    xfer += iprot->skip(ftype);
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
     xfer += iprot->readFieldEnd();
   }
 
@@ -354,23 +395,32 @@ uint32_t FileShareService_UnmapFileContainer_result::read(::apache::thrift::prot
   return xfer;
 }
 
-uint32_t FileShareService_UnmapFileContainer_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t FileShareService_UnmapFileShare_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("FileShareService_UnmapFileContainer_result");
+  xfer += oprot->writeStructBegin("FileShareService_UnmapFileShare_result");
 
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.linuxFileException) {
+    xfer += oprot->writeFieldBegin("linuxFileException", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->linuxFileException.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
 
-FileShareService_UnmapFileContainer_presult::~FileShareService_UnmapFileContainer_presult() throw() {
+FileShareService_UnmapFileShare_presult::~FileShareService_UnmapFileShare_presult() throw() {
 }
 
 
-uint32_t FileShareService_UnmapFileContainer_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t FileShareService_UnmapFileShare_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -388,7 +438,28 @@ uint32_t FileShareService_UnmapFileContainer_presult::read(::apache::thrift::pro
     if (ftype == ::apache::thrift::protocol::T_STOP) {
       break;
     }
-    xfer += iprot->skip(ftype);
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
     xfer += iprot->readFieldEnd();
   }
 
@@ -397,7 +468,7 @@ uint32_t FileShareService_UnmapFileContainer_presult::read(::apache::thrift::pro
   return xfer;
 }
 
-void FileShareServiceClient::MapFileShare(std::string& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint)
+void FileShareServiceClient::MapFileShare(LinuxFileResponse& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint)
 {
   send_MapFileShare(smbShareAddress, username, password, mountPoint);
   recv_MapFileShare(_return);
@@ -420,7 +491,7 @@ void FileShareServiceClient::send_MapFileShare(const std::string& smbShareAddres
   oprot_->getTransport()->flush();
 }
 
-void FileShareServiceClient::recv_MapFileShare(std::string& _return)
+void FileShareServiceClient::recv_MapFileShare(LinuxFileResponse& _return)
 {
 
   int32_t rseqid = 0;
@@ -455,21 +526,24 @@ void FileShareServiceClient::recv_MapFileShare(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.linuxFileException) {
+    throw result.linuxFileException;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "MapFileShare failed: unknown result");
 }
 
-void FileShareServiceClient::UnmapFileContainer(const std::string& mountPoint)
+void FileShareServiceClient::UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint)
 {
-  send_UnmapFileContainer(mountPoint);
-  recv_UnmapFileContainer();
+  send_UnmapFileShare(mountPoint);
+  recv_UnmapFileShare(_return);
 }
 
-void FileShareServiceClient::send_UnmapFileContainer(const std::string& mountPoint)
+void FileShareServiceClient::send_UnmapFileShare(const std::string& mountPoint)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("UnmapFileContainer", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("UnmapFileShare", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  FileShareService_UnmapFileContainer_pargs args;
+  FileShareService_UnmapFileShare_pargs args;
   args.mountPoint = &mountPoint;
   args.write(oprot_);
 
@@ -478,7 +552,7 @@ void FileShareServiceClient::send_UnmapFileContainer(const std::string& mountPoi
   oprot_->getTransport()->flush();
 }
 
-void FileShareServiceClient::recv_UnmapFileContainer()
+void FileShareServiceClient::recv_UnmapFileShare(LinuxFileResponse& _return)
 {
 
   int32_t rseqid = 0;
@@ -498,17 +572,25 @@ void FileShareServiceClient::recv_UnmapFileContainer()
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("UnmapFileContainer") != 0) {
+  if (fname.compare("UnmapFileShare") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  FileShareService_UnmapFileContainer_presult result;
+  FileShareService_UnmapFileShare_presult result;
+  result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
   iprot_->getTransport()->readEnd();
 
-  return;
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  if (result.__isset.linuxFileException) {
+    throw result.linuxFileException;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "UnmapFileShare failed: unknown result");
 }
 
 bool FileShareServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -555,6 +637,9 @@ void FileShareServiceProcessor::process_MapFileShare(int32_t seqid, ::apache::th
   try {
     iface_->MapFileShare(result.success, args.smbShareAddress, args.username, args.password, args.mountPoint);
     result.__isset.success = true;
+  } catch (LinuxFileException &linuxFileException) {
+    result.linuxFileException = linuxFileException;
+    result.__isset.linuxFileException = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
       this->eventHandler_->handlerError(ctx, "FileShareService.MapFileShare");
@@ -584,37 +669,41 @@ void FileShareServiceProcessor::process_MapFileShare(int32_t seqid, ::apache::th
   }
 }
 
-void FileShareServiceProcessor::process_UnmapFileContainer(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void FileShareServiceProcessor::process_UnmapFileShare(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("FileShareService.UnmapFileContainer", callContext);
+    ctx = this->eventHandler_->getContext("FileShareService.UnmapFileShare", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "FileShareService.UnmapFileContainer");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "FileShareService.UnmapFileShare");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "FileShareService.UnmapFileContainer");
+    this->eventHandler_->preRead(ctx, "FileShareService.UnmapFileShare");
   }
 
-  FileShareService_UnmapFileContainer_args args;
+  FileShareService_UnmapFileShare_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "FileShareService.UnmapFileContainer", bytes);
+    this->eventHandler_->postRead(ctx, "FileShareService.UnmapFileShare", bytes);
   }
 
-  FileShareService_UnmapFileContainer_result result;
+  FileShareService_UnmapFileShare_result result;
   try {
-    iface_->UnmapFileContainer(args.mountPoint);
+    iface_->UnmapFileShare(result.success, args.mountPoint);
+    result.__isset.success = true;
+  } catch (LinuxFileException &linuxFileException) {
+    result.linuxFileException = linuxFileException;
+    result.__isset.linuxFileException = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "FileShareService.UnmapFileContainer");
+      this->eventHandler_->handlerError(ctx, "FileShareService.UnmapFileShare");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("UnmapFileContainer", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("UnmapFileShare", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -623,17 +712,17 @@ void FileShareServiceProcessor::process_UnmapFileContainer(int32_t seqid, ::apac
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "FileShareService.UnmapFileContainer");
+    this->eventHandler_->preWrite(ctx, "FileShareService.UnmapFileShare");
   }
 
-  oprot->writeMessageBegin("UnmapFileContainer", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("UnmapFileShare", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "FileShareService.UnmapFileContainer", bytes);
+    this->eventHandler_->postWrite(ctx, "FileShareService.UnmapFileShare", bytes);
   }
 }
 

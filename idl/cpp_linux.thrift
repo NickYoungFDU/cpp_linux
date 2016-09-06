@@ -24,30 +24,65 @@ enum MatchInformation {
     Match = 4
 }
 
+enum OperationType {
+    MapFileShare = 0,
+    UnmapFileShare = 1, 
+    CreateDirectory = 2, 
+    DeleteDirectory = 3, 
+    CreateFile = 4, 
+    DeleteFile = 5, 
+    ReadFile = 6, 
+    WriteFile = 7,
+    ListFile = 8,
+    GetFileLength = 9,
+    SetFileLength = 10
+}
+
+exception LinuxFileException {
+    1: required string ErrorMessage,
+    2: required OperationType OperationType,
+    3: optional map<string, string> AdditionalInfo
+}
+
+struct LinuxFileResponse {
+    1: required bool Success,
+    2: required string ResponseMessage,
+    3: required OperationType OperationType,
+    4: optional map<string, string> AdditionalInfo
+}
+
 service FileShareService {   
     
-    string MapFileShare(1:string smbShareAddress, 2: string username, 3:string password, 4:string mountPoint),
+    LinuxFileResponse MapFileShare(1:string smbShareAddress, 2: string username, 3:string password, 4:string mountPoint)
+                        throws (1:LinuxFileException linuxFileException),
     
-    void UnmapFileContainer(1:string mountPoint)
+    LinuxFileResponse UnmapFileShare(1:string mountPoint) throws (1:LinuxFileException linuxFileException)
 }
 
 service XSMBService {
     
-    bool CreateDirectory(1:string dirPath),
+    LinuxFileResponse CreateDirectory(1:string dirPath) throws (1:LinuxFileException linuxFileException),
     
-    bool DeleteDirectory(1:string dirPath, 2:bool isRecursive),
+    LinuxFileResponse DeleteDirectory(1:string dirPath, 2:bool isRecursive) 
+                        throws (1:LinuxFileException linuxFileException),
     
-    bool CreateFile(1:string filePath, 2:i64 fileSize, 3:bool noBuffering), 
+    LinuxFileResponse CreateFile(1:string filePath, 2:i64 fileSize, 3:bool noBuffering)
+                        throws (1:LinuxFileException linuxFileException), 
     
-    bool DeleteFile(1:string filePath),
+    LinuxFileResponse DeleteFile(1:string filePath)
+                        throws (1:LinuxFileException linuxFileException),
     
-    bool ReadFile(1:string filePath, 2:StreamDataLayout data, 3:bool noBuffering, 4:byte fileVersion, 5:bool useVersionInData, 6:string keyName),
+    LinuxFileResponse ReadFile(1:string filePath, 2:StreamDataLayout data, 3:bool noBuffering, 4:byte fileVersion, 5:bool useVersionInData, 6:string keyName)
+                        throws (1:LinuxFileException linuxFileException),
     
-    bool WriteFile(1:string filePath, 2:StreamDataLayout data, 3:bool noBuffering, 4:byte fileVersion, 5:bool useVersionInData, 6:string keyName),        
+    LinuxFileResponse WriteFile(1:string filePath, 2:StreamDataLayout data, 3:bool noBuffering, 4:byte fileVersion, 5:bool useVersionInData, 6:string keyName)
+                        throws (1:LinuxFileException linuxFileException),        
     
-    bool ListCloudFiles(1:string dirPath, 2:bool isRecursive, 3:map<string, MatchInformation> files, 4:map<string, MatchInformation> dirs),
+    LinuxFileResponse ListCloudFiles(1:string dirPath, 2:bool isRecursive, 3:map<string, MatchInformation> files, 4:map<string, MatchInformation> dirs)
+                        throws (1:LinuxFileException linuxFileException),
     
-    i64 GetCloudFileLength(1:string filePath),
+    i64 GetCloudFileLength(1:string filePath) throws (1:LinuxFileException linuxFileException),
     
-    bool SetCloudFileLength(1:string filePath, 2:i64 fileLength)
+    LinuxFileResponse SetCloudFileLength(1:string filePath, 2:i64 fileLength) 
+                        throws (1:LinuxFileException linuxFileException)
 }

@@ -30,9 +30,31 @@ struct MatchInformation {
 
 extern const std::map<int, const char*> _MatchInformation_VALUES_TO_NAMES;
 
+struct OperationType {
+  enum type {
+    MapFileShare = 0,
+    UnmapFileShare = 1,
+    CreateDirectory = 2,
+    DeleteDirectory = 3,
+    CreateFile = 4,
+    DeleteFile = 5,
+    ReadFile = 6,
+    WriteFile = 7,
+    ListFile = 8,
+    GetFileLength = 9,
+    SetFileLength = 10
+  };
+};
+
+extern const std::map<int, const char*> _OperationType_VALUES_TO_NAMES;
+
 class ChunkInfo;
 
 class StreamDataLayout;
+
+class LinuxFileException;
+
+class LinuxFileResponse;
 
 typedef struct _ChunkInfo__isset {
   _ChunkInfo__isset() : OffSet(false), Length(false), Version(false), IsNullDataWritten(false), IsCorrupted(false) {}
@@ -149,6 +171,121 @@ class StreamDataLayout {
 };
 
 void swap(StreamDataLayout &a, StreamDataLayout &b);
+
+typedef struct _LinuxFileException__isset {
+  _LinuxFileException__isset() : AdditionalInfo(false) {}
+  bool AdditionalInfo :1;
+} _LinuxFileException__isset;
+
+class LinuxFileException : public ::apache::thrift::TException {
+ public:
+
+  static const char* ascii_fingerprint; // = "BDDAF3D09FC0B99327A424F4DD1D4E7A";
+  static const uint8_t binary_fingerprint[16]; // = {0xBD,0xDA,0xF3,0xD0,0x9F,0xC0,0xB9,0x93,0x27,0xA4,0x24,0xF4,0xDD,0x1D,0x4E,0x7A};
+
+  LinuxFileException(const LinuxFileException&);
+  LinuxFileException& operator=(const LinuxFileException&);
+  LinuxFileException() : ErrorMessage(), OperationType((OperationType::type)0) {
+  }
+
+  virtual ~LinuxFileException() throw();
+  std::string ErrorMessage;
+  OperationType::type OperationType;
+  std::map<std::string, std::string>  AdditionalInfo;
+
+  _LinuxFileException__isset __isset;
+
+  void __set_ErrorMessage(const std::string& val);
+
+  void __set_OperationType(const OperationType::type val);
+
+  void __set_AdditionalInfo(const std::map<std::string, std::string> & val);
+
+  bool operator == (const LinuxFileException & rhs) const
+  {
+    if (!(ErrorMessage == rhs.ErrorMessage))
+      return false;
+    if (!(OperationType == rhs.OperationType))
+      return false;
+    if (__isset.AdditionalInfo != rhs.__isset.AdditionalInfo)
+      return false;
+    else if (__isset.AdditionalInfo && !(AdditionalInfo == rhs.AdditionalInfo))
+      return false;
+    return true;
+  }
+  bool operator != (const LinuxFileException &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const LinuxFileException & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const LinuxFileException& obj);
+};
+
+void swap(LinuxFileException &a, LinuxFileException &b);
+
+typedef struct _LinuxFileResponse__isset {
+  _LinuxFileResponse__isset() : AdditionalInfo(false) {}
+  bool AdditionalInfo :1;
+} _LinuxFileResponse__isset;
+
+class LinuxFileResponse {
+ public:
+
+  static const char* ascii_fingerprint; // = "EACFD21C18460944F3286BC9BC524B32";
+  static const uint8_t binary_fingerprint[16]; // = {0xEA,0xCF,0xD2,0x1C,0x18,0x46,0x09,0x44,0xF3,0x28,0x6B,0xC9,0xBC,0x52,0x4B,0x32};
+
+  LinuxFileResponse(const LinuxFileResponse&);
+  LinuxFileResponse& operator=(const LinuxFileResponse&);
+  LinuxFileResponse() : Success(0), ResponseMessage(), OperationType((OperationType::type)0) {
+  }
+
+  virtual ~LinuxFileResponse() throw();
+  bool Success;
+  std::string ResponseMessage;
+  OperationType::type OperationType;
+  std::map<std::string, std::string>  AdditionalInfo;
+
+  _LinuxFileResponse__isset __isset;
+
+  void __set_Success(const bool val);
+
+  void __set_ResponseMessage(const std::string& val);
+
+  void __set_OperationType(const OperationType::type val);
+
+  void __set_AdditionalInfo(const std::map<std::string, std::string> & val);
+
+  bool operator == (const LinuxFileResponse & rhs) const
+  {
+    if (!(Success == rhs.Success))
+      return false;
+    if (!(ResponseMessage == rhs.ResponseMessage))
+      return false;
+    if (!(OperationType == rhs.OperationType))
+      return false;
+    if (__isset.AdditionalInfo != rhs.__isset.AdditionalInfo)
+      return false;
+    else if (__isset.AdditionalInfo && !(AdditionalInfo == rhs.AdditionalInfo))
+      return false;
+    return true;
+  }
+  bool operator != (const LinuxFileResponse &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const LinuxFileResponse & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const LinuxFileResponse& obj);
+};
+
+void swap(LinuxFileResponse &a, LinuxFileResponse &b);
 
 }}} // namespace
 

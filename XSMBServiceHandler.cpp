@@ -20,7 +20,7 @@ namespace azure {
 	namespace storage {
 		namespace cpp_linux 
 		{
-			bool XSMBServiceHandler::CreateDirectory(const std::string& dirPath) {
+			void XSMBServiceHandler::CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
 				printf("CreateDirectory\n");
 				bool success = false;
 				boost::filesystem::path dir(dirPath);
@@ -35,11 +35,11 @@ namespace azure {
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
 				}
-				return success;
+				return;
 
 			}
 
-			bool XSMBServiceHandler::DeleteDirectory(const std::string& dirPath, const bool isRecursive) {
+			void XSMBServiceHandler::DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
 				printf("DeleteDirectory\n");
 				bool success = false;
 				boost::filesystem::path dir(dirPath);
@@ -59,10 +59,10 @@ namespace azure {
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
 				}
-				return success;
+				return;
 			}
 
-			bool XSMBServiceHandler::CreateFile(const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
+			void XSMBServiceHandler::CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
 				printf("CreateFile\n");
 				bool success = false;
 				boost::filesystem::path file(filePath);
@@ -82,10 +82,10 @@ namespace azure {
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
 				}
-				return success;
+				return;
 			}
 
-			bool XSMBServiceHandler::DeleteFile(const std::string& filePath) {
+			void XSMBServiceHandler::DeleteFile(LinuxFileResponse& _return, const std::string& filePath) {
 				printf("DeleteFile\n");
 				bool success = false;
 				boost::filesystem::path file(filePath);
@@ -100,16 +100,16 @@ namespace azure {
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
 				}
-				return success;
+				return;
 			}
 
-			bool XSMBServiceHandler::ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
-				return true;
+			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+				return;
 			}
 
-			bool XSMBServiceHandler::WriteFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
 				printf("WriteFile\n");
-				return true;
+				return;
 			}
 
 			bool XSMBServiceHandler::ListFiles(const std::string& dirPath) {
@@ -126,7 +126,7 @@ namespace azure {
 				return true;
 			}
 
-			bool XSMBServiceHandler::ListCloudFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
+			void XSMBServiceHandler::ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
 				printf("ListCloudFiles\n");
 				boost::filesystem::path dir(dirPath);
 				try {
@@ -137,7 +137,7 @@ namespace azure {
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
 				}
-				return true;
+				return;
 			}
 
 			int64_t XSMBServiceHandler::GetCloudFileLength(const std::string& filePath) {
@@ -167,7 +167,7 @@ namespace azure {
 				return 0;
 			}
 
-			bool XSMBServiceHandler::SetCloudFileLength(const std::string& filePath, const int64_t fileLength) {
+			void XSMBServiceHandler::SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
 				printf("SetCloudFileLength\n");
 				bool success = false;
 				boost::filesystem::path file(filePath);
@@ -184,7 +184,7 @@ namespace azure {
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
 				}
-				return success;
+				return;
 			}
 		}
 	}

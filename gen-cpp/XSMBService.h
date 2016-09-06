@@ -15,15 +15,15 @@ namespace azure { namespace storage { namespace cpp_linux {
 class XSMBServiceIf {
  public:
   virtual ~XSMBServiceIf() {}
-  virtual bool CreateDirectory(const std::string& dirPath) = 0;
-  virtual bool DeleteDirectory(const std::string& dirPath, const bool isRecursive) = 0;
-  virtual bool CreateFile(const std::string& filePath, const int64_t fileSize, const bool noBuffering) = 0;
-  virtual bool DeleteFile(const std::string& filePath) = 0;
-  virtual bool ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
-  virtual bool WriteFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
-  virtual bool ListCloudFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
+  virtual void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) = 0;
+  virtual void DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) = 0;
+  virtual void CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) = 0;
+  virtual void DeleteFile(LinuxFileResponse& _return, const std::string& filePath) = 0;
+  virtual void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
+  virtual void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
+  virtual void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
   virtual int64_t GetCloudFileLength(const std::string& filePath) = 0;
-  virtual bool SetCloudFileLength(const std::string& filePath, const int64_t fileLength) = 0;
+  virtual void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) = 0;
 };
 
 class XSMBServiceIfFactory {
@@ -53,41 +53,33 @@ class XSMBServiceIfSingletonFactory : virtual public XSMBServiceIfFactory {
 class XSMBServiceNull : virtual public XSMBServiceIf {
  public:
   virtual ~XSMBServiceNull() {}
-  bool CreateDirectory(const std::string& /* dirPath */) {
-    bool _return = false;
-    return _return;
+  void CreateDirectory(LinuxFileResponse& /* _return */, const std::string& /* dirPath */) {
+    return;
   }
-  bool DeleteDirectory(const std::string& /* dirPath */, const bool /* isRecursive */) {
-    bool _return = false;
-    return _return;
+  void DeleteDirectory(LinuxFileResponse& /* _return */, const std::string& /* dirPath */, const bool /* isRecursive */) {
+    return;
   }
-  bool CreateFile(const std::string& /* filePath */, const int64_t /* fileSize */, const bool /* noBuffering */) {
-    bool _return = false;
-    return _return;
+  void CreateFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* fileSize */, const bool /* noBuffering */) {
+    return;
   }
-  bool DeleteFile(const std::string& /* filePath */) {
-    bool _return = false;
-    return _return;
+  void DeleteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */) {
+    return;
   }
-  bool ReadFile(const std::string& /* filePath */, const StreamDataLayout& /* data */, const bool /* noBuffering */, const int8_t /* fileVersion */, const bool /* useVersionInData */, const std::string& /* keyName */) {
-    bool _return = false;
-    return _return;
+  void ReadFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const StreamDataLayout& /* data */, const bool /* noBuffering */, const int8_t /* fileVersion */, const bool /* useVersionInData */, const std::string& /* keyName */) {
+    return;
   }
-  bool WriteFile(const std::string& /* filePath */, const StreamDataLayout& /* data */, const bool /* noBuffering */, const int8_t /* fileVersion */, const bool /* useVersionInData */, const std::string& /* keyName */) {
-    bool _return = false;
-    return _return;
+  void WriteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const StreamDataLayout& /* data */, const bool /* noBuffering */, const int8_t /* fileVersion */, const bool /* useVersionInData */, const std::string& /* keyName */) {
+    return;
   }
-  bool ListCloudFiles(const std::string& /* dirPath */, const bool /* isRecursive */, const std::map<std::string, MatchInformation::type> & /* files */, const std::map<std::string, MatchInformation::type> & /* dirs */) {
-    bool _return = false;
-    return _return;
+  void ListCloudFiles(LinuxFileResponse& /* _return */, const std::string& /* dirPath */, const bool /* isRecursive */, const std::map<std::string, MatchInformation::type> & /* files */, const std::map<std::string, MatchInformation::type> & /* dirs */) {
+    return;
   }
   int64_t GetCloudFileLength(const std::string& /* filePath */) {
     int64_t _return = 0;
     return _return;
   }
-  bool SetCloudFileLength(const std::string& /* filePath */, const int64_t /* fileLength */) {
-    bool _return = false;
-    return _return;
+  void SetCloudFileLength(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* fileLength */) {
+    return;
   }
 };
 
@@ -149,31 +141,37 @@ class XSMBService_CreateDirectory_pargs {
 };
 
 typedef struct _XSMBService_CreateDirectory_result__isset {
-  _XSMBService_CreateDirectory_result__isset() : success(false) {}
+  _XSMBService_CreateDirectory_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_CreateDirectory_result__isset;
 
 class XSMBService_CreateDirectory_result {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   XSMBService_CreateDirectory_result(const XSMBService_CreateDirectory_result&);
   XSMBService_CreateDirectory_result& operator=(const XSMBService_CreateDirectory_result&);
-  XSMBService_CreateDirectory_result() : success(0) {
+  XSMBService_CreateDirectory_result() {
   }
 
   virtual ~XSMBService_CreateDirectory_result() throw();
-  bool success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_CreateDirectory_result__isset __isset;
 
-  void __set_success(const bool val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const XSMBService_CreateDirectory_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -190,19 +188,21 @@ class XSMBService_CreateDirectory_result {
 };
 
 typedef struct _XSMBService_CreateDirectory_presult__isset {
-  _XSMBService_CreateDirectory_presult__isset() : success(false) {}
+  _XSMBService_CreateDirectory_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_CreateDirectory_presult__isset;
 
 class XSMBService_CreateDirectory_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~XSMBService_CreateDirectory_presult() throw();
-  bool* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_CreateDirectory_presult__isset __isset;
 
@@ -276,31 +276,37 @@ class XSMBService_DeleteDirectory_pargs {
 };
 
 typedef struct _XSMBService_DeleteDirectory_result__isset {
-  _XSMBService_DeleteDirectory_result__isset() : success(false) {}
+  _XSMBService_DeleteDirectory_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_DeleteDirectory_result__isset;
 
 class XSMBService_DeleteDirectory_result {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   XSMBService_DeleteDirectory_result(const XSMBService_DeleteDirectory_result&);
   XSMBService_DeleteDirectory_result& operator=(const XSMBService_DeleteDirectory_result&);
-  XSMBService_DeleteDirectory_result() : success(0) {
+  XSMBService_DeleteDirectory_result() {
   }
 
   virtual ~XSMBService_DeleteDirectory_result() throw();
-  bool success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_DeleteDirectory_result__isset __isset;
 
-  void __set_success(const bool val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const XSMBService_DeleteDirectory_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -317,19 +323,21 @@ class XSMBService_DeleteDirectory_result {
 };
 
 typedef struct _XSMBService_DeleteDirectory_presult__isset {
-  _XSMBService_DeleteDirectory_presult__isset() : success(false) {}
+  _XSMBService_DeleteDirectory_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_DeleteDirectory_presult__isset;
 
 class XSMBService_DeleteDirectory_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~XSMBService_DeleteDirectory_presult() throw();
-  bool* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_DeleteDirectory_presult__isset __isset;
 
@@ -410,31 +418,37 @@ class XSMBService_CreateFile_pargs {
 };
 
 typedef struct _XSMBService_CreateFile_result__isset {
-  _XSMBService_CreateFile_result__isset() : success(false) {}
+  _XSMBService_CreateFile_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_CreateFile_result__isset;
 
 class XSMBService_CreateFile_result {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   XSMBService_CreateFile_result(const XSMBService_CreateFile_result&);
   XSMBService_CreateFile_result& operator=(const XSMBService_CreateFile_result&);
-  XSMBService_CreateFile_result() : success(0) {
+  XSMBService_CreateFile_result() {
   }
 
   virtual ~XSMBService_CreateFile_result() throw();
-  bool success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_CreateFile_result__isset __isset;
 
-  void __set_success(const bool val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const XSMBService_CreateFile_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -451,19 +465,21 @@ class XSMBService_CreateFile_result {
 };
 
 typedef struct _XSMBService_CreateFile_presult__isset {
-  _XSMBService_CreateFile_presult__isset() : success(false) {}
+  _XSMBService_CreateFile_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_CreateFile_presult__isset;
 
 class XSMBService_CreateFile_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~XSMBService_CreateFile_presult() throw();
-  bool* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_CreateFile_presult__isset __isset;
 
@@ -530,31 +546,37 @@ class XSMBService_DeleteFile_pargs {
 };
 
 typedef struct _XSMBService_DeleteFile_result__isset {
-  _XSMBService_DeleteFile_result__isset() : success(false) {}
+  _XSMBService_DeleteFile_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_DeleteFile_result__isset;
 
 class XSMBService_DeleteFile_result {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   XSMBService_DeleteFile_result(const XSMBService_DeleteFile_result&);
   XSMBService_DeleteFile_result& operator=(const XSMBService_DeleteFile_result&);
-  XSMBService_DeleteFile_result() : success(0) {
+  XSMBService_DeleteFile_result() {
   }
 
   virtual ~XSMBService_DeleteFile_result() throw();
-  bool success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_DeleteFile_result__isset __isset;
 
-  void __set_success(const bool val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const XSMBService_DeleteFile_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -571,19 +593,21 @@ class XSMBService_DeleteFile_result {
 };
 
 typedef struct _XSMBService_DeleteFile_presult__isset {
-  _XSMBService_DeleteFile_presult__isset() : success(false) {}
+  _XSMBService_DeleteFile_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_DeleteFile_presult__isset;
 
 class XSMBService_DeleteFile_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~XSMBService_DeleteFile_presult() throw();
-  bool* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_DeleteFile_presult__isset __isset;
 
@@ -685,31 +709,37 @@ class XSMBService_ReadFile_pargs {
 };
 
 typedef struct _XSMBService_ReadFile_result__isset {
-  _XSMBService_ReadFile_result__isset() : success(false) {}
+  _XSMBService_ReadFile_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_ReadFile_result__isset;
 
 class XSMBService_ReadFile_result {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   XSMBService_ReadFile_result(const XSMBService_ReadFile_result&);
   XSMBService_ReadFile_result& operator=(const XSMBService_ReadFile_result&);
-  XSMBService_ReadFile_result() : success(0) {
+  XSMBService_ReadFile_result() {
   }
 
   virtual ~XSMBService_ReadFile_result() throw();
-  bool success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_ReadFile_result__isset __isset;
 
-  void __set_success(const bool val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const XSMBService_ReadFile_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -726,19 +756,21 @@ class XSMBService_ReadFile_result {
 };
 
 typedef struct _XSMBService_ReadFile_presult__isset {
-  _XSMBService_ReadFile_presult__isset() : success(false) {}
+  _XSMBService_ReadFile_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_ReadFile_presult__isset;
 
 class XSMBService_ReadFile_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~XSMBService_ReadFile_presult() throw();
-  bool* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_ReadFile_presult__isset __isset;
 
@@ -840,31 +872,37 @@ class XSMBService_WriteFile_pargs {
 };
 
 typedef struct _XSMBService_WriteFile_result__isset {
-  _XSMBService_WriteFile_result__isset() : success(false) {}
+  _XSMBService_WriteFile_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_WriteFile_result__isset;
 
 class XSMBService_WriteFile_result {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   XSMBService_WriteFile_result(const XSMBService_WriteFile_result&);
   XSMBService_WriteFile_result& operator=(const XSMBService_WriteFile_result&);
-  XSMBService_WriteFile_result() : success(0) {
+  XSMBService_WriteFile_result() {
   }
 
   virtual ~XSMBService_WriteFile_result() throw();
-  bool success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_WriteFile_result__isset __isset;
 
-  void __set_success(const bool val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const XSMBService_WriteFile_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -881,19 +919,21 @@ class XSMBService_WriteFile_result {
 };
 
 typedef struct _XSMBService_WriteFile_presult__isset {
-  _XSMBService_WriteFile_presult__isset() : success(false) {}
+  _XSMBService_WriteFile_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_WriteFile_presult__isset;
 
 class XSMBService_WriteFile_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~XSMBService_WriteFile_presult() throw();
-  bool* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_WriteFile_presult__isset __isset;
 
@@ -981,31 +1021,37 @@ class XSMBService_ListCloudFiles_pargs {
 };
 
 typedef struct _XSMBService_ListCloudFiles_result__isset {
-  _XSMBService_ListCloudFiles_result__isset() : success(false) {}
+  _XSMBService_ListCloudFiles_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_ListCloudFiles_result__isset;
 
 class XSMBService_ListCloudFiles_result {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   XSMBService_ListCloudFiles_result(const XSMBService_ListCloudFiles_result&);
   XSMBService_ListCloudFiles_result& operator=(const XSMBService_ListCloudFiles_result&);
-  XSMBService_ListCloudFiles_result() : success(0) {
+  XSMBService_ListCloudFiles_result() {
   }
 
   virtual ~XSMBService_ListCloudFiles_result() throw();
-  bool success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_ListCloudFiles_result__isset __isset;
 
-  void __set_success(const bool val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const XSMBService_ListCloudFiles_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -1022,19 +1068,21 @@ class XSMBService_ListCloudFiles_result {
 };
 
 typedef struct _XSMBService_ListCloudFiles_presult__isset {
-  _XSMBService_ListCloudFiles_presult__isset() : success(false) {}
+  _XSMBService_ListCloudFiles_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_ListCloudFiles_presult__isset;
 
 class XSMBService_ListCloudFiles_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~XSMBService_ListCloudFiles_presult() throw();
-  bool* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_ListCloudFiles_presult__isset __isset;
 
@@ -1101,15 +1149,16 @@ class XSMBService_GetCloudFileLength_pargs {
 };
 
 typedef struct _XSMBService_GetCloudFileLength_result__isset {
-  _XSMBService_GetCloudFileLength_result__isset() : success(false) {}
+  _XSMBService_GetCloudFileLength_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_GetCloudFileLength_result__isset;
 
 class XSMBService_GetCloudFileLength_result {
  public:
 
-  static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
-  static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+  static const char* ascii_fingerprint; // = "6B615A494D4BCB837D782F2ADBF7E19A";
+  static const uint8_t binary_fingerprint[16]; // = {0x6B,0x61,0x5A,0x49,0x4D,0x4B,0xCB,0x83,0x7D,0x78,0x2F,0x2A,0xDB,0xF7,0xE1,0x9A};
 
   XSMBService_GetCloudFileLength_result(const XSMBService_GetCloudFileLength_result&);
   XSMBService_GetCloudFileLength_result& operator=(const XSMBService_GetCloudFileLength_result&);
@@ -1118,14 +1167,19 @@ class XSMBService_GetCloudFileLength_result {
 
   virtual ~XSMBService_GetCloudFileLength_result() throw();
   int64_t success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_GetCloudFileLength_result__isset __isset;
 
   void __set_success(const int64_t val);
 
+  void __set_linuxFileException(const LinuxFileException& val);
+
   bool operator == (const XSMBService_GetCloudFileLength_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -1142,19 +1196,21 @@ class XSMBService_GetCloudFileLength_result {
 };
 
 typedef struct _XSMBService_GetCloudFileLength_presult__isset {
-  _XSMBService_GetCloudFileLength_presult__isset() : success(false) {}
+  _XSMBService_GetCloudFileLength_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_GetCloudFileLength_presult__isset;
 
 class XSMBService_GetCloudFileLength_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "1CF279170B7E876D4ABB450CC8994359";
-  static const uint8_t binary_fingerprint[16]; // = {0x1C,0xF2,0x79,0x17,0x0B,0x7E,0x87,0x6D,0x4A,0xBB,0x45,0x0C,0xC8,0x99,0x43,0x59};
+  static const char* ascii_fingerprint; // = "6B615A494D4BCB837D782F2ADBF7E19A";
+  static const uint8_t binary_fingerprint[16]; // = {0x6B,0x61,0x5A,0x49,0x4D,0x4B,0xCB,0x83,0x7D,0x78,0x2F,0x2A,0xDB,0xF7,0xE1,0x9A};
 
 
   virtual ~XSMBService_GetCloudFileLength_presult() throw();
   int64_t* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_GetCloudFileLength_presult__isset __isset;
 
@@ -1228,31 +1284,37 @@ class XSMBService_SetCloudFileLength_pargs {
 };
 
 typedef struct _XSMBService_SetCloudFileLength_result__isset {
-  _XSMBService_SetCloudFileLength_result__isset() : success(false) {}
+  _XSMBService_SetCloudFileLength_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_SetCloudFileLength_result__isset;
 
 class XSMBService_SetCloudFileLength_result {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   XSMBService_SetCloudFileLength_result(const XSMBService_SetCloudFileLength_result&);
   XSMBService_SetCloudFileLength_result& operator=(const XSMBService_SetCloudFileLength_result&);
-  XSMBService_SetCloudFileLength_result() : success(0) {
+  XSMBService_SetCloudFileLength_result() {
   }
 
   virtual ~XSMBService_SetCloudFileLength_result() throw();
-  bool success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_SetCloudFileLength_result__isset __isset;
 
-  void __set_success(const bool val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const XSMBService_SetCloudFileLength_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -1269,19 +1331,21 @@ class XSMBService_SetCloudFileLength_result {
 };
 
 typedef struct _XSMBService_SetCloudFileLength_presult__isset {
-  _XSMBService_SetCloudFileLength_presult__isset() : success(false) {}
+  _XSMBService_SetCloudFileLength_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _XSMBService_SetCloudFileLength_presult__isset;
 
 class XSMBService_SetCloudFileLength_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "D9D3B4421B1F23CB4063C80B484E7909";
-  static const uint8_t binary_fingerprint[16]; // = {0xD9,0xD3,0xB4,0x42,0x1B,0x1F,0x23,0xCB,0x40,0x63,0xC8,0x0B,0x48,0x4E,0x79,0x09};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~XSMBService_SetCloudFileLength_presult() throw();
-  bool* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _XSMBService_SetCloudFileLength_presult__isset __isset;
 
@@ -1315,33 +1379,33 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  bool CreateDirectory(const std::string& dirPath);
+  void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath);
   void send_CreateDirectory(const std::string& dirPath);
-  bool recv_CreateDirectory();
-  bool DeleteDirectory(const std::string& dirPath, const bool isRecursive);
+  void recv_CreateDirectory(LinuxFileResponse& _return);
+  void DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive);
   void send_DeleteDirectory(const std::string& dirPath, const bool isRecursive);
-  bool recv_DeleteDirectory();
-  bool CreateFile(const std::string& filePath, const int64_t fileSize, const bool noBuffering);
+  void recv_DeleteDirectory(LinuxFileResponse& _return);
+  void CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering);
   void send_CreateFile(const std::string& filePath, const int64_t fileSize, const bool noBuffering);
-  bool recv_CreateFile();
-  bool DeleteFile(const std::string& filePath);
+  void recv_CreateFile(LinuxFileResponse& _return);
+  void DeleteFile(LinuxFileResponse& _return, const std::string& filePath);
   void send_DeleteFile(const std::string& filePath);
-  bool recv_DeleteFile();
-  bool ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
+  void recv_DeleteFile(LinuxFileResponse& _return);
+  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
   void send_ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
-  bool recv_ReadFile();
-  bool WriteFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
+  void recv_ReadFile(LinuxFileResponse& _return);
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
   void send_WriteFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
-  bool recv_WriteFile();
-  bool ListCloudFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
+  void recv_WriteFile(LinuxFileResponse& _return);
+  void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
   void send_ListCloudFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
-  bool recv_ListCloudFiles();
+  void recv_ListCloudFiles(LinuxFileResponse& _return);
   int64_t GetCloudFileLength(const std::string& filePath);
   void send_GetCloudFileLength(const std::string& filePath);
   int64_t recv_GetCloudFileLength();
-  bool SetCloudFileLength(const std::string& filePath, const int64_t fileLength);
+  void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
   void send_SetCloudFileLength(const std::string& filePath, const int64_t fileLength);
-  bool recv_SetCloudFileLength();
+  void recv_SetCloudFileLength(LinuxFileResponse& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -1406,67 +1470,74 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     ifaces_.push_back(iface);
   }
  public:
-  bool CreateDirectory(const std::string& dirPath) {
+  void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->CreateDirectory(dirPath);
+      ifaces_[i]->CreateDirectory(_return, dirPath);
     }
-    return ifaces_[i]->CreateDirectory(dirPath);
+    ifaces_[i]->CreateDirectory(_return, dirPath);
+    return;
   }
 
-  bool DeleteDirectory(const std::string& dirPath, const bool isRecursive) {
+  void DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->DeleteDirectory(dirPath, isRecursive);
+      ifaces_[i]->DeleteDirectory(_return, dirPath, isRecursive);
     }
-    return ifaces_[i]->DeleteDirectory(dirPath, isRecursive);
+    ifaces_[i]->DeleteDirectory(_return, dirPath, isRecursive);
+    return;
   }
 
-  bool CreateFile(const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
+  void CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->CreateFile(filePath, fileSize, noBuffering);
+      ifaces_[i]->CreateFile(_return, filePath, fileSize, noBuffering);
     }
-    return ifaces_[i]->CreateFile(filePath, fileSize, noBuffering);
+    ifaces_[i]->CreateFile(_return, filePath, fileSize, noBuffering);
+    return;
   }
 
-  bool DeleteFile(const std::string& filePath) {
+  void DeleteFile(LinuxFileResponse& _return, const std::string& filePath) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->DeleteFile(filePath);
+      ifaces_[i]->DeleteFile(_return, filePath);
     }
-    return ifaces_[i]->DeleteFile(filePath);
+    ifaces_[i]->DeleteFile(_return, filePath);
+    return;
   }
 
-  bool ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ReadFile(filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+      ifaces_[i]->ReadFile(_return, filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
     }
-    return ifaces_[i]->ReadFile(filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+    ifaces_[i]->ReadFile(_return, filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+    return;
   }
 
-  bool WriteFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->WriteFile(filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+      ifaces_[i]->WriteFile(_return, filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
     }
-    return ifaces_[i]->WriteFile(filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+    ifaces_[i]->WriteFile(_return, filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+    return;
   }
 
-  bool ListCloudFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
+  void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ListCloudFiles(dirPath, isRecursive, files, dirs);
+      ifaces_[i]->ListCloudFiles(_return, dirPath, isRecursive, files, dirs);
     }
-    return ifaces_[i]->ListCloudFiles(dirPath, isRecursive, files, dirs);
+    ifaces_[i]->ListCloudFiles(_return, dirPath, isRecursive, files, dirs);
+    return;
   }
 
   int64_t GetCloudFileLength(const std::string& filePath) {
@@ -1478,13 +1549,14 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return ifaces_[i]->GetCloudFileLength(filePath);
   }
 
-  bool SetCloudFileLength(const std::string& filePath, const int64_t fileLength) {
+  void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->SetCloudFileLength(filePath, fileLength);
+      ifaces_[i]->SetCloudFileLength(_return, filePath, fileLength);
     }
-    return ifaces_[i]->SetCloudFileLength(filePath, fileLength);
+    ifaces_[i]->SetCloudFileLength(_return, filePath, fileLength);
+    return;
   }
 
 };

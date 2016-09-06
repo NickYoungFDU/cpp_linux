@@ -22,37 +22,37 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     // Your initialization goes here
   }
 
-  bool CreateDirectory(const std::string& dirPath) {
+  void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
     // Your implementation goes here
     printf("CreateDirectory\n");
   }
 
-  bool DeleteDirectory(const std::string& dirPath, const bool isRecursive) {
+  void DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
     // Your implementation goes here
     printf("DeleteDirectory\n");
   }
 
-  bool CreateFile(const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
+  void CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
     // Your implementation goes here
     printf("CreateFile\n");
   }
 
-  bool DeleteFile(const std::string& filePath) {
+  void DeleteFile(LinuxFileResponse& _return, const std::string& filePath) {
     // Your implementation goes here
     printf("DeleteFile\n");
   }
 
-  bool ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
     // Your implementation goes here
     printf("ReadFile\n");
   }
 
-  bool WriteFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
     // Your implementation goes here
     printf("WriteFile\n");
   }
 
-  bool ListCloudFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
+  void ListCloudFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
     // Your implementation goes here
     printf("ListCloudFiles\n");
   }
@@ -62,7 +62,7 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("GetCloudFileLength\n");
   }
 
-  bool SetCloudFileLength(const std::string& filePath, const int64_t fileLength) {
+  void SetCloudFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
     // Your implementation goes here
     printf("SetCloudFileLength\n");
   }

@@ -27,6 +27,34 @@ const char* _kMatchInformationNames[] = {
 };
 const std::map<int, const char*> _MatchInformation_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(4, _kMatchInformationValues, _kMatchInformationNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
+int _kOperationTypeValues[] = {
+  OperationType::MapFileShare,
+  OperationType::UnmapFileShare,
+  OperationType::CreateDirectory,
+  OperationType::DeleteDirectory,
+  OperationType::CreateFile,
+  OperationType::DeleteFile,
+  OperationType::ReadFile,
+  OperationType::WriteFile,
+  OperationType::ListFile,
+  OperationType::GetFileLength,
+  OperationType::SetFileLength
+};
+const char* _kOperationTypeNames[] = {
+  "MapFileShare",
+  "UnmapFileShare",
+  "CreateDirectory",
+  "DeleteDirectory",
+  "CreateFile",
+  "DeleteFile",
+  "ReadFile",
+  "WriteFile",
+  "ListFile",
+  "GetFileLength",
+  "SetFileLength"
+};
+const std::map<int, const char*> _OperationType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(11, _kOperationTypeValues, _kOperationTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 
 ChunkInfo::~ChunkInfo() throw() {
 }
@@ -323,6 +351,357 @@ std::ostream& operator<<(std::ostream& out, const StreamDataLayout& obj) {
   out << "StreamDataLayout(";
   out << "Chunks=" << to_string(obj.Chunks);
   out << ", " << "Length=" << to_string(obj.Length);
+  out << ")";
+  return out;
+}
+
+
+LinuxFileException::~LinuxFileException() throw() {
+}
+
+
+void LinuxFileException::__set_ErrorMessage(const std::string& val) {
+  this->ErrorMessage = val;
+}
+
+void LinuxFileException::__set_OperationType(const OperationType::type val) {
+  this->OperationType = val;
+}
+
+void LinuxFileException::__set_AdditionalInfo(const std::map<std::string, std::string> & val) {
+  this->AdditionalInfo = val;
+__isset.AdditionalInfo = true;
+}
+
+const char* LinuxFileException::ascii_fingerprint = "BDDAF3D09FC0B99327A424F4DD1D4E7A";
+const uint8_t LinuxFileException::binary_fingerprint[16] = {0xBD,0xDA,0xF3,0xD0,0x9F,0xC0,0xB9,0x93,0x27,0xA4,0x24,0xF4,0xDD,0x1D,0x4E,0x7A};
+
+uint32_t LinuxFileException::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_ErrorMessage = false;
+  bool isset_OperationType = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->ErrorMessage);
+          isset_ErrorMessage = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast10;
+          xfer += iprot->readI32(ecast10);
+          this->OperationType = (OperationType::type)ecast10;
+          isset_OperationType = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_MAP) {
+          {
+            this->AdditionalInfo.clear();
+            uint32_t _size11;
+            ::apache::thrift::protocol::TType _ktype12;
+            ::apache::thrift::protocol::TType _vtype13;
+            xfer += iprot->readMapBegin(_ktype12, _vtype13, _size11);
+            uint32_t _i15;
+            for (_i15 = 0; _i15 < _size11; ++_i15)
+            {
+              std::string _key16;
+              xfer += iprot->readString(_key16);
+              std::string& _val17 = this->AdditionalInfo[_key16];
+              xfer += iprot->readString(_val17);
+            }
+            xfer += iprot->readMapEnd();
+          }
+          this->__isset.AdditionalInfo = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_ErrorMessage)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_OperationType)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t LinuxFileException::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("LinuxFileException");
+
+  xfer += oprot->writeFieldBegin("ErrorMessage", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->ErrorMessage);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("OperationType", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((int32_t)this->OperationType);
+  xfer += oprot->writeFieldEnd();
+
+  if (this->__isset.AdditionalInfo) {
+    xfer += oprot->writeFieldBegin("AdditionalInfo", ::apache::thrift::protocol::T_MAP, 3);
+    {
+      xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->AdditionalInfo.size()));
+      std::map<std::string, std::string> ::const_iterator _iter18;
+      for (_iter18 = this->AdditionalInfo.begin(); _iter18 != this->AdditionalInfo.end(); ++_iter18)
+      {
+        xfer += oprot->writeString(_iter18->first);
+        xfer += oprot->writeString(_iter18->second);
+      }
+      xfer += oprot->writeMapEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(LinuxFileException &a, LinuxFileException &b) {
+  using ::std::swap;
+  swap(a.ErrorMessage, b.ErrorMessage);
+  swap(a.OperationType, b.OperationType);
+  swap(a.AdditionalInfo, b.AdditionalInfo);
+  swap(a.__isset, b.__isset);
+}
+
+LinuxFileException::LinuxFileException(const LinuxFileException& other19) : TException() {
+  ErrorMessage = other19.ErrorMessage;
+  OperationType = other19.OperationType;
+  AdditionalInfo = other19.AdditionalInfo;
+  __isset = other19.__isset;
+}
+LinuxFileException& LinuxFileException::operator=(const LinuxFileException& other20) {
+  ErrorMessage = other20.ErrorMessage;
+  OperationType = other20.OperationType;
+  AdditionalInfo = other20.AdditionalInfo;
+  __isset = other20.__isset;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const LinuxFileException& obj) {
+  using apache::thrift::to_string;
+  out << "LinuxFileException(";
+  out << "ErrorMessage=" << to_string(obj.ErrorMessage);
+  out << ", " << "OperationType=" << to_string(obj.OperationType);
+  out << ", " << "AdditionalInfo="; (obj.__isset.AdditionalInfo ? (out << to_string(obj.AdditionalInfo)) : (out << "<null>"));
+  out << ")";
+  return out;
+}
+
+
+LinuxFileResponse::~LinuxFileResponse() throw() {
+}
+
+
+void LinuxFileResponse::__set_Success(const bool val) {
+  this->Success = val;
+}
+
+void LinuxFileResponse::__set_ResponseMessage(const std::string& val) {
+  this->ResponseMessage = val;
+}
+
+void LinuxFileResponse::__set_OperationType(const OperationType::type val) {
+  this->OperationType = val;
+}
+
+void LinuxFileResponse::__set_AdditionalInfo(const std::map<std::string, std::string> & val) {
+  this->AdditionalInfo = val;
+__isset.AdditionalInfo = true;
+}
+
+const char* LinuxFileResponse::ascii_fingerprint = "EACFD21C18460944F3286BC9BC524B32";
+const uint8_t LinuxFileResponse::binary_fingerprint[16] = {0xEA,0xCF,0xD2,0x1C,0x18,0x46,0x09,0x44,0xF3,0x28,0x6B,0xC9,0xBC,0x52,0x4B,0x32};
+
+uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_Success = false;
+  bool isset_ResponseMessage = false;
+  bool isset_OperationType = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->Success);
+          isset_Success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->ResponseMessage);
+          isset_ResponseMessage = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast21;
+          xfer += iprot->readI32(ecast21);
+          this->OperationType = (OperationType::type)ecast21;
+          isset_OperationType = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_MAP) {
+          {
+            this->AdditionalInfo.clear();
+            uint32_t _size22;
+            ::apache::thrift::protocol::TType _ktype23;
+            ::apache::thrift::protocol::TType _vtype24;
+            xfer += iprot->readMapBegin(_ktype23, _vtype24, _size22);
+            uint32_t _i26;
+            for (_i26 = 0; _i26 < _size22; ++_i26)
+            {
+              std::string _key27;
+              xfer += iprot->readString(_key27);
+              std::string& _val28 = this->AdditionalInfo[_key27];
+              xfer += iprot->readString(_val28);
+            }
+            xfer += iprot->readMapEnd();
+          }
+          this->__isset.AdditionalInfo = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_Success)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_ResponseMessage)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_OperationType)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t LinuxFileResponse::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("LinuxFileResponse");
+
+  xfer += oprot->writeFieldBegin("Success", ::apache::thrift::protocol::T_BOOL, 1);
+  xfer += oprot->writeBool(this->Success);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("ResponseMessage", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->ResponseMessage);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("OperationType", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((int32_t)this->OperationType);
+  xfer += oprot->writeFieldEnd();
+
+  if (this->__isset.AdditionalInfo) {
+    xfer += oprot->writeFieldBegin("AdditionalInfo", ::apache::thrift::protocol::T_MAP, 4);
+    {
+      xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->AdditionalInfo.size()));
+      std::map<std::string, std::string> ::const_iterator _iter29;
+      for (_iter29 = this->AdditionalInfo.begin(); _iter29 != this->AdditionalInfo.end(); ++_iter29)
+      {
+        xfer += oprot->writeString(_iter29->first);
+        xfer += oprot->writeString(_iter29->second);
+      }
+      xfer += oprot->writeMapEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+void swap(LinuxFileResponse &a, LinuxFileResponse &b) {
+  using ::std::swap;
+  swap(a.Success, b.Success);
+  swap(a.ResponseMessage, b.ResponseMessage);
+  swap(a.OperationType, b.OperationType);
+  swap(a.AdditionalInfo, b.AdditionalInfo);
+  swap(a.__isset, b.__isset);
+}
+
+LinuxFileResponse::LinuxFileResponse(const LinuxFileResponse& other30) {
+  Success = other30.Success;
+  ResponseMessage = other30.ResponseMessage;
+  OperationType = other30.OperationType;
+  AdditionalInfo = other30.AdditionalInfo;
+  __isset = other30.__isset;
+}
+LinuxFileResponse& LinuxFileResponse::operator=(const LinuxFileResponse& other31) {
+  Success = other31.Success;
+  ResponseMessage = other31.ResponseMessage;
+  OperationType = other31.OperationType;
+  AdditionalInfo = other31.AdditionalInfo;
+  __isset = other31.__isset;
+  return *this;
+}
+std::ostream& operator<<(std::ostream& out, const LinuxFileResponse& obj) {
+  using apache::thrift::to_string;
+  out << "LinuxFileResponse(";
+  out << "Success=" << to_string(obj.Success);
+  out << ", " << "ResponseMessage=" << to_string(obj.ResponseMessage);
+  out << ", " << "OperationType=" << to_string(obj.OperationType);
+  out << ", " << "AdditionalInfo="; (obj.__isset.AdditionalInfo ? (out << to_string(obj.AdditionalInfo)) : (out << "<null>"));
   out << ")";
   return out;
 }

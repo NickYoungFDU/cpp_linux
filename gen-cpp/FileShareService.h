@@ -15,8 +15,8 @@ namespace azure { namespace storage { namespace cpp_linux {
 class FileShareServiceIf {
  public:
   virtual ~FileShareServiceIf() {}
-  virtual void MapFileShare(std::string& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) = 0;
-  virtual void UnmapFileContainer(const std::string& mountPoint) = 0;
+  virtual void MapFileShare(LinuxFileResponse& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) = 0;
+  virtual void UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint) = 0;
 };
 
 class FileShareServiceIfFactory {
@@ -46,10 +46,10 @@ class FileShareServiceIfSingletonFactory : virtual public FileShareServiceIfFact
 class FileShareServiceNull : virtual public FileShareServiceIf {
  public:
   virtual ~FileShareServiceNull() {}
-  void MapFileShare(std::string& /* _return */, const std::string& /* smbShareAddress */, const std::string& /* username */, const std::string& /* password */, const std::string& /* mountPoint */) {
+  void MapFileShare(LinuxFileResponse& /* _return */, const std::string& /* smbShareAddress */, const std::string& /* username */, const std::string& /* password */, const std::string& /* mountPoint */) {
     return;
   }
-  void UnmapFileContainer(const std::string& /* mountPoint */) {
+  void UnmapFileShare(LinuxFileResponse& /* _return */, const std::string& /* mountPoint */) {
     return;
   }
 };
@@ -133,31 +133,37 @@ class FileShareService_MapFileShare_pargs {
 };
 
 typedef struct _FileShareService_MapFileShare_result__isset {
-  _FileShareService_MapFileShare_result__isset() : success(false) {}
+  _FileShareService_MapFileShare_result__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _FileShareService_MapFileShare_result__isset;
 
 class FileShareService_MapFileShare_result {
  public:
 
-  static const char* ascii_fingerprint; // = "9A73381FEFD6B67F432E717102246330";
-  static const uint8_t binary_fingerprint[16]; // = {0x9A,0x73,0x38,0x1F,0xEF,0xD6,0xB6,0x7F,0x43,0x2E,0x71,0x71,0x02,0x24,0x63,0x30};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
   FileShareService_MapFileShare_result(const FileShareService_MapFileShare_result&);
   FileShareService_MapFileShare_result& operator=(const FileShareService_MapFileShare_result&);
-  FileShareService_MapFileShare_result() : success() {
+  FileShareService_MapFileShare_result() {
   }
 
   virtual ~FileShareService_MapFileShare_result() throw();
-  std::string success;
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
   _FileShareService_MapFileShare_result__isset __isset;
 
-  void __set_success(const std::string& val);
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
 
   bool operator == (const FileShareService_MapFileShare_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
       return false;
     return true;
   }
@@ -174,19 +180,21 @@ class FileShareService_MapFileShare_result {
 };
 
 typedef struct _FileShareService_MapFileShare_presult__isset {
-  _FileShareService_MapFileShare_presult__isset() : success(false) {}
+  _FileShareService_MapFileShare_presult__isset() : success(false), linuxFileException(false) {}
   bool success :1;
+  bool linuxFileException :1;
 } _FileShareService_MapFileShare_presult__isset;
 
 class FileShareService_MapFileShare_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "9A73381FEFD6B67F432E717102246330";
-  static const uint8_t binary_fingerprint[16]; // = {0x9A,0x73,0x38,0x1F,0xEF,0xD6,0xB6,0x7F,0x43,0x2E,0x71,0x71,0x02,0x24,0x63,0x30};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
   virtual ~FileShareService_MapFileShare_presult() throw();
-  std::string* success;
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
 
   _FileShareService_MapFileShare_presult__isset __isset;
 
@@ -195,106 +203,132 @@ class FileShareService_MapFileShare_presult {
   friend std::ostream& operator<<(std::ostream& out, const FileShareService_MapFileShare_presult& obj);
 };
 
-typedef struct _FileShareService_UnmapFileContainer_args__isset {
-  _FileShareService_UnmapFileContainer_args__isset() : mountPoint(false) {}
+typedef struct _FileShareService_UnmapFileShare_args__isset {
+  _FileShareService_UnmapFileShare_args__isset() : mountPoint(false) {}
   bool mountPoint :1;
-} _FileShareService_UnmapFileContainer_args__isset;
+} _FileShareService_UnmapFileShare_args__isset;
 
-class FileShareService_UnmapFileContainer_args {
+class FileShareService_UnmapFileShare_args {
  public:
 
   static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
   static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
 
-  FileShareService_UnmapFileContainer_args(const FileShareService_UnmapFileContainer_args&);
-  FileShareService_UnmapFileContainer_args& operator=(const FileShareService_UnmapFileContainer_args&);
-  FileShareService_UnmapFileContainer_args() : mountPoint() {
+  FileShareService_UnmapFileShare_args(const FileShareService_UnmapFileShare_args&);
+  FileShareService_UnmapFileShare_args& operator=(const FileShareService_UnmapFileShare_args&);
+  FileShareService_UnmapFileShare_args() : mountPoint() {
   }
 
-  virtual ~FileShareService_UnmapFileContainer_args() throw();
+  virtual ~FileShareService_UnmapFileShare_args() throw();
   std::string mountPoint;
 
-  _FileShareService_UnmapFileContainer_args__isset __isset;
+  _FileShareService_UnmapFileShare_args__isset __isset;
 
   void __set_mountPoint(const std::string& val);
 
-  bool operator == (const FileShareService_UnmapFileContainer_args & rhs) const
+  bool operator == (const FileShareService_UnmapFileShare_args & rhs) const
   {
     if (!(mountPoint == rhs.mountPoint))
       return false;
     return true;
   }
-  bool operator != (const FileShareService_UnmapFileContainer_args &rhs) const {
+  bool operator != (const FileShareService_UnmapFileShare_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const FileShareService_UnmapFileContainer_args & ) const;
+  bool operator < (const FileShareService_UnmapFileShare_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const FileShareService_UnmapFileContainer_args& obj);
+  friend std::ostream& operator<<(std::ostream& out, const FileShareService_UnmapFileShare_args& obj);
 };
 
 
-class FileShareService_UnmapFileContainer_pargs {
+class FileShareService_UnmapFileShare_pargs {
  public:
 
   static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
   static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
 
 
-  virtual ~FileShareService_UnmapFileContainer_pargs() throw();
+  virtual ~FileShareService_UnmapFileShare_pargs() throw();
   const std::string* mountPoint;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const FileShareService_UnmapFileContainer_pargs& obj);
+  friend std::ostream& operator<<(std::ostream& out, const FileShareService_UnmapFileShare_pargs& obj);
 };
 
+typedef struct _FileShareService_UnmapFileShare_result__isset {
+  _FileShareService_UnmapFileShare_result__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _FileShareService_UnmapFileShare_result__isset;
 
-class FileShareService_UnmapFileContainer_result {
+class FileShareService_UnmapFileShare_result {
  public:
 
-  static const char* ascii_fingerprint; // = "99914B932BD37A50B983C5E7C90AE93B";
-  static const uint8_t binary_fingerprint[16]; // = {0x99,0x91,0x4B,0x93,0x2B,0xD3,0x7A,0x50,0xB9,0x83,0xC5,0xE7,0xC9,0x0A,0xE9,0x3B};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
-  FileShareService_UnmapFileContainer_result(const FileShareService_UnmapFileContainer_result&);
-  FileShareService_UnmapFileContainer_result& operator=(const FileShareService_UnmapFileContainer_result&);
-  FileShareService_UnmapFileContainer_result() {
+  FileShareService_UnmapFileShare_result(const FileShareService_UnmapFileShare_result&);
+  FileShareService_UnmapFileShare_result& operator=(const FileShareService_UnmapFileShare_result&);
+  FileShareService_UnmapFileShare_result() {
   }
 
-  virtual ~FileShareService_UnmapFileContainer_result() throw();
+  virtual ~FileShareService_UnmapFileShare_result() throw();
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
 
-  bool operator == (const FileShareService_UnmapFileContainer_result & /* rhs */) const
+  _FileShareService_UnmapFileShare_result__isset __isset;
+
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
+
+  bool operator == (const FileShareService_UnmapFileShare_result & rhs) const
   {
+    if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
+      return false;
     return true;
   }
-  bool operator != (const FileShareService_UnmapFileContainer_result &rhs) const {
+  bool operator != (const FileShareService_UnmapFileShare_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const FileShareService_UnmapFileContainer_result & ) const;
+  bool operator < (const FileShareService_UnmapFileShare_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-  friend std::ostream& operator<<(std::ostream& out, const FileShareService_UnmapFileContainer_result& obj);
+  friend std::ostream& operator<<(std::ostream& out, const FileShareService_UnmapFileShare_result& obj);
 };
 
+typedef struct _FileShareService_UnmapFileShare_presult__isset {
+  _FileShareService_UnmapFileShare_presult__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _FileShareService_UnmapFileShare_presult__isset;
 
-class FileShareService_UnmapFileContainer_presult {
+class FileShareService_UnmapFileShare_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "99914B932BD37A50B983C5E7C90AE93B";
-  static const uint8_t binary_fingerprint[16]; // = {0x99,0x91,0x4B,0x93,0x2B,0xD3,0x7A,0x50,0xB9,0x83,0xC5,0xE7,0xC9,0x0A,0xE9,0x3B};
+  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
+  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
 
 
-  virtual ~FileShareService_UnmapFileContainer_presult() throw();
+  virtual ~FileShareService_UnmapFileShare_presult() throw();
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
+
+  _FileShareService_UnmapFileShare_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
-  friend std::ostream& operator<<(std::ostream& out, const FileShareService_UnmapFileContainer_presult& obj);
+  friend std::ostream& operator<<(std::ostream& out, const FileShareService_UnmapFileShare_presult& obj);
 };
 
 class FileShareServiceClient : virtual public FileShareServiceIf {
@@ -322,12 +356,12 @@ class FileShareServiceClient : virtual public FileShareServiceIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void MapFileShare(std::string& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint);
+  void MapFileShare(LinuxFileResponse& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint);
   void send_MapFileShare(const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint);
-  void recv_MapFileShare(std::string& _return);
-  void UnmapFileContainer(const std::string& mountPoint);
-  void send_UnmapFileContainer(const std::string& mountPoint);
-  void recv_UnmapFileContainer();
+  void recv_MapFileShare(LinuxFileResponse& _return);
+  void UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint);
+  void send_UnmapFileShare(const std::string& mountPoint);
+  void recv_UnmapFileShare(LinuxFileResponse& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -344,12 +378,12 @@ class FileShareServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_MapFileShare(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_UnmapFileContainer(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_UnmapFileShare(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   FileShareServiceProcessor(boost::shared_ptr<FileShareServiceIf> iface) :
     iface_(iface) {
     processMap_["MapFileShare"] = &FileShareServiceProcessor::process_MapFileShare;
-    processMap_["UnmapFileContainer"] = &FileShareServiceProcessor::process_UnmapFileContainer;
+    processMap_["UnmapFileShare"] = &FileShareServiceProcessor::process_UnmapFileShare;
   }
 
   virtual ~FileShareServiceProcessor() {}
@@ -378,7 +412,7 @@ class FileShareServiceMultiface : virtual public FileShareServiceIf {
     ifaces_.push_back(iface);
   }
  public:
-  void MapFileShare(std::string& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) {
+  void MapFileShare(LinuxFileResponse& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -388,13 +422,14 @@ class FileShareServiceMultiface : virtual public FileShareServiceIf {
     return;
   }
 
-  void UnmapFileContainer(const std::string& mountPoint) {
+  void UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->UnmapFileContainer(mountPoint);
+      ifaces_[i]->UnmapFileShare(_return, mountPoint);
     }
-    ifaces_[i]->UnmapFileContainer(mountPoint);
+    ifaces_[i]->UnmapFileShare(_return, mountPoint);
+    return;
   }
 
 };
