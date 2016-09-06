@@ -1,4 +1,4 @@
-#include "gen-cpp\cpp_linux_types.h"
+#include <gen-cpp/cpp_linux_types.h>
 
 using namespace ::azure::storage::cpp_linux;
 

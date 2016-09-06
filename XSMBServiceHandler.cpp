@@ -23,8 +23,6 @@ namespace azure {
 		{
 			// TODO: Add logging to these handler functions.
 
-
-
 			void XSMBServiceHandler::CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
 				printf("CreateDirectory\n");		
 
