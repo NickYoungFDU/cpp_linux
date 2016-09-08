@@ -118,21 +118,12 @@ namespace azure {
 				boost::filesystem::path file(filePath);
 				try {
 					boost::filesystem::ofstream fs;
-					//std::ofstream out;
-					//out.open(filePath.c_str(), std::ios::app);
-					/*
-					if (boost::filesystem::exists(file)) {
-						fs.open(file, boost::filesystem::fstream::ate);
-					}
-					else {
-						fs.open(file, boost::filesystem::fstream::out);
-					}
-					*/
+					
 					fs.open(file, boost::filesystem::fstream::app);
-					//fs.seekp(0, boost::filesystem::fstream::ios_base::end);
+				
 					fs.write(bufToSend.c_str(), bufToSend.length());
-					//out << bufToSend;
-					//out.close();
+					
+					fs.close();
 					SetResponse(_return, true, "Successfully write to " + filePath);
 				}
 				catch (const std::exception& ex) {
