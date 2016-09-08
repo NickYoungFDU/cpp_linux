@@ -119,7 +119,7 @@ namespace azure {
 				try {
 					//boost::filesystem::fstream fs;
 					std::ofstream out;
-					out.open(filePath, std::ios::app);
+					out.open(filePath.c_str(), std::ios::app);
 					/*
 					if (boost::filesystem::exists(file)) {
 						fs.open(file, boost::filesystem::fstream::ate);
