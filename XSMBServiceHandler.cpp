@@ -118,7 +118,12 @@ namespace azure {
 				boost::filesystem::path file(filePath);
 				try {
 					boost::filesystem::fstream fs;
-					fs.open(file, boost::filesystem::fstream::ate);
+					if (boost::filesystem::exists(file)) {
+						fs.open(file, boost::filesystem::fstream::ate);
+					}
+					else {
+						fs.open(file, boost::filesystem::fstream::out);
+					}					
 					//fs.seekp(0, boost::filesystem::fstream::ios_base::end);
 					fs.write(bufToSend.c_str(), bufToSend.length());
 					fs.close();
