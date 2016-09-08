@@ -128,7 +128,8 @@ namespace azure {
 					*/
 					fs.open(file, boost::filesystem::fstream::ate | boost::filesystem::fstream::out);
 					//fs.seekp(0, boost::filesystem::fstream::ios_base::end);
-					fs.write(bufToSend.c_str(), bufToSend.length());
+					//fs.write(bufToSend.c_str(), bufToSend.length());
+					fs << bufToSend;
 					fs.close();
 					SetResponse(_return, true, "Successfully write to " + filePath);
 				}
