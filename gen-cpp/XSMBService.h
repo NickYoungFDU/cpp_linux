@@ -20,7 +20,7 @@ class XSMBServiceIf {
   virtual void CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) = 0;
   virtual void DeleteFile(LinuxFileResponse& _return, const std::string& filePath) = 0;
   virtual void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
-  virtual void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
+  virtual void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend) = 0;
   virtual void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
   virtual void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) = 0;
   virtual void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) = 0;
@@ -68,7 +68,7 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
   void ReadFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const StreamDataLayout& /* data */, const bool /* noBuffering */, const int8_t /* fileVersion */, const bool /* useVersionInData */, const std::string& /* keyName */) {
     return;
   }
-  void WriteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const StreamDataLayout& /* data */, const bool /* noBuffering */, const int8_t /* fileVersion */, const bool /* useVersionInData */, const std::string& /* keyName */) {
+  void WriteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const std::string& /* bufToSend */) {
     return;
   }
   void ListFiles(LinuxFileResponse& /* _return */, const std::string& /* dirPath */, const bool /* isRecursive */, const std::map<std::string, MatchInformation::type> & /* files */, const std::map<std::string, MatchInformation::type> & /* dirs */) {
@@ -779,61 +779,37 @@ class XSMBService_ReadFile_presult {
 };
 
 typedef struct _XSMBService_WriteFile_args__isset {
-  _XSMBService_WriteFile_args__isset() : filePath(false), data(false), noBuffering(false), fileVersion(false), useVersionInData(false), keyName(false) {}
+  _XSMBService_WriteFile_args__isset() : filePath(false), bufToSend(false) {}
   bool filePath :1;
-  bool data :1;
-  bool noBuffering :1;
-  bool fileVersion :1;
-  bool useVersionInData :1;
-  bool keyName :1;
+  bool bufToSend :1;
 } _XSMBService_WriteFile_args__isset;
 
 class XSMBService_WriteFile_args {
  public:
 
-  static const char* ascii_fingerprint; // = "A37B9CD06DE2019E86710553E3837C1C";
-  static const uint8_t binary_fingerprint[16]; // = {0xA3,0x7B,0x9C,0xD0,0x6D,0xE2,0x01,0x9E,0x86,0x71,0x05,0x53,0xE3,0x83,0x7C,0x1C};
+  static const char* ascii_fingerprint; // = "07A9615F837F7D0A952B595DD3020972";
+  static const uint8_t binary_fingerprint[16]; // = {0x07,0xA9,0x61,0x5F,0x83,0x7F,0x7D,0x0A,0x95,0x2B,0x59,0x5D,0xD3,0x02,0x09,0x72};
 
   XSMBService_WriteFile_args(const XSMBService_WriteFile_args&);
   XSMBService_WriteFile_args& operator=(const XSMBService_WriteFile_args&);
-  XSMBService_WriteFile_args() : filePath(), noBuffering(0), fileVersion(0), useVersionInData(0), keyName() {
+  XSMBService_WriteFile_args() : filePath(), bufToSend() {
   }
 
   virtual ~XSMBService_WriteFile_args() throw();
   std::string filePath;
-  StreamDataLayout data;
-  bool noBuffering;
-  int8_t fileVersion;
-  bool useVersionInData;
-  std::string keyName;
+  std::string bufToSend;
 
   _XSMBService_WriteFile_args__isset __isset;
 
   void __set_filePath(const std::string& val);
 
-  void __set_data(const StreamDataLayout& val);
-
-  void __set_noBuffering(const bool val);
-
-  void __set_fileVersion(const int8_t val);
-
-  void __set_useVersionInData(const bool val);
-
-  void __set_keyName(const std::string& val);
+  void __set_bufToSend(const std::string& val);
 
   bool operator == (const XSMBService_WriteFile_args & rhs) const
   {
     if (!(filePath == rhs.filePath))
       return false;
-    if (!(data == rhs.data))
-      return false;
-    if (!(noBuffering == rhs.noBuffering))
-      return false;
-    if (!(fileVersion == rhs.fileVersion))
-      return false;
-    if (!(useVersionInData == rhs.useVersionInData))
-      return false;
-    if (!(keyName == rhs.keyName))
+    if (!(bufToSend == rhs.bufToSend))
       return false;
     return true;
   }
@@ -853,17 +829,13 @@ class XSMBService_WriteFile_args {
 class XSMBService_WriteFile_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "A37B9CD06DE2019E86710553E3837C1C";
-  static const uint8_t binary_fingerprint[16]; // = {0xA3,0x7B,0x9C,0xD0,0x6D,0xE2,0x01,0x9E,0x86,0x71,0x05,0x53,0xE3,0x83,0x7C,0x1C};
+  static const char* ascii_fingerprint; // = "07A9615F837F7D0A952B595DD3020972";
+  static const uint8_t binary_fingerprint[16]; // = {0x07,0xA9,0x61,0x5F,0x83,0x7F,0x7D,0x0A,0x95,0x2B,0x59,0x5D,0xD3,0x02,0x09,0x72};
 
 
   virtual ~XSMBService_WriteFile_pargs() throw();
   const std::string* filePath;
-  const StreamDataLayout* data;
-  const bool* noBuffering;
-  const int8_t* fileVersion;
-  const bool* useVersionInData;
-  const std::string* keyName;
+  const std::string* bufToSend;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1393,8 +1365,8 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
   void send_ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
   void recv_ReadFile(LinuxFileResponse& _return);
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
-  void send_WriteFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend);
+  void send_WriteFile(const std::string& filePath, const std::string& bufToSend);
   void recv_WriteFile(LinuxFileResponse& _return);
   void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
   void send_ListFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
@@ -1519,13 +1491,13 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->WriteFile(_return, filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+      ifaces_[i]->WriteFile(_return, filePath, bufToSend);
     }
-    ifaces_[i]->WriteFile(_return, filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+    ifaces_[i]->WriteFile(_return, filePath, bufToSend);
     return;
   }
 

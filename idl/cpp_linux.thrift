@@ -81,7 +81,7 @@ service XSMBService {
     LinuxFileResponse ReadFile(1:string filePath, 2:StreamDataLayout data, 3:bool noBuffering, 4:byte fileVersion, 5:bool useVersionInData, 6:string keyName)
                         throws (1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse WriteFile(1:string filePath, 2:StreamDataLayout data, 3:bool noBuffering, 4:byte fileVersion, 5:bool useVersionInData, 6:string keyName)
+    LinuxFileResponse WriteFile(1:string filePath, 2:string bufToSend)
                         throws (1:LinuxFileException linuxFileException),        
     
     LinuxFileResponse ListFiles(1:string dirPath, 2:bool isRecursive, 3:map<string, MatchInformation> files, 4:map<string, MatchInformation> dirs)

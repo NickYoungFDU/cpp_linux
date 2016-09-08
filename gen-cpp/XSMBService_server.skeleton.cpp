@@ -47,7 +47,7 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("ReadFile\n");
   }
 
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend) {
     // Your implementation goes here
     printf("WriteFile\n");
   }

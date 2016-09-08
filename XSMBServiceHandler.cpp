@@ -113,8 +113,20 @@ namespace azure {
 				return;
 			}
 
-			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend) {
 				printf("WriteFile\n");
+				boost::filesystem::path file(filePath);
+				try {
+					boost::filesystem::fstream fs;
+					fs.open(file, boost::filesystem::fstream::out);
+					fs.seekp(0, boost::filesystem::fstream::ios_base::end);
+					fs.write(bufToSend.c_str(), bufToSend.length());
+					fs.close();
+					SetResponse(_return, true, "Successfully write to " + filePath);
+				}
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::WriteFile);
+				}
 				return;
 			}
 
