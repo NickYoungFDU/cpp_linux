@@ -127,7 +127,7 @@ namespace azure {
 					fs.close();
 					*/
 					std::fstream outfile;
-					outfile.open(filePath.c_str(), std::ios::out | std::ios::in);
+					outfile.open(filePath.c_str(), std::ios::out);
 					std::cout << "Opening " << filePath.c_str() << std::endl;
 					std::cout << "Writing " << bufToSend.c_str() << std::endl;
 					std::cout << "Length: " << bufToSend.size() << "(" << bufToSend.length() << ")" << std::endl;
