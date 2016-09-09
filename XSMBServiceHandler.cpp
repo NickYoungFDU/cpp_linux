@@ -119,7 +119,7 @@ namespace azure {
 				try {
 					boost::filesystem::ofstream fs;
 					
-					fs.open(file, boost::filesystem::fstream::app);
+					fs.open(file, boost::filesystem::fstream::ate);
 				
 					fs.write(bufToSend.c_str(), bufToSend.length());
 					
