@@ -914,41 +914,17 @@ uint32_t XSMBService_ReadFile_args::read(::apache::thrift::protocol::TProtocol* 
         }
         break;
       case 2:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->data.read(iprot);
-          this->__isset.data = true;
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->offset);
+          this->__isset.offset = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 3:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->noBuffering);
-          this->__isset.noBuffering = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_BYTE) {
-          xfer += iprot->readByte(this->fileVersion);
-          this->__isset.fileVersion = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 5:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->useVersionInData);
-          this->__isset.useVersionInData = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 6:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->keyName);
-          this->__isset.keyName = true;
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->count);
+          this->__isset.count = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -974,24 +950,12 @@ uint32_t XSMBService_ReadFile_args::write(::apache::thrift::protocol::TProtocol*
   xfer += oprot->writeString(this->filePath);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("data", ::apache::thrift::protocol::T_STRUCT, 2);
-  xfer += this->data.write(oprot);
+  xfer += oprot->writeFieldBegin("offset", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->offset);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("noBuffering", ::apache::thrift::protocol::T_BOOL, 3);
-  xfer += oprot->writeBool(this->noBuffering);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("fileVersion", ::apache::thrift::protocol::T_BYTE, 4);
-  xfer += oprot->writeByte(this->fileVersion);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("useVersionInData", ::apache::thrift::protocol::T_BOOL, 5);
-  xfer += oprot->writeBool(this->useVersionInData);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("keyName", ::apache::thrift::protocol::T_STRING, 6);
-  xfer += oprot->writeString(this->keyName);
+  xfer += oprot->writeFieldBegin("count", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeI64(this->count);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1014,24 +978,12 @@ uint32_t XSMBService_ReadFile_pargs::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeString((*(this->filePath)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("data", ::apache::thrift::protocol::T_STRUCT, 2);
-  xfer += (*(this->data)).write(oprot);
+  xfer += oprot->writeFieldBegin("offset", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64((*(this->offset)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("noBuffering", ::apache::thrift::protocol::T_BOOL, 3);
-  xfer += oprot->writeBool((*(this->noBuffering)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("fileVersion", ::apache::thrift::protocol::T_BYTE, 4);
-  xfer += oprot->writeByte((*(this->fileVersion)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("useVersionInData", ::apache::thrift::protocol::T_BOOL, 5);
-  xfer += oprot->writeBool((*(this->useVersionInData)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("keyName", ::apache::thrift::protocol::T_STRING, 6);
-  xfer += oprot->writeString((*(this->keyName)));
+  xfer += oprot->writeFieldBegin("count", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeI64((*(this->count)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1200,9 +1152,17 @@ uint32_t XSMBService_WriteFile_args::read(::apache::thrift::protocol::TProtocol*
         }
         break;
       case 2:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->offset);
+          this->__isset.offset = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->bufToSend);
-          this->__isset.bufToSend = true;
+          xfer += iprot->readString(this->buf);
+          this->__isset.buf = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1228,8 +1188,12 @@ uint32_t XSMBService_WriteFile_args::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeString(this->filePath);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("bufToSend", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString(this->bufToSend);
+  xfer += oprot->writeFieldBegin("offset", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->offset);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("buf", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->buf);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1252,8 +1216,12 @@ uint32_t XSMBService_WriteFile_pargs::write(::apache::thrift::protocol::TProtoco
   xfer += oprot->writeString((*(this->filePath)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("bufToSend", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString((*(this->bufToSend)));
+  xfer += oprot->writeFieldBegin("offset", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64((*(this->offset)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("buf", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->buf)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2387,24 +2355,21 @@ void XSMBServiceClient::recv_DeleteFile(LinuxFileResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "DeleteFile failed: unknown result");
 }
 
-void XSMBServiceClient::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName)
+void XSMBServiceClient::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count)
 {
-  send_ReadFile(filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+  send_ReadFile(filePath, offset, count);
   recv_ReadFile(_return);
 }
 
-void XSMBServiceClient::send_ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName)
+void XSMBServiceClient::send_ReadFile(const std::string& filePath, const int64_t offset, const int64_t count)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("ReadFile", ::apache::thrift::protocol::T_CALL, cseqid);
 
   XSMBService_ReadFile_pargs args;
   args.filePath = &filePath;
-  args.data = &data;
-  args.noBuffering = &noBuffering;
-  args.fileVersion = &fileVersion;
-  args.useVersionInData = &useVersionInData;
-  args.keyName = &keyName;
+  args.offset = &offset;
+  args.count = &count;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2453,20 +2418,21 @@ void XSMBServiceClient::recv_ReadFile(LinuxFileResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ReadFile failed: unknown result");
 }
 
-void XSMBServiceClient::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend)
+void XSMBServiceClient::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf)
 {
-  send_WriteFile(filePath, bufToSend);
+  send_WriteFile(filePath, offset, buf);
   recv_WriteFile(_return);
 }
 
-void XSMBServiceClient::send_WriteFile(const std::string& filePath, const std::string& bufToSend)
+void XSMBServiceClient::send_WriteFile(const std::string& filePath, const int64_t offset, const std::string& buf)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("WriteFile", ::apache::thrift::protocol::T_CALL, cseqid);
 
   XSMBService_WriteFile_pargs args;
   args.filePath = &filePath;
-  args.bufToSend = &bufToSend;
+  args.offset = &offset;
+  args.buf = &buf;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2972,7 +2938,7 @@ void XSMBServiceProcessor::process_ReadFile(int32_t seqid, ::apache::thrift::pro
 
   XSMBService_ReadFile_result result;
   try {
-    iface_->ReadFile(result.success, args.filePath, args.data, args.noBuffering, args.fileVersion, args.useVersionInData, args.keyName);
+    iface_->ReadFile(result.success, args.filePath, args.offset, args.count);
     result.__isset.success = true;
   } catch (LinuxFileException &linuxFileException) {
     result.linuxFileException = linuxFileException;
@@ -3029,7 +2995,7 @@ void XSMBServiceProcessor::process_WriteFile(int32_t seqid, ::apache::thrift::pr
 
   XSMBService_WriteFile_result result;
   try {
-    iface_->WriteFile(result.success, args.filePath, args.bufToSend);
+    iface_->WriteFile(result.success, args.filePath, args.offset, args.buf);
     result.__isset.success = true;
   } catch (LinuxFileException &linuxFileException) {
     result.linuxFileException = linuxFileException;

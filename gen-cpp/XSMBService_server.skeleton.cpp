@@ -42,12 +42,12 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("DeleteFile\n");
   }
 
-  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
     // Your implementation goes here
     printf("ReadFile\n");
   }
 
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend) {
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) {
     // Your implementation goes here
     printf("WriteFile\n");
   }

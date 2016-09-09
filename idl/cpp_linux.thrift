@@ -78,10 +78,10 @@ service XSMBService {
     LinuxFileResponse DeleteFile(1:string filePath)
                         throws (1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse ReadFile(1:string filePath, 2:StreamDataLayout data, 3:bool noBuffering, 4:byte fileVersion, 5:bool useVersionInData, 6:string keyName)
+    LinuxFileResponse ReadFile(1:string filePath, 2:i64 offset, 3:i64 count)
                         throws (1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse WriteFile(1:string filePath, 2:string bufToSend)
+    LinuxFileResponse WriteFile(1:string filePath, 2:i64 offset, 3:string buf)
                         throws (1:LinuxFileException linuxFileException),        
     
     LinuxFileResponse ListFiles(1:string dirPath, 2:bool isRecursive, 3:map<string, MatchInformation> files, 4:map<string, MatchInformation> dirs)

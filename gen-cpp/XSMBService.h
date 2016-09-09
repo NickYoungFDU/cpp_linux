@@ -19,8 +19,8 @@ class XSMBServiceIf {
   virtual void DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) = 0;
   virtual void CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) = 0;
   virtual void DeleteFile(LinuxFileResponse& _return, const std::string& filePath) = 0;
-  virtual void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) = 0;
-  virtual void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend) = 0;
+  virtual void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) = 0;
+  virtual void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) = 0;
   virtual void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
   virtual void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) = 0;
   virtual void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) = 0;
@@ -65,10 +65,10 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
   void DeleteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */) {
     return;
   }
-  void ReadFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const StreamDataLayout& /* data */, const bool /* noBuffering */, const int8_t /* fileVersion */, const bool /* useVersionInData */, const std::string& /* keyName */) {
+  void ReadFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* offset */, const int64_t /* count */) {
     return;
   }
-  void WriteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const std::string& /* bufToSend */) {
+  void WriteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* offset */, const std::string& /* buf */) {
     return;
   }
   void ListFiles(LinuxFileResponse& /* _return */, const std::string& /* dirPath */, const bool /* isRecursive */, const std::map<std::string, MatchInformation::type> & /* files */, const std::map<std::string, MatchInformation::type> & /* dirs */) {
@@ -616,61 +616,43 @@ class XSMBService_DeleteFile_presult {
 };
 
 typedef struct _XSMBService_ReadFile_args__isset {
-  _XSMBService_ReadFile_args__isset() : filePath(false), data(false), noBuffering(false), fileVersion(false), useVersionInData(false), keyName(false) {}
+  _XSMBService_ReadFile_args__isset() : filePath(false), offset(false), count(false) {}
   bool filePath :1;
-  bool data :1;
-  bool noBuffering :1;
-  bool fileVersion :1;
-  bool useVersionInData :1;
-  bool keyName :1;
+  bool offset :1;
+  bool count :1;
 } _XSMBService_ReadFile_args__isset;
 
 class XSMBService_ReadFile_args {
  public:
 
-  static const char* ascii_fingerprint; // = "A37B9CD06DE2019E86710553E3837C1C";
-  static const uint8_t binary_fingerprint[16]; // = {0xA3,0x7B,0x9C,0xD0,0x6D,0xE2,0x01,0x9E,0x86,0x71,0x05,0x53,0xE3,0x83,0x7C,0x1C};
+  static const char* ascii_fingerprint; // = "A4B0EC7D8E2C91B205150169F789382C";
+  static const uint8_t binary_fingerprint[16]; // = {0xA4,0xB0,0xEC,0x7D,0x8E,0x2C,0x91,0xB2,0x05,0x15,0x01,0x69,0xF7,0x89,0x38,0x2C};
 
   XSMBService_ReadFile_args(const XSMBService_ReadFile_args&);
   XSMBService_ReadFile_args& operator=(const XSMBService_ReadFile_args&);
-  XSMBService_ReadFile_args() : filePath(), noBuffering(0), fileVersion(0), useVersionInData(0), keyName() {
+  XSMBService_ReadFile_args() : filePath(), offset(0), count(0) {
   }
 
   virtual ~XSMBService_ReadFile_args() throw();
   std::string filePath;
-  StreamDataLayout data;
-  bool noBuffering;
-  int8_t fileVersion;
-  bool useVersionInData;
-  std::string keyName;
+  int64_t offset;
+  int64_t count;
 
   _XSMBService_ReadFile_args__isset __isset;
 
   void __set_filePath(const std::string& val);
 
-  void __set_data(const StreamDataLayout& val);
+  void __set_offset(const int64_t val);
 
-  void __set_noBuffering(const bool val);
-
-  void __set_fileVersion(const int8_t val);
-
-  void __set_useVersionInData(const bool val);
-
-  void __set_keyName(const std::string& val);
+  void __set_count(const int64_t val);
 
   bool operator == (const XSMBService_ReadFile_args & rhs) const
   {
     if (!(filePath == rhs.filePath))
       return false;
-    if (!(data == rhs.data))
+    if (!(offset == rhs.offset))
       return false;
-    if (!(noBuffering == rhs.noBuffering))
-      return false;
-    if (!(fileVersion == rhs.fileVersion))
-      return false;
-    if (!(useVersionInData == rhs.useVersionInData))
-      return false;
-    if (!(keyName == rhs.keyName))
+    if (!(count == rhs.count))
       return false;
     return true;
   }
@@ -690,17 +672,14 @@ class XSMBService_ReadFile_args {
 class XSMBService_ReadFile_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "A37B9CD06DE2019E86710553E3837C1C";
-  static const uint8_t binary_fingerprint[16]; // = {0xA3,0x7B,0x9C,0xD0,0x6D,0xE2,0x01,0x9E,0x86,0x71,0x05,0x53,0xE3,0x83,0x7C,0x1C};
+  static const char* ascii_fingerprint; // = "A4B0EC7D8E2C91B205150169F789382C";
+  static const uint8_t binary_fingerprint[16]; // = {0xA4,0xB0,0xEC,0x7D,0x8E,0x2C,0x91,0xB2,0x05,0x15,0x01,0x69,0xF7,0x89,0x38,0x2C};
 
 
   virtual ~XSMBService_ReadFile_pargs() throw();
   const std::string* filePath;
-  const StreamDataLayout* data;
-  const bool* noBuffering;
-  const int8_t* fileVersion;
-  const bool* useVersionInData;
-  const std::string* keyName;
+  const int64_t* offset;
+  const int64_t* count;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -779,37 +758,43 @@ class XSMBService_ReadFile_presult {
 };
 
 typedef struct _XSMBService_WriteFile_args__isset {
-  _XSMBService_WriteFile_args__isset() : filePath(false), bufToSend(false) {}
+  _XSMBService_WriteFile_args__isset() : filePath(false), offset(false), buf(false) {}
   bool filePath :1;
-  bool bufToSend :1;
+  bool offset :1;
+  bool buf :1;
 } _XSMBService_WriteFile_args__isset;
 
 class XSMBService_WriteFile_args {
  public:
 
-  static const char* ascii_fingerprint; // = "07A9615F837F7D0A952B595DD3020972";
-  static const uint8_t binary_fingerprint[16]; // = {0x07,0xA9,0x61,0x5F,0x83,0x7F,0x7D,0x0A,0x95,0x2B,0x59,0x5D,0xD3,0x02,0x09,0x72};
+  static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
+  static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
 
   XSMBService_WriteFile_args(const XSMBService_WriteFile_args&);
   XSMBService_WriteFile_args& operator=(const XSMBService_WriteFile_args&);
-  XSMBService_WriteFile_args() : filePath(), bufToSend() {
+  XSMBService_WriteFile_args() : filePath(), offset(0), buf() {
   }
 
   virtual ~XSMBService_WriteFile_args() throw();
   std::string filePath;
-  std::string bufToSend;
+  int64_t offset;
+  std::string buf;
 
   _XSMBService_WriteFile_args__isset __isset;
 
   void __set_filePath(const std::string& val);
 
-  void __set_bufToSend(const std::string& val);
+  void __set_offset(const int64_t val);
+
+  void __set_buf(const std::string& val);
 
   bool operator == (const XSMBService_WriteFile_args & rhs) const
   {
     if (!(filePath == rhs.filePath))
       return false;
-    if (!(bufToSend == rhs.bufToSend))
+    if (!(offset == rhs.offset))
+      return false;
+    if (!(buf == rhs.buf))
       return false;
     return true;
   }
@@ -829,13 +814,14 @@ class XSMBService_WriteFile_args {
 class XSMBService_WriteFile_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "07A9615F837F7D0A952B595DD3020972";
-  static const uint8_t binary_fingerprint[16]; // = {0x07,0xA9,0x61,0x5F,0x83,0x7F,0x7D,0x0A,0x95,0x2B,0x59,0x5D,0xD3,0x02,0x09,0x72};
+  static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
+  static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
 
 
   virtual ~XSMBService_WriteFile_pargs() throw();
   const std::string* filePath;
-  const std::string* bufToSend;
+  const int64_t* offset;
+  const std::string* buf;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1362,11 +1348,11 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   void DeleteFile(LinuxFileResponse& _return, const std::string& filePath);
   void send_DeleteFile(const std::string& filePath);
   void recv_DeleteFile(LinuxFileResponse& _return);
-  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
-  void send_ReadFile(const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
+  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count);
+  void send_ReadFile(const std::string& filePath, const int64_t offset, const int64_t count);
   void recv_ReadFile(LinuxFileResponse& _return);
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend);
-  void send_WriteFile(const std::string& filePath, const std::string& bufToSend);
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf);
+  void send_WriteFile(const std::string& filePath, const int64_t offset, const std::string& buf);
   void recv_WriteFile(LinuxFileResponse& _return);
   void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
   void send_ListFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
@@ -1481,23 +1467,23 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+  void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ReadFile(_return, filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+      ifaces_[i]->ReadFile(_return, filePath, offset, count);
     }
-    ifaces_[i]->ReadFile(_return, filePath, data, noBuffering, fileVersion, useVersionInData, keyName);
+    ifaces_[i]->ReadFile(_return, filePath, offset, count);
     return;
   }
 
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend) {
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->WriteFile(_return, filePath, bufToSend);
+      ifaces_[i]->WriteFile(_return, filePath, offset, buf);
     }
-    ifaces_[i]->WriteFile(_return, filePath, bufToSend);
+    ifaces_[i]->WriteFile(_return, filePath, offset, buf);
     return;
   }
 

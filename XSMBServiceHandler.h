@@ -33,9 +33,9 @@ namespace azure {
 
 				void DeleteFile(LinuxFileResponse& _return, const std::string& filePath);
 
-				void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName);
+				void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count);
 
-				void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend);
+				void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf);
 
 				void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
 

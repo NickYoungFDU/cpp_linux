@@ -108,12 +108,12 @@ namespace azure {
 				return;
 			}
 
-			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const StreamDataLayout& data, const bool noBuffering, const int8_t fileVersion, const bool useVersionInData, const std::string& keyName) {
+			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
 				printf("ReadFile\n");
 				return;
 			}
 
-			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const std::string& bufToSend) {
+			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) {
 				printf("WriteFile\n");
 				//boost::filesystem::path file(filePath);
 				try {
@@ -126,15 +126,19 @@ namespace azure {
 					
 					fs.close();
 					*/
-					std::fstream outfile;
-					outfile.open(filePath.c_str());
+					std::fstream fs;
+					fs.open(filePath.c_str());
+					/* Debug information
 					std::cout << "Opening " << filePath.c_str() << std::endl;
 					std::cout << "Writing " << bufToSend.c_str() << std::endl;
 					std::cout << "Length: " << bufToSend.size() << "(" << bufToSend.length() << ")" << std::endl;
 					std::cout << "Current Position: " << outfile.tellp() << std::endl;
-					outfile.write(bufToSend.c_str(), bufToSend.length());					
+					*/
+					fs.seekp(offset);
 
-					outfile.close();
+					fs.write(buf.c_str(), buf.length());					
+
+					fs.close();
 
 					SetResponse(_return, true, "Successfully write to " + filePath);
 				}
