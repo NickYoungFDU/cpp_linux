@@ -117,6 +117,7 @@ namespace azure {
 				printf("WriteFile\n");
 				//boost::filesystem::path file(filePath);
 				try {
+					/*
 					std::ofstream fs;
 					
 					fs.open(filePath.c_str());
@@ -124,6 +125,17 @@ namespace azure {
 					fs.write(bufToSend.c_str(), bufToSend.length());
 					
 					fs.close();
+					*/
+					std::ofstream outfile;
+					outfile.open("exp.txt");
+
+					outfile.write("This is an apple", 16);
+					long pos = outfile.tellp();
+					outfile.seekp(pos - 7);
+					outfile.write(" sam", 4);
+
+					outfile.close();
+
 					SetResponse(_return, true, "Successfully write to " + filePath);
 				}
 				catch (const std::exception& ex) {
