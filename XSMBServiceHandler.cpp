@@ -126,15 +126,13 @@ namespace azure {
 					
 					fs.close();
 					*/
-					std::ofstream outfile;
-					outfile.open(filePath.c_str(), std::ios::in);
+					std::fstream outfile;
+					outfile.open(filePath.c_str());
 					std::cout << "Opening " << filePath.c_str() << std::endl;
 					std::cout << "Writing " << bufToSend.c_str() << std::endl;
 					std::cout << "Length: " << bufToSend.size() << "(" << bufToSend.length() << ")" << std::endl;
 					std::cout << "Current Position: " << outfile.tellp() << std::endl;
-					outfile.write(bufToSend.c_str(), bufToSend.length());
-					outfile.seekp((long)outfile.tellp() - 5);
-					outfile.write("mark", 4);
+					outfile.write(bufToSend.c_str(), bufToSend.length());					
 
 					outfile.close();
 
