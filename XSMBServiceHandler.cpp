@@ -127,12 +127,13 @@ namespace azure {
 					fs.close();
 					*/
 					std::ofstream outfile;
-					outfile.open("/home/xufyan/exp.txt");
-
-					outfile.write("This is an apple", 16);
-					long pos = outfile.tellp();
-					outfile.seekp(pos - 7);
-					outfile.write(" sam", 4);
+					outfile.open(filePath.c_str());
+					std::cout << "Opening " << filePath.c_str() << std::endl;
+					std::cout << "Writing " << bufToSend.c_str() << std::endl;
+					std::cout << "Length: " << bufToSend.size() << "(" << bufToSend.length() << ")" << std::endl;
+					std::cout << "Current Position: " << outfile.tellp() << std::endl;
+					outfile.write(bufToSend.c_str(), bufToSend.length());
+					
 
 					outfile.close();
 
