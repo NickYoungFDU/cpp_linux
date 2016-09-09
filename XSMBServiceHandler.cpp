@@ -127,7 +127,7 @@ namespace azure {
 					fs.close();
 					*/
 					std::ofstream outfile;
-					outfile.open("exp.txt");
+					outfile.open("/home/xufyan/exp.txt");
 
 					outfile.write("This is an apple", 16);
 					long pos = outfile.tellp();
