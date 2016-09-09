@@ -119,7 +119,7 @@ namespace azure {
 				try {
 					std::ofstream fs;
 					
-					fs.open(filePath);
+					fs.open(filePath.c_str());
 					fs.seekp(0, std::ios_base::end);
 					fs.write(bufToSend.c_str(), bufToSend.length());
 					
