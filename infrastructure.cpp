@@ -16,6 +16,14 @@ namespace azure {
 				linuxFileException.Type = type;
 				return linuxFileException;
 			}
+
+			std::string IntToString(int64_t integer) {
+				std::string result;
+				std::ostringstream convert;
+				convert << integer;
+				result = convert.str();
+				return result;
+			}
 		}
 	}
 }

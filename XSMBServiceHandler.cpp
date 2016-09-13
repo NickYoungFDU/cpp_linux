@@ -118,15 +118,18 @@ namespace azure {
 
 					fs.seekg(offset, fs.beg);
 
-					fs.read(buffer, count);
+					fs.read(buffer, count);					
 
 					std::string buffer_string = std::string(buffer);
+
+					std::string bytes_read = IntToString(fs.gcount());
 
 					SetResponse(_return, true, "Successfully read from file " + filePath);
 
 					std::map<std::string, std::string> additional_info;
 					_return.__set_AdditionalInfo(additional_info);
 					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("bufferString", buffer_string));
+					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("bytesRead", bytes_read);
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::ReadFile);
