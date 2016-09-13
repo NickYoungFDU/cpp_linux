@@ -128,8 +128,8 @@ namespace azure {
 
 					std::map<std::string, std::string> additional_info;
 					_return.__set_AdditionalInfo(additional_info);
-					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("bufferString", buffer_string));
-					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("bytesRead", bytes_read));
+					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BufferString", buffer_string));
+					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read));
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::ReadFile);
