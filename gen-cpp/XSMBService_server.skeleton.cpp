@@ -47,7 +47,7 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("ReadFile\n");
   }
 
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) {
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count) {
     // Your implementation goes here
     printf("WriteFile\n");
   }
@@ -57,7 +57,7 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("ListFiles\n");
   }
 
-  void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) {
+  void GetFileLength(LinuxFileResponse& _return, const std::string& filePath) {
     // Your implementation goes here
     printf("GetFileLength\n");
   }

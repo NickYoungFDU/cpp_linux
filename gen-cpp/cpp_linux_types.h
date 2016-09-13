@@ -48,131 +48,9 @@ struct OperationType {
 
 extern const std::map<int, const char*> _OperationType_VALUES_TO_NAMES;
 
-class ChunkInfo;
-
-class StreamDataLayout;
-
 class LinuxFileException;
 
 class LinuxFileResponse;
-
-class GetFileLengthResponse;
-
-typedef struct _ChunkInfo__isset {
-  _ChunkInfo__isset() : OffSet(false), Length(false), Version(false), IsNullDataWritten(false), IsCorrupted(false) {}
-  bool OffSet :1;
-  bool Length :1;
-  bool Version :1;
-  bool IsNullDataWritten :1;
-  bool IsCorrupted :1;
-} _ChunkInfo__isset;
-
-class ChunkInfo {
- public:
-
-  static const char* ascii_fingerprint; // = "2D1F7C9D7EF060322343EC2AB2852351";
-  static const uint8_t binary_fingerprint[16]; // = {0x2D,0x1F,0x7C,0x9D,0x7E,0xF0,0x60,0x32,0x23,0x43,0xEC,0x2A,0xB2,0x85,0x23,0x51};
-
-  ChunkInfo(const ChunkInfo&);
-  ChunkInfo& operator=(const ChunkInfo&);
-  ChunkInfo() : OffSet(0), Length(0), Version(0), IsNullDataWritten(0), IsCorrupted(0) {
-  }
-
-  virtual ~ChunkInfo() throw();
-  int64_t OffSet;
-  int32_t Length;
-  int8_t Version;
-  bool IsNullDataWritten;
-  bool IsCorrupted;
-
-  _ChunkInfo__isset __isset;
-
-  void __set_OffSet(const int64_t val);
-
-  void __set_Length(const int32_t val);
-
-  void __set_Version(const int8_t val);
-
-  void __set_IsNullDataWritten(const bool val);
-
-  void __set_IsCorrupted(const bool val);
-
-  bool operator == (const ChunkInfo & rhs) const
-  {
-    if (!(OffSet == rhs.OffSet))
-      return false;
-    if (!(Length == rhs.Length))
-      return false;
-    if (!(Version == rhs.Version))
-      return false;
-    if (!(IsNullDataWritten == rhs.IsNullDataWritten))
-      return false;
-    if (!(IsCorrupted == rhs.IsCorrupted))
-      return false;
-    return true;
-  }
-  bool operator != (const ChunkInfo &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const ChunkInfo & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const ChunkInfo& obj);
-};
-
-void swap(ChunkInfo &a, ChunkInfo &b);
-
-typedef struct _StreamDataLayout__isset {
-  _StreamDataLayout__isset() : Chunks(false), Length(false) {}
-  bool Chunks :1;
-  bool Length :1;
-} _StreamDataLayout__isset;
-
-class StreamDataLayout {
- public:
-
-  static const char* ascii_fingerprint; // = "80E1C3D0F6200FD3585FF05B5D9711A9";
-  static const uint8_t binary_fingerprint[16]; // = {0x80,0xE1,0xC3,0xD0,0xF6,0x20,0x0F,0xD3,0x58,0x5F,0xF0,0x5B,0x5D,0x97,0x11,0xA9};
-
-  StreamDataLayout(const StreamDataLayout&);
-  StreamDataLayout& operator=(const StreamDataLayout&);
-  StreamDataLayout() : Length(0) {
-  }
-
-  virtual ~StreamDataLayout() throw();
-  std::vector<ChunkInfo>  Chunks;
-  int64_t Length;
-
-  _StreamDataLayout__isset __isset;
-
-  void __set_Chunks(const std::vector<ChunkInfo> & val);
-
-  void __set_Length(const int64_t val);
-
-  bool operator == (const StreamDataLayout & rhs) const
-  {
-    if (!(Chunks == rhs.Chunks))
-      return false;
-    if (!(Length == rhs.Length))
-      return false;
-    return true;
-  }
-  bool operator != (const StreamDataLayout &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const StreamDataLayout & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const StreamDataLayout& obj);
-};
-
-void swap(StreamDataLayout &a, StreamDataLayout &b);
 
 typedef struct _LinuxFileException__isset {
   _LinuxFileException__isset() : AdditionalInfo(false) {}
@@ -230,19 +108,20 @@ class LinuxFileException : public ::apache::thrift::TException {
 void swap(LinuxFileException &a, LinuxFileException &b);
 
 typedef struct _LinuxFileResponse__isset {
-  _LinuxFileResponse__isset() : AdditionalInfo(false) {}
+  _LinuxFileResponse__isset() : AdditionalInfo(false), Buffer(false) {}
   bool AdditionalInfo :1;
+  bool Buffer :1;
 } _LinuxFileResponse__isset;
 
 class LinuxFileResponse {
  public:
 
-  static const char* ascii_fingerprint; // = "EACFD21C18460944F3286BC9BC524B32";
-  static const uint8_t binary_fingerprint[16]; // = {0xEA,0xCF,0xD2,0x1C,0x18,0x46,0x09,0x44,0xF3,0x28,0x6B,0xC9,0xBC,0x52,0x4B,0x32};
+  static const char* ascii_fingerprint; // = "1078773DA8EE999B3618DACAB4C9A10B";
+  static const uint8_t binary_fingerprint[16]; // = {0x10,0x78,0x77,0x3D,0xA8,0xEE,0x99,0x9B,0x36,0x18,0xDA,0xCA,0xB4,0xC9,0xA1,0x0B};
 
   LinuxFileResponse(const LinuxFileResponse&);
   LinuxFileResponse& operator=(const LinuxFileResponse&);
-  LinuxFileResponse() : Success(0), ResponseMessage(), Type((OperationType::type)0) {
+  LinuxFileResponse() : Success(0), ResponseMessage(), Type((OperationType::type)0), Buffer() {
   }
 
   virtual ~LinuxFileResponse() throw();
@@ -250,6 +129,7 @@ class LinuxFileResponse {
   std::string ResponseMessage;
   OperationType::type Type;
   std::map<std::string, std::string>  AdditionalInfo;
+  std::string Buffer;
 
   _LinuxFileResponse__isset __isset;
 
@@ -260,6 +140,8 @@ class LinuxFileResponse {
   void __set_Type(const OperationType::type val);
 
   void __set_AdditionalInfo(const std::map<std::string, std::string> & val);
+
+  void __set_Buffer(const std::string& val);
 
   bool operator == (const LinuxFileResponse & rhs) const
   {
@@ -272,6 +154,10 @@ class LinuxFileResponse {
     if (__isset.AdditionalInfo != rhs.__isset.AdditionalInfo)
       return false;
     else if (__isset.AdditionalInfo && !(AdditionalInfo == rhs.AdditionalInfo))
+      return false;
+    if (__isset.Buffer != rhs.__isset.Buffer)
+      return false;
+    else if (__isset.Buffer && !(Buffer == rhs.Buffer))
       return false;
     return true;
   }
@@ -288,61 +174,6 @@ class LinuxFileResponse {
 };
 
 void swap(LinuxFileResponse &a, LinuxFileResponse &b);
-
-typedef struct _GetFileLengthResponse__isset {
-  _GetFileLengthResponse__isset() : ErrorMessage(false) {}
-  bool ErrorMessage :1;
-} _GetFileLengthResponse__isset;
-
-class GetFileLengthResponse {
- public:
-
-  static const char* ascii_fingerprint; // = "047A24EC93E49ED134CB8CA922D4BAFD";
-  static const uint8_t binary_fingerprint[16]; // = {0x04,0x7A,0x24,0xEC,0x93,0xE4,0x9E,0xD1,0x34,0xCB,0x8C,0xA9,0x22,0xD4,0xBA,0xFD};
-
-  GetFileLengthResponse(const GetFileLengthResponse&);
-  GetFileLengthResponse& operator=(const GetFileLengthResponse&);
-  GetFileLengthResponse() : FileLength(0), Success(0), ErrorMessage() {
-  }
-
-  virtual ~GetFileLengthResponse() throw();
-  int64_t FileLength;
-  bool Success;
-  std::string ErrorMessage;
-
-  _GetFileLengthResponse__isset __isset;
-
-  void __set_FileLength(const int64_t val);
-
-  void __set_Success(const bool val);
-
-  void __set_ErrorMessage(const std::string& val);
-
-  bool operator == (const GetFileLengthResponse & rhs) const
-  {
-    if (!(FileLength == rhs.FileLength))
-      return false;
-    if (!(Success == rhs.Success))
-      return false;
-    if (__isset.ErrorMessage != rhs.__isset.ErrorMessage)
-      return false;
-    else if (__isset.ErrorMessage && !(ErrorMessage == rhs.ErrorMessage))
-      return false;
-    return true;
-  }
-  bool operator != (const GetFileLengthResponse &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const GetFileLengthResponse & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-  friend std::ostream& operator<<(std::ostream& out, const GetFileLengthResponse& obj);
-};
-
-void swap(GetFileLengthResponse &a, GetFileLengthResponse &b);
 
 }}} // namespace
 

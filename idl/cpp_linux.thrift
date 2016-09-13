@@ -4,19 +4,6 @@
 namespace csharp Microsoft.Azure.Storage.CppLinux
 namespace cpp azure.storage.cpp_linux
 
-struct ChunkInfo {
-    1:i64   OffSet,
-    2:i32   Length,
-    3:byte  Version,
-    4:bool  IsNullDataWritten,
-    5:bool  IsCorrupted
-}
-
-struct StreamDataLayout {
-    1:list<ChunkInfo> Chunks,
-    2:i64 Length    
-}
-
 enum MatchInformation {
     OnlyOnServer = 1, 
     OnlyInKeys = 2, 
@@ -49,12 +36,7 @@ struct LinuxFileResponse {
     2: required string ResponseMessage,
     3: required OperationType Type,
     4: optional map<string, string> AdditionalInfo
-}
-
-struct GetFileLengthResponse {
-    1: required i64 FileLength,
-    2: required bool Success, 
-    3: optional string ErrorMessage
+    5: optional binary Buffer
 }
 
 service FileShareService {   
@@ -81,13 +63,13 @@ service XSMBService {
     LinuxFileResponse ReadFile(1:string filePath, 2:i64 offset, 3:i64 count)
                         throws (1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse WriteFile(1:string filePath, 2:i64 offset, 3:string buf)
+    LinuxFileResponse WriteFile(1:string filePath, 2:i64 offset, 3:binary buffer, 4:i64 count)
                         throws (1:LinuxFileException linuxFileException),        
     
     LinuxFileResponse ListFiles(1:string dirPath, 2:bool isRecursive, 3:map<string, MatchInformation> files, 4:map<string, MatchInformation> dirs)
                         throws (1:LinuxFileException linuxFileException),
     
-    GetFileLengthResponse GetFileLength(1:string filePath) throws (1:LinuxFileException linuxFileException),
+    LinuxFileResponse GetFileLength(1:string filePath) throws (1:LinuxFileException linuxFileException),
     
     LinuxFileResponse SetFileLength(1:string filePath, 2:i64 fileLength) 
                         throws (1:LinuxFileException linuxFileException)

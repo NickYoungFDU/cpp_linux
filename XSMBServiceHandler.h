@@ -35,11 +35,11 @@ namespace azure {
 
 				void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count);
 
-				void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf);
+				void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count);
 
 				void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
 
-				void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath);
+				void GetFileLength(LinuxFileResponse& _return, const std::string& filePath);
 
 				void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
 

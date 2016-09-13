@@ -111,6 +111,10 @@ namespace azure {
 			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
 				printf("ReadFile\n");
 
+				char test[] = {(char)97, (char)98, (char)0, (char)99};
+				std::string test_str = std::string(test);
+				std::cout << test_str.length() << std::endl;
+
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
@@ -118,7 +122,7 @@ namespace azure {
 					}
 					else {
 						std::fstream fs;
-						fs.open(filePath.c_str(), std::ios::in);
+						fs.open(filePath.c_str(), std::ios::in | std::ios::binary);
 
 						char* buffer = new char[count];
 
@@ -132,13 +136,14 @@ namespace azure {
 
 						std::cout << "bytes_read: [" << bytes_read << "]" << std::endl;
 						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
-						std::cout << "buffer: [" << buffer << "]" << std::endl;
+						std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
 
 						SetResponse(_return, true, "Successfully read from file " + filePath);
 
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);
-						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BufferString", buffer_string));
+						//_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BufferString", buffer_string));
+						_return.Buffer = buffer_string;
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read));
 					}
 				}
@@ -148,7 +153,7 @@ namespace azure {
 				return;
 			}
 
-			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) {
+			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count) {
 				printf("WriteFile\n");
 				boost::filesystem::path file(filePath);
 				try {
@@ -166,7 +171,8 @@ namespace azure {
 						fs.close();
 						*/
 						std::fstream fs;
-						fs.open(filePath.c_str());
+						fs.open(filePath.c_str(), std::ios::binary);
+						
 						/* Debug information
 						std::cout << "Opening " << filePath.c_str() << std::endl;
 						std::cout << "Writing " << bufToSend.c_str() << std::endl;
@@ -175,7 +181,7 @@ namespace azure {
 						*/
 						fs.seekp(offset);
 
-						fs.write(buf.c_str(), buf.length());
+						fs.write(buffer.c_str(), buffer.length());
 
 						fs.close();
 
@@ -216,18 +222,22 @@ namespace azure {
 				return;
 			}
 
-			void XSMBServiceHandler::GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) {
+			void XSMBServiceHandler::GetFileLength(LinuxFileResponse& _return, const std::string& filePath) {
 				printf("GetFileLength\n");
 				boost::filesystem::path file(filePath);				
 				try {
-					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {						
-						_return.FileLength = (int64_t)boost::filesystem::file_size(file);
-						_return.Success = true;							
+					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {			
+						SetResponse(_return, true, "Successfully get file length for " + filePath);
+
+						int64_t file_size =  (int64_t)boost::filesystem::file_size(file);
+						std::string file_size_string = IntToString(file_size);
+
+						std::map<std::string, std::string> additional_info;
+						_return.__set_AdditionalInfo(additional_info);
+						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("FileLength", file_size_string));						
 					}
 					else {
-						_return.FileLength = -1;
-						_return.Success = false;
-						_return.ErrorMessage = filePath + " does not exist or is not a file";
+						SetResponse(_return, false, filePath + " does not exist or is not a file");
 					}
 				}
 				catch (const std::exception& ex) {

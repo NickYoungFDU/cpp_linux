@@ -56,306 +56,6 @@ const char* _kOperationTypeNames[] = {
 const std::map<int, const char*> _OperationType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(11, _kOperationTypeValues, _kOperationTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 
-ChunkInfo::~ChunkInfo() throw() {
-}
-
-
-void ChunkInfo::__set_OffSet(const int64_t val) {
-  this->OffSet = val;
-}
-
-void ChunkInfo::__set_Length(const int32_t val) {
-  this->Length = val;
-}
-
-void ChunkInfo::__set_Version(const int8_t val) {
-  this->Version = val;
-}
-
-void ChunkInfo::__set_IsNullDataWritten(const bool val) {
-  this->IsNullDataWritten = val;
-}
-
-void ChunkInfo::__set_IsCorrupted(const bool val) {
-  this->IsCorrupted = val;
-}
-
-const char* ChunkInfo::ascii_fingerprint = "2D1F7C9D7EF060322343EC2AB2852351";
-const uint8_t ChunkInfo::binary_fingerprint[16] = {0x2D,0x1F,0x7C,0x9D,0x7E,0xF0,0x60,0x32,0x23,0x43,0xEC,0x2A,0xB2,0x85,0x23,0x51};
-
-uint32_t ChunkInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->OffSet);
-          this->__isset.OffSet = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->Length);
-          this->__isset.Length = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_BYTE) {
-          xfer += iprot->readByte(this->Version);
-          this->__isset.Version = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->IsNullDataWritten);
-          this->__isset.IsNullDataWritten = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 5:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->IsCorrupted);
-          this->__isset.IsCorrupted = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t ChunkInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("ChunkInfo");
-
-  xfer += oprot->writeFieldBegin("OffSet", ::apache::thrift::protocol::T_I64, 1);
-  xfer += oprot->writeI64(this->OffSet);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("Length", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->Length);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("Version", ::apache::thrift::protocol::T_BYTE, 3);
-  xfer += oprot->writeByte(this->Version);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("IsNullDataWritten", ::apache::thrift::protocol::T_BOOL, 4);
-  xfer += oprot->writeBool(this->IsNullDataWritten);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("IsCorrupted", ::apache::thrift::protocol::T_BOOL, 5);
-  xfer += oprot->writeBool(this->IsCorrupted);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-void swap(ChunkInfo &a, ChunkInfo &b) {
-  using ::std::swap;
-  swap(a.OffSet, b.OffSet);
-  swap(a.Length, b.Length);
-  swap(a.Version, b.Version);
-  swap(a.IsNullDataWritten, b.IsNullDataWritten);
-  swap(a.IsCorrupted, b.IsCorrupted);
-  swap(a.__isset, b.__isset);
-}
-
-ChunkInfo::ChunkInfo(const ChunkInfo& other0) {
-  OffSet = other0.OffSet;
-  Length = other0.Length;
-  Version = other0.Version;
-  IsNullDataWritten = other0.IsNullDataWritten;
-  IsCorrupted = other0.IsCorrupted;
-  __isset = other0.__isset;
-}
-ChunkInfo& ChunkInfo::operator=(const ChunkInfo& other1) {
-  OffSet = other1.OffSet;
-  Length = other1.Length;
-  Version = other1.Version;
-  IsNullDataWritten = other1.IsNullDataWritten;
-  IsCorrupted = other1.IsCorrupted;
-  __isset = other1.__isset;
-  return *this;
-}
-std::ostream& operator<<(std::ostream& out, const ChunkInfo& obj) {
-  using apache::thrift::to_string;
-  out << "ChunkInfo(";
-  out << "OffSet=" << to_string(obj.OffSet);
-  out << ", " << "Length=" << to_string(obj.Length);
-  out << ", " << "Version=" << to_string(obj.Version);
-  out << ", " << "IsNullDataWritten=" << to_string(obj.IsNullDataWritten);
-  out << ", " << "IsCorrupted=" << to_string(obj.IsCorrupted);
-  out << ")";
-  return out;
-}
-
-
-StreamDataLayout::~StreamDataLayout() throw() {
-}
-
-
-void StreamDataLayout::__set_Chunks(const std::vector<ChunkInfo> & val) {
-  this->Chunks = val;
-}
-
-void StreamDataLayout::__set_Length(const int64_t val) {
-  this->Length = val;
-}
-
-const char* StreamDataLayout::ascii_fingerprint = "80E1C3D0F6200FD3585FF05B5D9711A9";
-const uint8_t StreamDataLayout::binary_fingerprint[16] = {0x80,0xE1,0xC3,0xD0,0xF6,0x20,0x0F,0xD3,0x58,0x5F,0xF0,0x5B,0x5D,0x97,0x11,0xA9};
-
-uint32_t StreamDataLayout::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_LIST) {
-          {
-            this->Chunks.clear();
-            uint32_t _size2;
-            ::apache::thrift::protocol::TType _etype5;
-            xfer += iprot->readListBegin(_etype5, _size2);
-            this->Chunks.resize(_size2);
-            uint32_t _i6;
-            for (_i6 = 0; _i6 < _size2; ++_i6)
-            {
-              xfer += this->Chunks[_i6].read(iprot);
-            }
-            xfer += iprot->readListEnd();
-          }
-          this->__isset.Chunks = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->Length);
-          this->__isset.Length = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t StreamDataLayout::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("StreamDataLayout");
-
-  xfer += oprot->writeFieldBegin("Chunks", ::apache::thrift::protocol::T_LIST, 1);
-  {
-    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Chunks.size()));
-    std::vector<ChunkInfo> ::const_iterator _iter7;
-    for (_iter7 = this->Chunks.begin(); _iter7 != this->Chunks.end(); ++_iter7)
-    {
-      xfer += (*_iter7).write(oprot);
-    }
-    xfer += oprot->writeListEnd();
-  }
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("Length", ::apache::thrift::protocol::T_I64, 2);
-  xfer += oprot->writeI64(this->Length);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-void swap(StreamDataLayout &a, StreamDataLayout &b) {
-  using ::std::swap;
-  swap(a.Chunks, b.Chunks);
-  swap(a.Length, b.Length);
-  swap(a.__isset, b.__isset);
-}
-
-StreamDataLayout::StreamDataLayout(const StreamDataLayout& other8) {
-  Chunks = other8.Chunks;
-  Length = other8.Length;
-  __isset = other8.__isset;
-}
-StreamDataLayout& StreamDataLayout::operator=(const StreamDataLayout& other9) {
-  Chunks = other9.Chunks;
-  Length = other9.Length;
-  __isset = other9.__isset;
-  return *this;
-}
-std::ostream& operator<<(std::ostream& out, const StreamDataLayout& obj) {
-  using apache::thrift::to_string;
-  out << "StreamDataLayout(";
-  out << "Chunks=" << to_string(obj.Chunks);
-  out << ", " << "Length=" << to_string(obj.Length);
-  out << ")";
-  return out;
-}
-
-
 LinuxFileException::~LinuxFileException() throw() {
 }
 
@@ -408,9 +108,9 @@ uint32_t LinuxFileException::read(::apache::thrift::protocol::TProtocol* iprot) 
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast10;
-          xfer += iprot->readI32(ecast10);
-          this->Type = (OperationType::type)ecast10;
+          int32_t ecast0;
+          xfer += iprot->readI32(ecast0);
+          this->Type = (OperationType::type)ecast0;
           isset_Type = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -420,17 +120,17 @@ uint32_t LinuxFileException::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->AdditionalInfo.clear();
-            uint32_t _size11;
-            ::apache::thrift::protocol::TType _ktype12;
-            ::apache::thrift::protocol::TType _vtype13;
-            xfer += iprot->readMapBegin(_ktype12, _vtype13, _size11);
-            uint32_t _i15;
-            for (_i15 = 0; _i15 < _size11; ++_i15)
+            uint32_t _size1;
+            ::apache::thrift::protocol::TType _ktype2;
+            ::apache::thrift::protocol::TType _vtype3;
+            xfer += iprot->readMapBegin(_ktype2, _vtype3, _size1);
+            uint32_t _i5;
+            for (_i5 = 0; _i5 < _size1; ++_i5)
             {
-              std::string _key16;
-              xfer += iprot->readString(_key16);
-              std::string& _val17 = this->AdditionalInfo[_key16];
-              xfer += iprot->readString(_val17);
+              std::string _key6;
+              xfer += iprot->readString(_key6);
+              std::string& _val7 = this->AdditionalInfo[_key6];
+              xfer += iprot->readString(_val7);
             }
             xfer += iprot->readMapEnd();
           }
@@ -472,11 +172,11 @@ uint32_t LinuxFileException::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("AdditionalInfo", ::apache::thrift::protocol::T_MAP, 3);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->AdditionalInfo.size()));
-      std::map<std::string, std::string> ::const_iterator _iter18;
-      for (_iter18 = this->AdditionalInfo.begin(); _iter18 != this->AdditionalInfo.end(); ++_iter18)
+      std::map<std::string, std::string> ::const_iterator _iter8;
+      for (_iter8 = this->AdditionalInfo.begin(); _iter8 != this->AdditionalInfo.end(); ++_iter8)
       {
-        xfer += oprot->writeString(_iter18->first);
-        xfer += oprot->writeString(_iter18->second);
+        xfer += oprot->writeString(_iter8->first);
+        xfer += oprot->writeString(_iter8->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -496,17 +196,17 @@ void swap(LinuxFileException &a, LinuxFileException &b) {
   swap(a.__isset, b.__isset);
 }
 
-LinuxFileException::LinuxFileException(const LinuxFileException& other19) : TException() {
-  ErrorMessage = other19.ErrorMessage;
-  Type = other19.Type;
-  AdditionalInfo = other19.AdditionalInfo;
-  __isset = other19.__isset;
+LinuxFileException::LinuxFileException(const LinuxFileException& other9) : TException() {
+  ErrorMessage = other9.ErrorMessage;
+  Type = other9.Type;
+  AdditionalInfo = other9.AdditionalInfo;
+  __isset = other9.__isset;
 }
-LinuxFileException& LinuxFileException::operator=(const LinuxFileException& other20) {
-  ErrorMessage = other20.ErrorMessage;
-  Type = other20.Type;
-  AdditionalInfo = other20.AdditionalInfo;
-  __isset = other20.__isset;
+LinuxFileException& LinuxFileException::operator=(const LinuxFileException& other10) {
+  ErrorMessage = other10.ErrorMessage;
+  Type = other10.Type;
+  AdditionalInfo = other10.AdditionalInfo;
+  __isset = other10.__isset;
   return *this;
 }
 std::ostream& operator<<(std::ostream& out, const LinuxFileException& obj) {
@@ -541,8 +241,13 @@ void LinuxFileResponse::__set_AdditionalInfo(const std::map<std::string, std::st
 __isset.AdditionalInfo = true;
 }
 
-const char* LinuxFileResponse::ascii_fingerprint = "EACFD21C18460944F3286BC9BC524B32";
-const uint8_t LinuxFileResponse::binary_fingerprint[16] = {0xEA,0xCF,0xD2,0x1C,0x18,0x46,0x09,0x44,0xF3,0x28,0x6B,0xC9,0xBC,0x52,0x4B,0x32};
+void LinuxFileResponse::__set_Buffer(const std::string& val) {
+  this->Buffer = val;
+__isset.Buffer = true;
+}
+
+const char* LinuxFileResponse::ascii_fingerprint = "1078773DA8EE999B3618DACAB4C9A10B";
+const uint8_t LinuxFileResponse::binary_fingerprint[16] = {0x10,0x78,0x77,0x3D,0xA8,0xEE,0x99,0x9B,0x36,0x18,0xDA,0xCA,0xB4,0xC9,0xA1,0x0B};
 
 uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -585,9 +290,9 @@ uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
         break;
       case 3:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast21;
-          xfer += iprot->readI32(ecast21);
-          this->Type = (OperationType::type)ecast21;
+          int32_t ecast11;
+          xfer += iprot->readI32(ecast11);
+          this->Type = (OperationType::type)ecast11;
           isset_Type = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -597,21 +302,29 @@ uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->AdditionalInfo.clear();
-            uint32_t _size22;
-            ::apache::thrift::protocol::TType _ktype23;
-            ::apache::thrift::protocol::TType _vtype24;
-            xfer += iprot->readMapBegin(_ktype23, _vtype24, _size22);
-            uint32_t _i26;
-            for (_i26 = 0; _i26 < _size22; ++_i26)
+            uint32_t _size12;
+            ::apache::thrift::protocol::TType _ktype13;
+            ::apache::thrift::protocol::TType _vtype14;
+            xfer += iprot->readMapBegin(_ktype13, _vtype14, _size12);
+            uint32_t _i16;
+            for (_i16 = 0; _i16 < _size12; ++_i16)
             {
-              std::string _key27;
-              xfer += iprot->readString(_key27);
-              std::string& _val28 = this->AdditionalInfo[_key27];
-              xfer += iprot->readString(_val28);
+              std::string _key17;
+              xfer += iprot->readString(_key17);
+              std::string& _val18 = this->AdditionalInfo[_key17];
+              xfer += iprot->readString(_val18);
             }
             xfer += iprot->readMapEnd();
           }
           this->__isset.AdditionalInfo = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readBinary(this->Buffer);
+          this->__isset.Buffer = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -655,14 +368,19 @@ uint32_t LinuxFileResponse::write(::apache::thrift::protocol::TProtocol* oprot) 
     xfer += oprot->writeFieldBegin("AdditionalInfo", ::apache::thrift::protocol::T_MAP, 4);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->AdditionalInfo.size()));
-      std::map<std::string, std::string> ::const_iterator _iter29;
-      for (_iter29 = this->AdditionalInfo.begin(); _iter29 != this->AdditionalInfo.end(); ++_iter29)
+      std::map<std::string, std::string> ::const_iterator _iter19;
+      for (_iter19 = this->AdditionalInfo.begin(); _iter19 != this->AdditionalInfo.end(); ++_iter19)
       {
-        xfer += oprot->writeString(_iter29->first);
-        xfer += oprot->writeString(_iter29->second);
+        xfer += oprot->writeString(_iter19->first);
+        xfer += oprot->writeString(_iter19->second);
       }
       xfer += oprot->writeMapEnd();
     }
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.Buffer) {
+    xfer += oprot->writeFieldBegin("Buffer", ::apache::thrift::protocol::T_STRING, 5);
+    xfer += oprot->writeBinary(this->Buffer);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -677,22 +395,25 @@ void swap(LinuxFileResponse &a, LinuxFileResponse &b) {
   swap(a.ResponseMessage, b.ResponseMessage);
   swap(a.Type, b.Type);
   swap(a.AdditionalInfo, b.AdditionalInfo);
+  swap(a.Buffer, b.Buffer);
   swap(a.__isset, b.__isset);
 }
 
-LinuxFileResponse::LinuxFileResponse(const LinuxFileResponse& other30) {
-  Success = other30.Success;
-  ResponseMessage = other30.ResponseMessage;
-  Type = other30.Type;
-  AdditionalInfo = other30.AdditionalInfo;
-  __isset = other30.__isset;
+LinuxFileResponse::LinuxFileResponse(const LinuxFileResponse& other20) {
+  Success = other20.Success;
+  ResponseMessage = other20.ResponseMessage;
+  Type = other20.Type;
+  AdditionalInfo = other20.AdditionalInfo;
+  Buffer = other20.Buffer;
+  __isset = other20.__isset;
 }
-LinuxFileResponse& LinuxFileResponse::operator=(const LinuxFileResponse& other31) {
-  Success = other31.Success;
-  ResponseMessage = other31.ResponseMessage;
-  Type = other31.Type;
-  AdditionalInfo = other31.AdditionalInfo;
-  __isset = other31.__isset;
+LinuxFileResponse& LinuxFileResponse::operator=(const LinuxFileResponse& other21) {
+  Success = other21.Success;
+  ResponseMessage = other21.ResponseMessage;
+  Type = other21.Type;
+  AdditionalInfo = other21.AdditionalInfo;
+  Buffer = other21.Buffer;
+  __isset = other21.__isset;
   return *this;
 }
 std::ostream& operator<<(std::ostream& out, const LinuxFileResponse& obj) {
@@ -702,144 +423,7 @@ std::ostream& operator<<(std::ostream& out, const LinuxFileResponse& obj) {
   out << ", " << "ResponseMessage=" << to_string(obj.ResponseMessage);
   out << ", " << "Type=" << to_string(obj.Type);
   out << ", " << "AdditionalInfo="; (obj.__isset.AdditionalInfo ? (out << to_string(obj.AdditionalInfo)) : (out << "<null>"));
-  out << ")";
-  return out;
-}
-
-
-GetFileLengthResponse::~GetFileLengthResponse() throw() {
-}
-
-
-void GetFileLengthResponse::__set_FileLength(const int64_t val) {
-  this->FileLength = val;
-}
-
-void GetFileLengthResponse::__set_Success(const bool val) {
-  this->Success = val;
-}
-
-void GetFileLengthResponse::__set_ErrorMessage(const std::string& val) {
-  this->ErrorMessage = val;
-__isset.ErrorMessage = true;
-}
-
-const char* GetFileLengthResponse::ascii_fingerprint = "047A24EC93E49ED134CB8CA922D4BAFD";
-const uint8_t GetFileLengthResponse::binary_fingerprint[16] = {0x04,0x7A,0x24,0xEC,0x93,0xE4,0x9E,0xD1,0x34,0xCB,0x8C,0xA9,0x22,0xD4,0xBA,0xFD};
-
-uint32_t GetFileLengthResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-  bool isset_FileLength = false;
-  bool isset_Success = false;
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->FileLength);
-          isset_FileLength = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->Success);
-          isset_Success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->ErrorMessage);
-          this->__isset.ErrorMessage = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  if (!isset_FileLength)
-    throw TProtocolException(TProtocolException::INVALID_DATA);
-  if (!isset_Success)
-    throw TProtocolException(TProtocolException::INVALID_DATA);
-  return xfer;
-}
-
-uint32_t GetFileLengthResponse::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  oprot->incrementRecursionDepth();
-  xfer += oprot->writeStructBegin("GetFileLengthResponse");
-
-  xfer += oprot->writeFieldBegin("FileLength", ::apache::thrift::protocol::T_I64, 1);
-  xfer += oprot->writeI64(this->FileLength);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("Success", ::apache::thrift::protocol::T_BOOL, 2);
-  xfer += oprot->writeBool(this->Success);
-  xfer += oprot->writeFieldEnd();
-
-  if (this->__isset.ErrorMessage) {
-    xfer += oprot->writeFieldBegin("ErrorMessage", ::apache::thrift::protocol::T_STRING, 3);
-    xfer += oprot->writeString(this->ErrorMessage);
-    xfer += oprot->writeFieldEnd();
-  }
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  oprot->decrementRecursionDepth();
-  return xfer;
-}
-
-void swap(GetFileLengthResponse &a, GetFileLengthResponse &b) {
-  using ::std::swap;
-  swap(a.FileLength, b.FileLength);
-  swap(a.Success, b.Success);
-  swap(a.ErrorMessage, b.ErrorMessage);
-  swap(a.__isset, b.__isset);
-}
-
-GetFileLengthResponse::GetFileLengthResponse(const GetFileLengthResponse& other32) {
-  FileLength = other32.FileLength;
-  Success = other32.Success;
-  ErrorMessage = other32.ErrorMessage;
-  __isset = other32.__isset;
-}
-GetFileLengthResponse& GetFileLengthResponse::operator=(const GetFileLengthResponse& other33) {
-  FileLength = other33.FileLength;
-  Success = other33.Success;
-  ErrorMessage = other33.ErrorMessage;
-  __isset = other33.__isset;
-  return *this;
-}
-std::ostream& operator<<(std::ostream& out, const GetFileLengthResponse& obj) {
-  using apache::thrift::to_string;
-  out << "GetFileLengthResponse(";
-  out << "FileLength=" << to_string(obj.FileLength);
-  out << ", " << "Success=" << to_string(obj.Success);
-  out << ", " << "ErrorMessage="; (obj.__isset.ErrorMessage ? (out << to_string(obj.ErrorMessage)) : (out << "<null>"));
+  out << ", " << "Buffer="; (obj.__isset.Buffer ? (out << to_string(obj.Buffer)) : (out << "<null>"));
   out << ")";
   return out;
 }

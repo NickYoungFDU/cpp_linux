@@ -20,9 +20,9 @@ class XSMBServiceIf {
   virtual void CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) = 0;
   virtual void DeleteFile(LinuxFileResponse& _return, const std::string& filePath) = 0;
   virtual void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) = 0;
-  virtual void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) = 0;
+  virtual void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count) = 0;
   virtual void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
-  virtual void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) = 0;
+  virtual void GetFileLength(LinuxFileResponse& _return, const std::string& filePath) = 0;
   virtual void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) = 0;
 };
 
@@ -68,13 +68,13 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
   void ReadFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* offset */, const int64_t /* count */) {
     return;
   }
-  void WriteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* offset */, const std::string& /* buf */) {
+  void WriteFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* offset */, const std::string& /* buffer */, const int64_t /* count */) {
     return;
   }
   void ListFiles(LinuxFileResponse& /* _return */, const std::string& /* dirPath */, const bool /* isRecursive */, const std::map<std::string, MatchInformation::type> & /* files */, const std::map<std::string, MatchInformation::type> & /* dirs */) {
     return;
   }
-  void GetFileLength(GetFileLengthResponse& /* _return */, const std::string& /* filePath */) {
+  void GetFileLength(LinuxFileResponse& /* _return */, const std::string& /* filePath */) {
     return;
   }
   void SetFileLength(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* fileLength */) {
@@ -148,8 +148,8 @@ typedef struct _XSMBService_CreateDirectory_result__isset {
 class XSMBService_CreateDirectory_result {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_CreateDirectory_result(const XSMBService_CreateDirectory_result&);
   XSMBService_CreateDirectory_result& operator=(const XSMBService_CreateDirectory_result&);
@@ -195,8 +195,8 @@ typedef struct _XSMBService_CreateDirectory_presult__isset {
 class XSMBService_CreateDirectory_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_CreateDirectory_presult() throw();
@@ -283,8 +283,8 @@ typedef struct _XSMBService_DeleteDirectory_result__isset {
 class XSMBService_DeleteDirectory_result {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_DeleteDirectory_result(const XSMBService_DeleteDirectory_result&);
   XSMBService_DeleteDirectory_result& operator=(const XSMBService_DeleteDirectory_result&);
@@ -330,8 +330,8 @@ typedef struct _XSMBService_DeleteDirectory_presult__isset {
 class XSMBService_DeleteDirectory_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_DeleteDirectory_presult() throw();
@@ -425,8 +425,8 @@ typedef struct _XSMBService_CreateFile_result__isset {
 class XSMBService_CreateFile_result {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_CreateFile_result(const XSMBService_CreateFile_result&);
   XSMBService_CreateFile_result& operator=(const XSMBService_CreateFile_result&);
@@ -472,8 +472,8 @@ typedef struct _XSMBService_CreateFile_presult__isset {
 class XSMBService_CreateFile_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_CreateFile_presult() throw();
@@ -553,8 +553,8 @@ typedef struct _XSMBService_DeleteFile_result__isset {
 class XSMBService_DeleteFile_result {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_DeleteFile_result(const XSMBService_DeleteFile_result&);
   XSMBService_DeleteFile_result& operator=(const XSMBService_DeleteFile_result&);
@@ -600,8 +600,8 @@ typedef struct _XSMBService_DeleteFile_presult__isset {
 class XSMBService_DeleteFile_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_DeleteFile_presult() throw();
@@ -695,8 +695,8 @@ typedef struct _XSMBService_ReadFile_result__isset {
 class XSMBService_ReadFile_result {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_ReadFile_result(const XSMBService_ReadFile_result&);
   XSMBService_ReadFile_result& operator=(const XSMBService_ReadFile_result&);
@@ -742,8 +742,8 @@ typedef struct _XSMBService_ReadFile_presult__isset {
 class XSMBService_ReadFile_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_ReadFile_presult() throw();
@@ -758,27 +758,29 @@ class XSMBService_ReadFile_presult {
 };
 
 typedef struct _XSMBService_WriteFile_args__isset {
-  _XSMBService_WriteFile_args__isset() : filePath(false), offset(false), buf(false) {}
+  _XSMBService_WriteFile_args__isset() : filePath(false), offset(false), buffer(false), count(false) {}
   bool filePath :1;
   bool offset :1;
-  bool buf :1;
+  bool buffer :1;
+  bool count :1;
 } _XSMBService_WriteFile_args__isset;
 
 class XSMBService_WriteFile_args {
  public:
 
-  static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
-  static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
+  static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
+  static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
 
   XSMBService_WriteFile_args(const XSMBService_WriteFile_args&);
   XSMBService_WriteFile_args& operator=(const XSMBService_WriteFile_args&);
-  XSMBService_WriteFile_args() : filePath(), offset(0), buf() {
+  XSMBService_WriteFile_args() : filePath(), offset(0), buffer(), count(0) {
   }
 
   virtual ~XSMBService_WriteFile_args() throw();
   std::string filePath;
   int64_t offset;
-  std::string buf;
+  std::string buffer;
+  int64_t count;
 
   _XSMBService_WriteFile_args__isset __isset;
 
@@ -786,7 +788,9 @@ class XSMBService_WriteFile_args {
 
   void __set_offset(const int64_t val);
 
-  void __set_buf(const std::string& val);
+  void __set_buffer(const std::string& val);
+
+  void __set_count(const int64_t val);
 
   bool operator == (const XSMBService_WriteFile_args & rhs) const
   {
@@ -794,7 +798,9 @@ class XSMBService_WriteFile_args {
       return false;
     if (!(offset == rhs.offset))
       return false;
-    if (!(buf == rhs.buf))
+    if (!(buffer == rhs.buffer))
+      return false;
+    if (!(count == rhs.count))
       return false;
     return true;
   }
@@ -814,14 +820,15 @@ class XSMBService_WriteFile_args {
 class XSMBService_WriteFile_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "FA35BEC6F4D26D79A7E0AD1366489BCC";
-  static const uint8_t binary_fingerprint[16]; // = {0xFA,0x35,0xBE,0xC6,0xF4,0xD2,0x6D,0x79,0xA7,0xE0,0xAD,0x13,0x66,0x48,0x9B,0xCC};
+  static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
+  static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
 
 
   virtual ~XSMBService_WriteFile_pargs() throw();
   const std::string* filePath;
   const int64_t* offset;
-  const std::string* buf;
+  const std::string* buffer;
+  const int64_t* count;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -837,8 +844,8 @@ typedef struct _XSMBService_WriteFile_result__isset {
 class XSMBService_WriteFile_result {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_WriteFile_result(const XSMBService_WriteFile_result&);
   XSMBService_WriteFile_result& operator=(const XSMBService_WriteFile_result&);
@@ -884,8 +891,8 @@ typedef struct _XSMBService_WriteFile_presult__isset {
 class XSMBService_WriteFile_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_WriteFile_presult() throw();
@@ -986,8 +993,8 @@ typedef struct _XSMBService_ListFiles_result__isset {
 class XSMBService_ListFiles_result {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_ListFiles_result(const XSMBService_ListFiles_result&);
   XSMBService_ListFiles_result& operator=(const XSMBService_ListFiles_result&);
@@ -1033,8 +1040,8 @@ typedef struct _XSMBService_ListFiles_presult__isset {
 class XSMBService_ListFiles_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_ListFiles_presult() throw();
@@ -1114,8 +1121,8 @@ typedef struct _XSMBService_GetFileLength_result__isset {
 class XSMBService_GetFileLength_result {
  public:
 
-  static const char* ascii_fingerprint; // = "B4EB9D3CA0A68165D0777127092F425C";
-  static const uint8_t binary_fingerprint[16]; // = {0xB4,0xEB,0x9D,0x3C,0xA0,0xA6,0x81,0x65,0xD0,0x77,0x71,0x27,0x09,0x2F,0x42,0x5C};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_GetFileLength_result(const XSMBService_GetFileLength_result&);
   XSMBService_GetFileLength_result& operator=(const XSMBService_GetFileLength_result&);
@@ -1123,12 +1130,12 @@ class XSMBService_GetFileLength_result {
   }
 
   virtual ~XSMBService_GetFileLength_result() throw();
-  GetFileLengthResponse success;
+  LinuxFileResponse success;
   LinuxFileException linuxFileException;
 
   _XSMBService_GetFileLength_result__isset __isset;
 
-  void __set_success(const GetFileLengthResponse& val);
+  void __set_success(const LinuxFileResponse& val);
 
   void __set_linuxFileException(const LinuxFileException& val);
 
@@ -1161,12 +1168,12 @@ typedef struct _XSMBService_GetFileLength_presult__isset {
 class XSMBService_GetFileLength_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "B4EB9D3CA0A68165D0777127092F425C";
-  static const uint8_t binary_fingerprint[16]; // = {0xB4,0xEB,0x9D,0x3C,0xA0,0xA6,0x81,0x65,0xD0,0x77,0x71,0x27,0x09,0x2F,0x42,0x5C};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_GetFileLength_presult() throw();
-  GetFileLengthResponse* success;
+  LinuxFileResponse* success;
   LinuxFileException linuxFileException;
 
   _XSMBService_GetFileLength_presult__isset __isset;
@@ -1249,8 +1256,8 @@ typedef struct _XSMBService_SetFileLength_result__isset {
 class XSMBService_SetFileLength_result {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
   XSMBService_SetFileLength_result(const XSMBService_SetFileLength_result&);
   XSMBService_SetFileLength_result& operator=(const XSMBService_SetFileLength_result&);
@@ -1296,8 +1303,8 @@ typedef struct _XSMBService_SetFileLength_presult__isset {
 class XSMBService_SetFileLength_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "ACEF167A387B2A5EA3E03B91E107CA4D";
-  static const uint8_t binary_fingerprint[16]; // = {0xAC,0xEF,0x16,0x7A,0x38,0x7B,0x2A,0x5E,0xA3,0xE0,0x3B,0x91,0xE1,0x07,0xCA,0x4D};
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
 
 
   virtual ~XSMBService_SetFileLength_presult() throw();
@@ -1351,15 +1358,15 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   void ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count);
   void send_ReadFile(const std::string& filePath, const int64_t offset, const int64_t count);
   void recv_ReadFile(LinuxFileResponse& _return);
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf);
-  void send_WriteFile(const std::string& filePath, const int64_t offset, const std::string& buf);
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count);
+  void send_WriteFile(const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count);
   void recv_WriteFile(LinuxFileResponse& _return);
   void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
   void send_ListFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs);
   void recv_ListFiles(LinuxFileResponse& _return);
-  void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath);
+  void GetFileLength(LinuxFileResponse& _return, const std::string& filePath);
   void send_GetFileLength(const std::string& filePath);
-  void recv_GetFileLength(GetFileLengthResponse& _return);
+  void recv_GetFileLength(LinuxFileResponse& _return);
   void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
   void send_SetFileLength(const std::string& filePath, const int64_t fileLength);
   void recv_SetFileLength(LinuxFileResponse& _return);
@@ -1477,13 +1484,13 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) {
+  void WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->WriteFile(_return, filePath, offset, buf);
+      ifaces_[i]->WriteFile(_return, filePath, offset, buffer, count);
     }
-    ifaces_[i]->WriteFile(_return, filePath, offset, buf);
+    ifaces_[i]->WriteFile(_return, filePath, offset, buffer, count);
     return;
   }
 
@@ -1497,7 +1504,7 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void GetFileLength(GetFileLengthResponse& _return, const std::string& filePath) {
+  void GetFileLength(LinuxFileResponse& _return, const std::string& filePath) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
