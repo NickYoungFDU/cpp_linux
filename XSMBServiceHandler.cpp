@@ -110,6 +110,25 @@ namespace azure {
 
 			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
 				printf("ReadFile\n");
+				try {
+					std::fstream fs;
+					fs.open(filePath.c_str(), std::ios::in);
+
+					char* buffer = new char[count];
+
+					fs.seekg(offset, fs.beg);
+
+					fs.read(buffer, count);
+
+					std::string buffer_string = std::string(buffer);
+
+					SetResponse(_return, true, "Successfully read from file " + filePath);
+
+					_return.AdditionalInfo.emplace("bufferString", buffer_string);
+				}
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::ReadFile);
+				}
 				return;
 			}
 
@@ -127,7 +146,7 @@ namespace azure {
 					fs.close();
 					*/
 					std::fstream fs;
-					fs.open(filePath.c_str());
+					fs.open(filePath.c_str());					
 					/* Debug information
 					std::cout << "Opening " << filePath.c_str() << std::endl;
 					std::cout << "Writing " << bufToSend.c_str() << std::endl;
