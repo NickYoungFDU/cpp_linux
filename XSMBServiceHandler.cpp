@@ -127,8 +127,12 @@ namespace azure {
 						fs.read(buffer, count);
 
 						std::string buffer_string = std::string(buffer);
-
+						
 						std::string bytes_read = IntToString(fs.gcount());
+
+						std::cout << "bytes_read: [" << bytes_read << "]" << std::endl;
+						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
+						std::cout << "buffer: [" << buffer << "]" << std::endl;
 
 						SetResponse(_return, true, "Successfully read from file " + filePath);
 
