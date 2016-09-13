@@ -155,6 +155,7 @@ namespace azure {
 
 			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count) {
 				printf("WriteFile\n");
+				std::cout << "buffer.length() - [" << buffer.length() << "]" << std::endl;
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
