@@ -124,6 +124,8 @@ namespace azure {
 
 					SetResponse(_return, true, buffer_string);
 
+					std::map<std::string, std::string> additional_info;
+					_return.__set_AdditionalInfo(additional_info);
 					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("bufferString", buffer_string));
 				}
 				catch (const std::exception& ex) {
