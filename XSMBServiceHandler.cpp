@@ -110,26 +110,33 @@ namespace azure {
 
 			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
 				printf("ReadFile\n");
+
+				boost::filesystem::path file(filePath);
 				try {
-					std::fstream fs;
-					fs.open(filePath.c_str(), std::ios::in);
+					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
+						SetResponse(_return, false, filePath + " does not exist or is not a file");
+					}
+					else {
+						std::fstream fs;
+						fs.open(filePath.c_str(), std::ios::in);
 
-					char* buffer = new char[count];
+						char* buffer = new char[count];
 
-					fs.seekg(offset, fs.beg);
+						fs.seekg(offset, fs.beg);
 
-					fs.read(buffer, count);					
+						fs.read(buffer, count);
 
-					std::string buffer_string = std::string(buffer);
+						std::string buffer_string = std::string(buffer);
 
-					std::string bytes_read = IntToString(fs.gcount());
+						std::string bytes_read = IntToString(fs.gcount());
 
-					SetResponse(_return, true, "Successfully read from file " + filePath);
+						SetResponse(_return, true, "Successfully read from file " + filePath);
 
-					std::map<std::string, std::string> additional_info;
-					_return.__set_AdditionalInfo(additional_info);
-					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BufferString", buffer_string));
-					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read));
+						std::map<std::string, std::string> additional_info;
+						_return.__set_AdditionalInfo(additional_info);
+						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BufferString", buffer_string));
+						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read));
+					}
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::ReadFile);
@@ -139,32 +146,37 @@ namespace azure {
 
 			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buf) {
 				printf("WriteFile\n");
-				//boost::filesystem::path file(filePath);
+				boost::filesystem::path file(filePath);
 				try {
-					/*
-					std::ofstream fs;
-					
-					fs.open(filePath.c_str());
-					fs.seekp(0, std::ios_base::end);
-					fs.write(bufToSend.c_str(), bufToSend.length());
-					
-					fs.close();
-					*/
-					std::fstream fs;
-					fs.open(filePath.c_str());					
-					/* Debug information
-					std::cout << "Opening " << filePath.c_str() << std::endl;
-					std::cout << "Writing " << bufToSend.c_str() << std::endl;
-					std::cout << "Length: " << bufToSend.size() << "(" << bufToSend.length() << ")" << std::endl;
-					std::cout << "Current Position: " << outfile.tellp() << std::endl;
-					*/
-					fs.seekp(offset);
+					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
+						SetResponse(_return, false, filePath + " does not exist or is not a file");
+					}
+					else {
+						/*
+						std::ofstream fs;
 
-					fs.write(buf.c_str(), buf.length());					
+						fs.open(filePath.c_str());
+						fs.seekp(0, std::ios_base::end);
+						fs.write(bufToSend.c_str(), bufToSend.length());
 
-					fs.close();
+						fs.close();
+						*/
+						std::fstream fs;
+						fs.open(filePath.c_str());
+						/* Debug information
+						std::cout << "Opening " << filePath.c_str() << std::endl;
+						std::cout << "Writing " << bufToSend.c_str() << std::endl;
+						std::cout << "Length: " << bufToSend.size() << "(" << bufToSend.length() << ")" << std::endl;
+						std::cout << "Current Position: " << outfile.tellp() << std::endl;
+						*/
+						fs.seekp(offset);
 
-					SetResponse(_return, true, "Successfully write to " + filePath);
+						fs.write(buf.c_str(), buf.length());
+
+						fs.close();
+
+						SetResponse(_return, true, "Successfully write to " + filePath);
+					}
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::WriteFile);
