@@ -124,7 +124,7 @@ namespace azure {
 
 					SetResponse(_return, true, "Successfully read from file " + filePath);
 
-					_return.AdditionalInfo.emplace("bufferString", buffer_string);
+					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("bufferString", buffer_string));
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::ReadFile);
