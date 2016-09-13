@@ -122,7 +122,7 @@ namespace azure {
 
 					std::string buffer_string = std::string(buffer);
 
-					SetResponse(_return, true, buffer_string);
+					SetResponse(_return, true, "Successfully read from file " + filePath);
 
 					std::map<std::string, std::string> additional_info;
 					_return.__set_AdditionalInfo(additional_info);
