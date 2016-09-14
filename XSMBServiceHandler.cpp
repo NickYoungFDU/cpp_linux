@@ -130,11 +130,13 @@ namespace azure {
 
 						fs.read(buffer, count);
 
-						std::string buffer_string = std::string(buffer, count);
-						
-						std::string bytes_read = IntToString(fs.gcount());
+						int64_t bytes_read = fs.gcount();
 
-						std::cout << "bytes_read: [" << bytes_read << "]" << std::endl;
+						std::string bytes_read_string = IntToString(bytes_read);
+
+						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);												
+
+						std::cout << "bytes_read: [" << bytes_read_string << "]" << std::endl;
 						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
 						std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
 
@@ -144,7 +146,7 @@ namespace azure {
 						_return.__set_AdditionalInfo(additional_info);
 						//_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BufferString", buffer_string));
 						_return.__set_Buffer(buffer_string);
-						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read));
+						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read_string));
 					}
 				}
 				catch (const std::exception& ex) {
