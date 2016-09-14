@@ -145,10 +145,9 @@ namespace azure {
 						SetResponse(_return, true, "Successfully read from file " + filePath);
 
 						std::map<std::string, std::string> additional_info;
-						_return.__set_AdditionalInfo(additional_info);
-						//_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BufferString", buffer_string));
-						_return.__set_Buffer(buffer_string);
+						_return.__set_AdditionalInfo(additional_info);												
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read_string));
+						_return.__set_Buffer(buffer_string);
 					}
 				}
 				catch (const std::exception& ex) {
