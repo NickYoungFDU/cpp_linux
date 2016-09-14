@@ -143,7 +143,7 @@ namespace azure {
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);
 						//_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BufferString", buffer_string));
-						_return.Buffer = "how can it be?!";
+						_return.__set_Buffer(std::string("sign..."));
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read));
 					}
 				}
