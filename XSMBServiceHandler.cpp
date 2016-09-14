@@ -122,7 +122,7 @@ namespace azure {
 					}
 					else {
 						std::fstream fs;
-						fs.open(filePath.c_str(), std::ios::in | std::ios::binary);
+						fs.open(filePath.c_str(), std::ios::in);
 
 						char* buffer = new char[count];
 
@@ -172,7 +172,7 @@ namespace azure {
 						fs.close();
 						*/
 						std::fstream fs;
-						fs.open(filePath.c_str(), std::ios::binary);
+						fs.open(filePath.c_str());
 						
 						/* Debug information
 						std::cout << "Opening " << filePath.c_str() << std::endl;
