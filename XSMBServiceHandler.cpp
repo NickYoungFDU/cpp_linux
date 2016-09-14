@@ -140,6 +140,8 @@ namespace azure {
 						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
 						std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
 
+						fs.close();
+
 						SetResponse(_return, true, "Successfully read from file " + filePath);
 
 						std::map<std::string, std::string> additional_info;
@@ -164,24 +166,9 @@ namespace azure {
 						SetResponse(_return, false, filePath + " does not exist or is not a file");
 					}
 					else {
-						/*
-						std::ofstream fs;
-
-						fs.open(filePath.c_str());
-						fs.seekp(0, std::ios_base::end);
-						fs.write(bufToSend.c_str(), bufToSend.length());
-
-						fs.close();
-						*/
 						std::fstream fs;
 						fs.open(filePath.c_str());
-						
-						/* Debug information
-						std::cout << "Opening " << filePath.c_str() << std::endl;
-						std::cout << "Writing " << bufToSend.c_str() << std::endl;
-						std::cout << "Length: " << bufToSend.size() << "(" << bufToSend.length() << ")" << std::endl;
-						std::cout << "Current Position: " << outfile.tellp() << std::endl;
-						*/
+
 						fs.seekp(offset);
 
 						fs.write(buffer.c_str(), buffer.length());
