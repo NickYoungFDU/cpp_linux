@@ -130,7 +130,7 @@ namespace azure {
 
 						fs.read(buffer, count);
 
-						std::string buffer_string = std::string(buffer);
+						std::string buffer_string = std::string(buffer, count);
 						
 						std::string bytes_read = IntToString(fs.gcount());
 
