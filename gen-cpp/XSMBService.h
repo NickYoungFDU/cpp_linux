@@ -24,6 +24,8 @@ class XSMBServiceIf {
   virtual void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
   virtual void GetFileLength(LinuxFileResponse& _return, const std::string& filePath) = 0;
   virtual void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) = 0;
+  virtual void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath) = 0;
+  virtual void CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor) = 0;
 };
 
 class XSMBServiceIfFactory {
@@ -78,6 +80,12 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
     return;
   }
   void SetFileLength(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* fileLength */) {
+    return;
+  }
+  void OpenFileHandle(LinuxFileResponse& /* _return */, const std::string& /* filePath */) {
+    return;
+  }
+  void CloseFileHandle(LinuxFileResponse& /* _return */, const int32_t /* fileDescriptor */) {
     return;
   }
 };
@@ -1318,6 +1326,262 @@ class XSMBService_SetFileLength_presult {
   friend std::ostream& operator<<(std::ostream& out, const XSMBService_SetFileLength_presult& obj);
 };
 
+typedef struct _XSMBService_OpenFileHandle_args__isset {
+  _XSMBService_OpenFileHandle_args__isset() : filePath(false) {}
+  bool filePath :1;
+} _XSMBService_OpenFileHandle_args__isset;
+
+class XSMBService_OpenFileHandle_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
+  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+
+  XSMBService_OpenFileHandle_args(const XSMBService_OpenFileHandle_args&);
+  XSMBService_OpenFileHandle_args& operator=(const XSMBService_OpenFileHandle_args&);
+  XSMBService_OpenFileHandle_args() : filePath() {
+  }
+
+  virtual ~XSMBService_OpenFileHandle_args() throw();
+  std::string filePath;
+
+  _XSMBService_OpenFileHandle_args__isset __isset;
+
+  void __set_filePath(const std::string& val);
+
+  bool operator == (const XSMBService_OpenFileHandle_args & rhs) const
+  {
+    if (!(filePath == rhs.filePath))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_OpenFileHandle_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_OpenFileHandle_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_OpenFileHandle_args& obj);
+};
+
+
+class XSMBService_OpenFileHandle_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
+  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+
+
+  virtual ~XSMBService_OpenFileHandle_pargs() throw();
+  const std::string* filePath;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_OpenFileHandle_pargs& obj);
+};
+
+typedef struct _XSMBService_OpenFileHandle_result__isset {
+  _XSMBService_OpenFileHandle_result__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_OpenFileHandle_result__isset;
+
+class XSMBService_OpenFileHandle_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
+
+  XSMBService_OpenFileHandle_result(const XSMBService_OpenFileHandle_result&);
+  XSMBService_OpenFileHandle_result& operator=(const XSMBService_OpenFileHandle_result&);
+  XSMBService_OpenFileHandle_result() {
+  }
+
+  virtual ~XSMBService_OpenFileHandle_result() throw();
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_OpenFileHandle_result__isset __isset;
+
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
+
+  bool operator == (const XSMBService_OpenFileHandle_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_OpenFileHandle_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_OpenFileHandle_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_OpenFileHandle_result& obj);
+};
+
+typedef struct _XSMBService_OpenFileHandle_presult__isset {
+  _XSMBService_OpenFileHandle_presult__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_OpenFileHandle_presult__isset;
+
+class XSMBService_OpenFileHandle_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
+
+
+  virtual ~XSMBService_OpenFileHandle_presult() throw();
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_OpenFileHandle_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_OpenFileHandle_presult& obj);
+};
+
+typedef struct _XSMBService_CloseFileHandle_args__isset {
+  _XSMBService_CloseFileHandle_args__isset() : fileDescriptor(false) {}
+  bool fileDescriptor :1;
+} _XSMBService_CloseFileHandle_args__isset;
+
+class XSMBService_CloseFileHandle_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "E86CACEB22240450EDCBEFC3A83970E4";
+  static const uint8_t binary_fingerprint[16]; // = {0xE8,0x6C,0xAC,0xEB,0x22,0x24,0x04,0x50,0xED,0xCB,0xEF,0xC3,0xA8,0x39,0x70,0xE4};
+
+  XSMBService_CloseFileHandle_args(const XSMBService_CloseFileHandle_args&);
+  XSMBService_CloseFileHandle_args& operator=(const XSMBService_CloseFileHandle_args&);
+  XSMBService_CloseFileHandle_args() : fileDescriptor(0) {
+  }
+
+  virtual ~XSMBService_CloseFileHandle_args() throw();
+  int32_t fileDescriptor;
+
+  _XSMBService_CloseFileHandle_args__isset __isset;
+
+  void __set_fileDescriptor(const int32_t val);
+
+  bool operator == (const XSMBService_CloseFileHandle_args & rhs) const
+  {
+    if (!(fileDescriptor == rhs.fileDescriptor))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_CloseFileHandle_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_CloseFileHandle_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_CloseFileHandle_args& obj);
+};
+
+
+class XSMBService_CloseFileHandle_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "E86CACEB22240450EDCBEFC3A83970E4";
+  static const uint8_t binary_fingerprint[16]; // = {0xE8,0x6C,0xAC,0xEB,0x22,0x24,0x04,0x50,0xED,0xCB,0xEF,0xC3,0xA8,0x39,0x70,0xE4};
+
+
+  virtual ~XSMBService_CloseFileHandle_pargs() throw();
+  const int32_t* fileDescriptor;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_CloseFileHandle_pargs& obj);
+};
+
+typedef struct _XSMBService_CloseFileHandle_result__isset {
+  _XSMBService_CloseFileHandle_result__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_CloseFileHandle_result__isset;
+
+class XSMBService_CloseFileHandle_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
+
+  XSMBService_CloseFileHandle_result(const XSMBService_CloseFileHandle_result&);
+  XSMBService_CloseFileHandle_result& operator=(const XSMBService_CloseFileHandle_result&);
+  XSMBService_CloseFileHandle_result() {
+  }
+
+  virtual ~XSMBService_CloseFileHandle_result() throw();
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_CloseFileHandle_result__isset __isset;
+
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
+
+  bool operator == (const XSMBService_CloseFileHandle_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_CloseFileHandle_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_CloseFileHandle_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_CloseFileHandle_result& obj);
+};
+
+typedef struct _XSMBService_CloseFileHandle_presult__isset {
+  _XSMBService_CloseFileHandle_presult__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_CloseFileHandle_presult__isset;
+
+class XSMBService_CloseFileHandle_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
+  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
+
+
+  virtual ~XSMBService_CloseFileHandle_presult() throw();
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_CloseFileHandle_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_CloseFileHandle_presult& obj);
+};
+
 class XSMBServiceClient : virtual public XSMBServiceIf {
  public:
   XSMBServiceClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -1370,6 +1634,12 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
   void send_SetFileLength(const std::string& filePath, const int64_t fileLength);
   void recv_SetFileLength(LinuxFileResponse& _return);
+  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath);
+  void send_OpenFileHandle(const std::string& filePath);
+  void recv_OpenFileHandle(LinuxFileResponse& _return);
+  void CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor);
+  void send_CloseFileHandle(const int32_t fileDescriptor);
+  void recv_CloseFileHandle(LinuxFileResponse& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -1394,6 +1664,8 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_ListFiles(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_GetFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_SetFileLength(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_OpenFileHandle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CloseFileHandle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   XSMBServiceProcessor(boost::shared_ptr<XSMBServiceIf> iface) :
     iface_(iface) {
@@ -1406,6 +1678,8 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["ListFiles"] = &XSMBServiceProcessor::process_ListFiles;
     processMap_["GetFileLength"] = &XSMBServiceProcessor::process_GetFileLength;
     processMap_["SetFileLength"] = &XSMBServiceProcessor::process_SetFileLength;
+    processMap_["OpenFileHandle"] = &XSMBServiceProcessor::process_OpenFileHandle;
+    processMap_["CloseFileHandle"] = &XSMBServiceProcessor::process_CloseFileHandle;
   }
 
   virtual ~XSMBServiceProcessor() {}
@@ -1521,6 +1795,26 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
       ifaces_[i]->SetFileLength(_return, filePath, fileLength);
     }
     ifaces_[i]->SetFileLength(_return, filePath, fileLength);
+    return;
+  }
+
+  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->OpenFileHandle(_return, filePath);
+    }
+    ifaces_[i]->OpenFileHandle(_return, filePath);
+    return;
+  }
+
+  void CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CloseFileHandle(_return, fileDescriptor);
+    }
+    ifaces_[i]->CloseFileHandle(_return, fileDescriptor);
     return;
   }
 

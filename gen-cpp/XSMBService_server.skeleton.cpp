@@ -67,6 +67,16 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("SetFileLength\n");
   }
 
+  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath) {
+    // Your implementation goes here
+    printf("OpenFileHandle\n");
+  }
+
+  void CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor) {
+    // Your implementation goes here
+    printf("CloseFileHandle\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

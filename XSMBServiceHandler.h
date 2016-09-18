@@ -6,6 +6,9 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <iostream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -44,6 +47,9 @@ namespace azure {
 				void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
 
 				bool ListFiles(const std::string& dirPath);
+
+				void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath);
+				void CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor);
 
 			};
 		}
