@@ -22,7 +22,7 @@ using namespace  ::azure::storage::cpp_linux;
 namespace azure {
 	namespace storage {
 		namespace cpp_linux {
-			class XSMBServiceHandler : virtual public XSMBServiceIf {
+			class XSMBServiceHandler : public XSMBServiceIf {
 			public:
 				XSMBServiceHandler() {
 
@@ -48,9 +48,12 @@ namespace azure {
 
 				bool ListFiles(const std::string& dirPath);
 
-				void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath);
-				void CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor);
-
+				void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId);
+				void CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId);
+				void ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count);
+				void WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count);
+			private:
+				std::map<std::string, std::fstream> file_handles;
 			};
 		}
 	}

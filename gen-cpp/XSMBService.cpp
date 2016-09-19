@@ -2157,6 +2157,30 @@ uint32_t XSMBService_OpenFileHandle_args::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->fileMode);
+          this->__isset.fileMode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->fileAccess);
+          this->__isset.fileAccess = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->handleId);
+          this->__isset.handleId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2178,6 +2202,18 @@ uint32_t XSMBService_OpenFileHandle_args::write(::apache::thrift::protocol::TPro
   xfer += oprot->writeString(this->filePath);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("fileMode", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->fileMode);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fileAccess", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->fileAccess);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("handleId", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->handleId);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   oprot->decrementRecursionDepth();
@@ -2196,6 +2232,18 @@ uint32_t XSMBService_OpenFileHandle_pargs::write(::apache::thrift::protocol::TPr
 
   xfer += oprot->writeFieldBegin("filePath", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->filePath)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fileMode", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->fileMode)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fileAccess", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->fileAccess)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("handleId", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString((*(this->handleId)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2356,9 +2404,9 @@ uint32_t XSMBService_CloseFileHandle_args::read(::apache::thrift::protocol::TPro
     switch (fid)
     {
       case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->fileDescriptor);
-          this->__isset.fileDescriptor = true;
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->handleId);
+          this->__isset.handleId = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -2380,8 +2428,8 @@ uint32_t XSMBService_CloseFileHandle_args::write(::apache::thrift::protocol::TPr
   oprot->incrementRecursionDepth();
   xfer += oprot->writeStructBegin("XSMBService_CloseFileHandle_args");
 
-  xfer += oprot->writeFieldBegin("fileDescriptor", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->fileDescriptor);
+  xfer += oprot->writeFieldBegin("handleId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->handleId);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2400,8 +2448,8 @@ uint32_t XSMBService_CloseFileHandle_pargs::write(::apache::thrift::protocol::TP
   oprot->incrementRecursionDepth();
   xfer += oprot->writeStructBegin("XSMBService_CloseFileHandle_pargs");
 
-  xfer += oprot->writeFieldBegin("fileDescriptor", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32((*(this->fileDescriptor)));
+  xfer += oprot->writeFieldBegin("handleId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->handleId)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2489,6 +2537,498 @@ XSMBService_CloseFileHandle_presult::~XSMBService_CloseFileHandle_presult() thro
 
 
 uint32_t XSMBService_CloseFileHandle_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+XSMBService_ReadFileByHandle_args::~XSMBService_ReadFileByHandle_args() throw() {
+}
+
+
+uint32_t XSMBService_ReadFileByHandle_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->handleId);
+          this->__isset.handleId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->offset);
+          this->__isset.offset = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->count);
+          this->__isset.count = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t XSMBService_ReadFileByHandle_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("XSMBService_ReadFileByHandle_args");
+
+  xfer += oprot->writeFieldBegin("handleId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->handleId);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("offset", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->offset);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("count", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeI64(this->count);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+XSMBService_ReadFileByHandle_pargs::~XSMBService_ReadFileByHandle_pargs() throw() {
+}
+
+
+uint32_t XSMBService_ReadFileByHandle_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("XSMBService_ReadFileByHandle_pargs");
+
+  xfer += oprot->writeFieldBegin("handleId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->handleId)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("offset", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64((*(this->offset)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("count", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeI64((*(this->count)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+XSMBService_ReadFileByHandle_result::~XSMBService_ReadFileByHandle_result() throw() {
+}
+
+
+uint32_t XSMBService_ReadFileByHandle_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t XSMBService_ReadFileByHandle_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("XSMBService_ReadFileByHandle_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.linuxFileException) {
+    xfer += oprot->writeFieldBegin("linuxFileException", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->linuxFileException.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+XSMBService_ReadFileByHandle_presult::~XSMBService_ReadFileByHandle_presult() throw() {
+}
+
+
+uint32_t XSMBService_ReadFileByHandle_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+XSMBService_WriteFileByHandle_args::~XSMBService_WriteFileByHandle_args() throw() {
+}
+
+
+uint32_t XSMBService_WriteFileByHandle_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->handleId);
+          this->__isset.handleId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->offset);
+          this->__isset.offset = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readBinary(this->buffer);
+          this->__isset.buffer = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->count);
+          this->__isset.count = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t XSMBService_WriteFileByHandle_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("XSMBService_WriteFileByHandle_args");
+
+  xfer += oprot->writeFieldBegin("handleId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->handleId);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("offset", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->offset);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("buffer", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeBinary(this->buffer);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("count", ::apache::thrift::protocol::T_I64, 4);
+  xfer += oprot->writeI64(this->count);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+XSMBService_WriteFileByHandle_pargs::~XSMBService_WriteFileByHandle_pargs() throw() {
+}
+
+
+uint32_t XSMBService_WriteFileByHandle_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  oprot->incrementRecursionDepth();
+  xfer += oprot->writeStructBegin("XSMBService_WriteFileByHandle_pargs");
+
+  xfer += oprot->writeFieldBegin("handleId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->handleId)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("offset", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64((*(this->offset)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("buffer", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeBinary((*(this->buffer)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("count", ::apache::thrift::protocol::T_I64, 4);
+  xfer += oprot->writeI64((*(this->count)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  oprot->decrementRecursionDepth();
+  return xfer;
+}
+
+
+XSMBService_WriteFileByHandle_result::~XSMBService_WriteFileByHandle_result() throw() {
+}
+
+
+uint32_t XSMBService_WriteFileByHandle_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->linuxFileException.read(iprot);
+          this->__isset.linuxFileException = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t XSMBService_WriteFileByHandle_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("XSMBService_WriteFileByHandle_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.linuxFileException) {
+    xfer += oprot->writeFieldBegin("linuxFileException", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->linuxFileException.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+XSMBService_WriteFileByHandle_presult::~XSMBService_WriteFileByHandle_presult() throw() {
+}
+
+
+uint32_t XSMBService_WriteFileByHandle_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -3097,19 +3637,22 @@ void XSMBServiceClient::recv_SetFileLength(LinuxFileResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "SetFileLength failed: unknown result");
 }
 
-void XSMBServiceClient::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath)
+void XSMBServiceClient::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId)
 {
-  send_OpenFileHandle(filePath);
+  send_OpenFileHandle(filePath, fileMode, fileAccess, handleId);
   recv_OpenFileHandle(_return);
 }
 
-void XSMBServiceClient::send_OpenFileHandle(const std::string& filePath)
+void XSMBServiceClient::send_OpenFileHandle(const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("OpenFileHandle", ::apache::thrift::protocol::T_CALL, cseqid);
 
   XSMBService_OpenFileHandle_pargs args;
   args.filePath = &filePath;
+  args.fileMode = &fileMode;
+  args.fileAccess = &fileAccess;
+  args.handleId = &handleId;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3158,19 +3701,19 @@ void XSMBServiceClient::recv_OpenFileHandle(LinuxFileResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "OpenFileHandle failed: unknown result");
 }
 
-void XSMBServiceClient::CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor)
+void XSMBServiceClient::CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId)
 {
-  send_CloseFileHandle(fileDescriptor);
+  send_CloseFileHandle(handleId);
   recv_CloseFileHandle(_return);
 }
 
-void XSMBServiceClient::send_CloseFileHandle(const int32_t fileDescriptor)
+void XSMBServiceClient::send_CloseFileHandle(const std::string& handleId)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("CloseFileHandle", ::apache::thrift::protocol::T_CALL, cseqid);
 
   XSMBService_CloseFileHandle_pargs args;
-  args.fileDescriptor = &fileDescriptor;
+  args.handleId = &handleId;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3217,6 +3760,133 @@ void XSMBServiceClient::recv_CloseFileHandle(LinuxFileResponse& _return)
     throw result.linuxFileException;
   }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "CloseFileHandle failed: unknown result");
+}
+
+void XSMBServiceClient::ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count)
+{
+  send_ReadFileByHandle(handleId, offset, count);
+  recv_ReadFileByHandle(_return);
+}
+
+void XSMBServiceClient::send_ReadFileByHandle(const std::string& handleId, const int64_t offset, const int64_t count)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("ReadFileByHandle", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  XSMBService_ReadFileByHandle_pargs args;
+  args.handleId = &handleId;
+  args.offset = &offset;
+  args.count = &count;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void XSMBServiceClient::recv_ReadFileByHandle(LinuxFileResponse& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("ReadFileByHandle") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  XSMBService_ReadFileByHandle_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  if (result.__isset.linuxFileException) {
+    throw result.linuxFileException;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ReadFileByHandle failed: unknown result");
+}
+
+void XSMBServiceClient::WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count)
+{
+  send_WriteFileByHandle(handleId, offset, buffer, count);
+  recv_WriteFileByHandle(_return);
+}
+
+void XSMBServiceClient::send_WriteFileByHandle(const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("WriteFileByHandle", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  XSMBService_WriteFileByHandle_pargs args;
+  args.handleId = &handleId;
+  args.offset = &offset;
+  args.buffer = &buffer;
+  args.count = &count;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void XSMBServiceClient::recv_WriteFileByHandle(LinuxFileResponse& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("WriteFileByHandle") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  XSMBService_WriteFileByHandle_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  if (result.__isset.linuxFileException) {
+    throw result.linuxFileException;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "WriteFileByHandle failed: unknown result");
 }
 
 bool XSMBServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -3774,7 +4444,7 @@ void XSMBServiceProcessor::process_OpenFileHandle(int32_t seqid, ::apache::thrif
 
   XSMBService_OpenFileHandle_result result;
   try {
-    iface_->OpenFileHandle(result.success, args.filePath);
+    iface_->OpenFileHandle(result.success, args.filePath, args.fileMode, args.fileAccess, args.handleId);
     result.__isset.success = true;
   } catch (LinuxFileException &linuxFileException) {
     result.linuxFileException = linuxFileException;
@@ -3831,7 +4501,7 @@ void XSMBServiceProcessor::process_CloseFileHandle(int32_t seqid, ::apache::thri
 
   XSMBService_CloseFileHandle_result result;
   try {
-    iface_->CloseFileHandle(result.success, args.fileDescriptor);
+    iface_->CloseFileHandle(result.success, args.handleId);
     result.__isset.success = true;
   } catch (LinuxFileException &linuxFileException) {
     result.linuxFileException = linuxFileException;
@@ -3862,6 +4532,120 @@ void XSMBServiceProcessor::process_CloseFileHandle(int32_t seqid, ::apache::thri
 
   if (this->eventHandler_.get() != NULL) {
     this->eventHandler_->postWrite(ctx, "XSMBService.CloseFileHandle", bytes);
+  }
+}
+
+void XSMBServiceProcessor::process_ReadFileByHandle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("XSMBService.ReadFileByHandle", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "XSMBService.ReadFileByHandle");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "XSMBService.ReadFileByHandle");
+  }
+
+  XSMBService_ReadFileByHandle_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "XSMBService.ReadFileByHandle", bytes);
+  }
+
+  XSMBService_ReadFileByHandle_result result;
+  try {
+    iface_->ReadFileByHandle(result.success, args.handleId, args.offset, args.count);
+    result.__isset.success = true;
+  } catch (LinuxFileException &linuxFileException) {
+    result.linuxFileException = linuxFileException;
+    result.__isset.linuxFileException = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "XSMBService.ReadFileByHandle");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("ReadFileByHandle", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "XSMBService.ReadFileByHandle");
+  }
+
+  oprot->writeMessageBegin("ReadFileByHandle", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "XSMBService.ReadFileByHandle", bytes);
+  }
+}
+
+void XSMBServiceProcessor::process_WriteFileByHandle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("XSMBService.WriteFileByHandle", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "XSMBService.WriteFileByHandle");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "XSMBService.WriteFileByHandle");
+  }
+
+  XSMBService_WriteFileByHandle_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "XSMBService.WriteFileByHandle", bytes);
+  }
+
+  XSMBService_WriteFileByHandle_result result;
+  try {
+    iface_->WriteFileByHandle(result.success, args.handleId, args.offset, args.buffer, args.count);
+    result.__isset.success = true;
+  } catch (LinuxFileException &linuxFileException) {
+    result.linuxFileException = linuxFileException;
+    result.__isset.linuxFileException = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "XSMBService.WriteFileByHandle");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("WriteFileByHandle", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "XSMBService.WriteFileByHandle");
+  }
+
+  oprot->writeMessageBegin("WriteFileByHandle", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "XSMBService.WriteFileByHandle", bytes);
   }
 }
 

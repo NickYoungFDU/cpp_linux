@@ -168,7 +168,7 @@ namespace azure {
 					else {
 						std::fstream fs;
 						fs.open(filePath.c_str());
-
+						
 						fs.seekp(offset);
 
 						fs.write(buffer.c_str(), buffer.length());
@@ -254,10 +254,26 @@ namespace azure {
 				return;
 			}
 
+			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId) {
+				int fd = open(filePath.c_str(), O_CREAT | O_RDWR, S_IRWXU);
+				std::fstream fs(fd);
+				fs.write("test", 4);
+				fs.close();
+			}
+			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId){
+
+			}
+			void XSMBServiceHandler::ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count){
+
+			}
+			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count){
+
+			}
 
 
+			/*
 			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath) {
-				/*
+				
 				int fd = open(filePath.c_str(), O_CREAT | O_RDWR, S_IRWXU);
 				SetResponse(_return, true, "Successfully opened " + filePath);
 
@@ -266,21 +282,23 @@ namespace azure {
 				std::map<std::string, std::string> additional_info;
 				_return.__set_AdditionalInfo(additional_info);
 				_return.AdditionalInfo.insert(std::pair<std::string, std::string>("FileDescriptor", fd_string));				
-				*/
+				
+				
 				try {
 					boost::iostreams::file_descriptor fd(filePath, std::ios_base::out);
 					std::cout << "file descriptor: " << fd.handle() << std::endl;
 					std::cout << "file is open: " << (fd.is_open() ? "true" : "false") << std::endl;
 					fd.close();
 					std::cout << "file is open: " << (fd.is_open() ? "true" : "false") << std::endl;
-					
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::ListFile);
 				}
+				
+
 			}
 			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor) {
-				/*
+				
 				int error_num = close(fileDescriptor);
 				if (error_num == 0) {
 					SetResponse(_return, true, "Successfully closed file descriptor");
@@ -288,8 +306,9 @@ namespace azure {
 				else {
 					std::cout << "error..." << std::endl;	
 				}
-				*/
+				
 			}
+			*/
 		}
 	}
 }

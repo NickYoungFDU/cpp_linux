@@ -74,7 +74,11 @@ service XSMBService {
     LinuxFileResponse SetFileLength(1:string filePath, 2:i64 fileLength) 
                         throws (1:LinuxFileException linuxFileException)
                         
-    LinuxFileResponse OpenFileHandle(1:string filePath) throws(1:LinuxFileException linuxFileException)
+    LinuxFileResponse OpenFileHandle(1:string filePath, 2:string fileMode, 3:string fileAccess, 4:string handleId) throws(1:LinuxFileException linuxFileException)
     
-    LinuxFileResponse CloseFileHandle(1:i32 fileDescriptor) throws(1:LinuxFileException linuxFileException)                        
+    LinuxFileResponse CloseFileHandle(1:string handleId) throws(1:LinuxFileException linuxFileException)
+    
+    LinuxFileResponse ReadFileByHandle(1:string handleId, 2:i64 offset, 3:i64 count) throws(1:LinuxFileException linuxFileException)
+    
+    LinuxFileResponse WriteFileByHandle(1:string handleId, 2:i64 offset, 3:binary buffer, 4:i64 count) throws(1:LinuxFileException linuxFileException)                        
 }
