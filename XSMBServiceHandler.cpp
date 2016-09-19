@@ -255,18 +255,43 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId) {
-				int fd = open(filePath.c_str(), O_CREAT | O_RDWR, S_IRWXU);
-				std::fstream fs(fd);
-				fs.write("test", 4);
-				fs.close();
+				std::cout << "OpenFileHandle" << std::endl;
+				boost::filesystem::path file(filePath);
+				try {															
+					std::ofstream ofs(filePath.c_str());
+					ofs.close();
+					std::fstream fs(filePath.c_str());
+					file_handles.insert(std::pair<std::string, std::fstream>(handleId, fs));					
+				}
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::WriteFile);
+				}
+				return;
 			}
-			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId){
+			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId) {
+				std::cout << "CloseFileHandle" << std::endl;
+				try {
+					std::map<std::string, std::fstream>::iterator it = file_handles.find(handleId);
+					if (it != file_handles.end()) {
+						file_handles[handleId].close();
+						file_handles.erase(handleId);
+						std::cout << "Successfully closed file handle [" + handleId + "]" << std::endl;
+						SetResponse(_return, true, "Successfully closed file handle [" + handleId + "]");
+					}
+					else {
+						std::cout << "File handle [" + handleId + "] does not exist. It may have been closed." << std::endl;
+						SetResponse(_return, false, "File handle [" + handleId + "] does not exist. It may have been closed.");
+					}
+				}
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::WriteFile);
+				}
+				return;
+			}
+			void XSMBServiceHandler::ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count) {
 
 			}
-			void XSMBServiceHandler::ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count){
-
-			}
-			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count){
+			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
 
 			}
 
