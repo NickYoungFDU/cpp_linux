@@ -292,10 +292,57 @@ namespace azure {
 				return;
 			}
 			void XSMBServiceHandler::ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count) {
+				std::cout << "ReadFileByHandle" << std::endl;
+				try {
+					std::map<std::string, std::fstream*>::iterator it = file_handles.find(handleId);
+					if (it != file_handles.end() && it->second->is_open()) {
+						std::fstream* fs = it->second;
+						char* buffer = new char[count];
+						fs->seekg(offset, fs->beg);
+						fs->read(buffer, count);
+						int64_t bytes_read = fs->gcount();
+						std::string bytes_read_string = IntToString(bytes_read);
+						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);
 
+						std::cout << "bytes_read: [" << bytes_read_string << "]" << std::endl;
+						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
+						std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
+						SetResponse(_return, true, "Successfully read from file handle [" + handleId + "]");
+
+						std::map<std::string, std::string> additional_info;
+						_return.__set_AdditionalInfo(additional_info);
+						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read_string));
+						_return.__set_Buffer(buffer_string);
+					}
+					else {
+						std::cout << "file handle [" + handleId + "] does not exist, or somehow it has been closed." << std::endl;
+						SetResponse(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
+					}
+				}
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::WriteFile);
+				}
+				return;
 			}
 			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
-
+				std::cout << "WriteFileByHandle" << std::endl;
+				try {
+					std::map<std::string, std::fstream*>::iterator it = file_handles.find(handleId);
+					if (it != file_handles.end() && it->second->is_open()) {
+						std::fstream* fs = it->second;
+						fs->seekp(offset);
+						fs->write(buffer.c_str(), buffer.length());
+						SetResponse(_return, true, "Successfully write to file handle [" + handleId + "]");
+					}
+					else {
+						std::cout << "file handle [" + handleId + "] does not exist, or somehow it has been closed." << std::endl;
+						SetResponse(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
+					}
+				}
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::WriteFile);
+				}
+				return;
 			}
 
 
