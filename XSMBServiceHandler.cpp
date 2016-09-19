@@ -5,6 +5,7 @@
 #include <thrift/transport/TBufferTransports.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/iostreams/device/file_descriptor.hpp>
 #include <XSMBServiceHandler.h>
 #include <infrastructure.h>
 
@@ -253,8 +254,11 @@ namespace azure {
 				return;
 			}
 
+
+
 			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath) {
-				int fd = open(filePath.c_str(), O_CREAT | O_RDONLY, S_IRWXU);
+				/*
+				int fd = open(filePath.c_str(), O_CREAT | O_RDWR, S_IRWXU);
 				SetResponse(_return, true, "Successfully opened " + filePath);
 
 				std::string fd_string = IntToString(fd);
@@ -262,8 +266,14 @@ namespace azure {
 				std::map<std::string, std::string> additional_info;
 				_return.__set_AdditionalInfo(additional_info);
 				_return.AdditionalInfo.insert(std::pair<std::string, std::string>("FileDescriptor", fd_string));				
+				*/
+				boost::iostreams::file_descriptor fd(filePath, std::ios_base::in | std::ios_base::out);
+				std::cout << fd.handle() << std::endl;
+				std::cout << fd.is_open() << std::endl;
+				fd.close();
 			}
 			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor) {
+				/*
 				int error_num = close(fileDescriptor);
 				if (error_num == 0) {
 					SetResponse(_return, true, "Successfully closed file descriptor");
@@ -271,6 +281,7 @@ namespace azure {
 				else {
 					std::cout << "error..." << std::endl;	
 				}
+				*/
 			}
 		}
 	}
