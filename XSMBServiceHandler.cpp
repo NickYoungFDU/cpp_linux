@@ -267,20 +267,21 @@ namespace azure {
 				}
 				return;
 			}
+
 			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId) {
 				std::cout << "CloseFileHandle" << std::endl;
 				try {
 					std::map<std::string, std::fstream>::iterator it = file_handles.find(handleId);
-					if (it != file_handles.end()) {
+					//if (it != file_handles.end()) {
 						file_handles[handleId].close();
 						file_handles.erase(handleId);
 						std::cout << "Successfully closed file handle [" + handleId + "]" << std::endl;
 						SetResponse(_return, true, "Successfully closed file handle [" + handleId + "]");
-					}
-					else {
+					//}
+					//else {
 						std::cout << "File handle [" + handleId + "] does not exist. It may have been closed." << std::endl;
 						SetResponse(_return, false, "File handle [" + handleId + "] does not exist. It may have been closed.");
-					}
+					//}
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::WriteFile);
