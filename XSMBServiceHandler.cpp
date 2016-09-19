@@ -269,9 +269,11 @@ namespace azure {
 				*/
 				try {
 					boost::iostreams::file_descriptor fd(filePath, std::ios_base::out);
-					std::cout << fd.handle() << std::endl;
-					std::cout << fd.is_open() << std::endl;
+					std::cout << "file descriptor: " << fd.handle() << std::endl;
+					std::cout << "file is open: " << (fd.is_open() ? "true" : "false") << std::endl;
 					fd.close();
+					std::cout << "file is open: " << (fd.is_open() ? "true" : "false") << std::endl;
+					
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::ListFile);
