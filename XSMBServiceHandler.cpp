@@ -254,7 +254,7 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId) {
-				/*
+				
 				std::cout << "OpenFileHandle" << std::endl;
 				boost::filesystem::path file(filePath);
 				try {															
@@ -266,7 +266,7 @@ namespace azure {
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::WriteFile);
 				}
-				return;*/
+				return;
 			}
 
 			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId) {
