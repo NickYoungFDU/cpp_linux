@@ -67,22 +67,22 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("SetFileLength\n");
   }
 
-  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId) {
+  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const int32_t handleId) {
     // Your implementation goes here
     printf("OpenFileHandle\n");
   }
 
-  void CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId) {
+  void CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId) {
     // Your implementation goes here
     printf("CloseFileHandle\n");
   }
 
-  void ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count) {
+  void ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count) {
     // Your implementation goes here
     printf("ReadFileByHandle\n");
   }
 
-  void WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
+  void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
     // Your implementation goes here
     printf("WriteFileByHandle\n");
   }

@@ -24,10 +24,10 @@ class XSMBServiceIf {
   virtual void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) = 0;
   virtual void GetFileLength(LinuxFileResponse& _return, const std::string& filePath) = 0;
   virtual void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) = 0;
-  virtual void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId) = 0;
-  virtual void CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId) = 0;
-  virtual void ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count) = 0;
-  virtual void WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count) = 0;
+  virtual void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const int32_t handleId) = 0;
+  virtual void CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId) = 0;
+  virtual void ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count) = 0;
+  virtual void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) = 0;
 };
 
 class XSMBServiceIfFactory {
@@ -84,16 +84,16 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
   void SetFileLength(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const int64_t /* fileLength */) {
     return;
   }
-  void OpenFileHandle(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const std::string& /* fileMode */, const std::string& /* fileAccess */, const std::string& /* handleId */) {
+  void OpenFileHandle(LinuxFileResponse& /* _return */, const std::string& /* filePath */, const LinuxFileMode::type /* fileMode */, const LinuxFileAccess::type /* fileAccess */, const int32_t /* handleId */) {
     return;
   }
-  void CloseFileHandle(LinuxFileResponse& /* _return */, const std::string& /* handleId */) {
+  void CloseFileHandle(LinuxFileResponse& /* _return */, const int32_t /* handleId */) {
     return;
   }
-  void ReadFileByHandle(LinuxFileResponse& /* _return */, const std::string& /* handleId */, const int64_t /* offset */, const int64_t /* count */) {
+  void ReadFileByHandle(LinuxFileResponse& /* _return */, const int32_t /* handleId */, const int64_t /* offset */, const int64_t /* count */) {
     return;
   }
-  void WriteFileByHandle(LinuxFileResponse& /* _return */, const std::string& /* handleId */, const int64_t /* offset */, const std::string& /* buffer */, const int64_t /* count */) {
+  void WriteFileByHandle(LinuxFileResponse& /* _return */, const int32_t /* handleId */, const int64_t /* offset */, const std::string& /* buffer */, const int64_t /* count */) {
     return;
   }
 };
@@ -1345,29 +1345,29 @@ typedef struct _XSMBService_OpenFileHandle_args__isset {
 class XSMBService_OpenFileHandle_args {
  public:
 
-  static const char* ascii_fingerprint; // = "C93D890311F28844166CF6E571EB3AC2";
-  static const uint8_t binary_fingerprint[16]; // = {0xC9,0x3D,0x89,0x03,0x11,0xF2,0x88,0x44,0x16,0x6C,0xF6,0xE5,0x71,0xEB,0x3A,0xC2};
+  static const char* ascii_fingerprint; // = "F3DCED03893DDD4ADA82182F994EB52E";
+  static const uint8_t binary_fingerprint[16]; // = {0xF3,0xDC,0xED,0x03,0x89,0x3D,0xDD,0x4A,0xDA,0x82,0x18,0x2F,0x99,0x4E,0xB5,0x2E};
 
   XSMBService_OpenFileHandle_args(const XSMBService_OpenFileHandle_args&);
   XSMBService_OpenFileHandle_args& operator=(const XSMBService_OpenFileHandle_args&);
-  XSMBService_OpenFileHandle_args() : filePath(), fileMode(), fileAccess(), handleId() {
+  XSMBService_OpenFileHandle_args() : filePath(), fileMode((LinuxFileMode::type)0), fileAccess((LinuxFileAccess::type)0), handleId(0) {
   }
 
   virtual ~XSMBService_OpenFileHandle_args() throw();
   std::string filePath;
-  std::string fileMode;
-  std::string fileAccess;
-  std::string handleId;
+  LinuxFileMode::type fileMode;
+  LinuxFileAccess::type fileAccess;
+  int32_t handleId;
 
   _XSMBService_OpenFileHandle_args__isset __isset;
 
   void __set_filePath(const std::string& val);
 
-  void __set_fileMode(const std::string& val);
+  void __set_fileMode(const LinuxFileMode::type val);
 
-  void __set_fileAccess(const std::string& val);
+  void __set_fileAccess(const LinuxFileAccess::type val);
 
-  void __set_handleId(const std::string& val);
+  void __set_handleId(const int32_t val);
 
   bool operator == (const XSMBService_OpenFileHandle_args & rhs) const
   {
@@ -1397,15 +1397,15 @@ class XSMBService_OpenFileHandle_args {
 class XSMBService_OpenFileHandle_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "C93D890311F28844166CF6E571EB3AC2";
-  static const uint8_t binary_fingerprint[16]; // = {0xC9,0x3D,0x89,0x03,0x11,0xF2,0x88,0x44,0x16,0x6C,0xF6,0xE5,0x71,0xEB,0x3A,0xC2};
+  static const char* ascii_fingerprint; // = "F3DCED03893DDD4ADA82182F994EB52E";
+  static const uint8_t binary_fingerprint[16]; // = {0xF3,0xDC,0xED,0x03,0x89,0x3D,0xDD,0x4A,0xDA,0x82,0x18,0x2F,0x99,0x4E,0xB5,0x2E};
 
 
   virtual ~XSMBService_OpenFileHandle_pargs() throw();
   const std::string* filePath;
-  const std::string* fileMode;
-  const std::string* fileAccess;
-  const std::string* handleId;
+  const LinuxFileMode::type* fileMode;
+  const LinuxFileAccess::type* fileAccess;
+  const int32_t* handleId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1491,20 +1491,20 @@ typedef struct _XSMBService_CloseFileHandle_args__isset {
 class XSMBService_CloseFileHandle_args {
  public:
 
-  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
-  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+  static const char* ascii_fingerprint; // = "E86CACEB22240450EDCBEFC3A83970E4";
+  static const uint8_t binary_fingerprint[16]; // = {0xE8,0x6C,0xAC,0xEB,0x22,0x24,0x04,0x50,0xED,0xCB,0xEF,0xC3,0xA8,0x39,0x70,0xE4};
 
   XSMBService_CloseFileHandle_args(const XSMBService_CloseFileHandle_args&);
   XSMBService_CloseFileHandle_args& operator=(const XSMBService_CloseFileHandle_args&);
-  XSMBService_CloseFileHandle_args() : handleId() {
+  XSMBService_CloseFileHandle_args() : handleId(0) {
   }
 
   virtual ~XSMBService_CloseFileHandle_args() throw();
-  std::string handleId;
+  int32_t handleId;
 
   _XSMBService_CloseFileHandle_args__isset __isset;
 
-  void __set_handleId(const std::string& val);
+  void __set_handleId(const int32_t val);
 
   bool operator == (const XSMBService_CloseFileHandle_args & rhs) const
   {
@@ -1528,12 +1528,12 @@ class XSMBService_CloseFileHandle_args {
 class XSMBService_CloseFileHandle_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
-  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+  static const char* ascii_fingerprint; // = "E86CACEB22240450EDCBEFC3A83970E4";
+  static const uint8_t binary_fingerprint[16]; // = {0xE8,0x6C,0xAC,0xEB,0x22,0x24,0x04,0x50,0xED,0xCB,0xEF,0xC3,0xA8,0x39,0x70,0xE4};
 
 
   virtual ~XSMBService_CloseFileHandle_pargs() throw();
-  const std::string* handleId;
+  const int32_t* handleId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1621,22 +1621,22 @@ typedef struct _XSMBService_ReadFileByHandle_args__isset {
 class XSMBService_ReadFileByHandle_args {
  public:
 
-  static const char* ascii_fingerprint; // = "A4B0EC7D8E2C91B205150169F789382C";
-  static const uint8_t binary_fingerprint[16]; // = {0xA4,0xB0,0xEC,0x7D,0x8E,0x2C,0x91,0xB2,0x05,0x15,0x01,0x69,0xF7,0x89,0x38,0x2C};
+  static const char* ascii_fingerprint; // = "1BC2A204AB4F887721511486B2DFEBC8";
+  static const uint8_t binary_fingerprint[16]; // = {0x1B,0xC2,0xA2,0x04,0xAB,0x4F,0x88,0x77,0x21,0x51,0x14,0x86,0xB2,0xDF,0xEB,0xC8};
 
   XSMBService_ReadFileByHandle_args(const XSMBService_ReadFileByHandle_args&);
   XSMBService_ReadFileByHandle_args& operator=(const XSMBService_ReadFileByHandle_args&);
-  XSMBService_ReadFileByHandle_args() : handleId(), offset(0), count(0) {
+  XSMBService_ReadFileByHandle_args() : handleId(0), offset(0), count(0) {
   }
 
   virtual ~XSMBService_ReadFileByHandle_args() throw();
-  std::string handleId;
+  int32_t handleId;
   int64_t offset;
   int64_t count;
 
   _XSMBService_ReadFileByHandle_args__isset __isset;
 
-  void __set_handleId(const std::string& val);
+  void __set_handleId(const int32_t val);
 
   void __set_offset(const int64_t val);
 
@@ -1668,12 +1668,12 @@ class XSMBService_ReadFileByHandle_args {
 class XSMBService_ReadFileByHandle_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "A4B0EC7D8E2C91B205150169F789382C";
-  static const uint8_t binary_fingerprint[16]; // = {0xA4,0xB0,0xEC,0x7D,0x8E,0x2C,0x91,0xB2,0x05,0x15,0x01,0x69,0xF7,0x89,0x38,0x2C};
+  static const char* ascii_fingerprint; // = "1BC2A204AB4F887721511486B2DFEBC8";
+  static const uint8_t binary_fingerprint[16]; // = {0x1B,0xC2,0xA2,0x04,0xAB,0x4F,0x88,0x77,0x21,0x51,0x14,0x86,0xB2,0xDF,0xEB,0xC8};
 
 
   virtual ~XSMBService_ReadFileByHandle_pargs() throw();
-  const std::string* handleId;
+  const int32_t* handleId;
   const int64_t* offset;
   const int64_t* count;
 
@@ -1764,23 +1764,23 @@ typedef struct _XSMBService_WriteFileByHandle_args__isset {
 class XSMBService_WriteFileByHandle_args {
  public:
 
-  static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
-  static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
+  static const char* ascii_fingerprint; // = "88C6C8491531BE020F1333360573FCC9";
+  static const uint8_t binary_fingerprint[16]; // = {0x88,0xC6,0xC8,0x49,0x15,0x31,0xBE,0x02,0x0F,0x13,0x33,0x36,0x05,0x73,0xFC,0xC9};
 
   XSMBService_WriteFileByHandle_args(const XSMBService_WriteFileByHandle_args&);
   XSMBService_WriteFileByHandle_args& operator=(const XSMBService_WriteFileByHandle_args&);
-  XSMBService_WriteFileByHandle_args() : handleId(), offset(0), buffer(), count(0) {
+  XSMBService_WriteFileByHandle_args() : handleId(0), offset(0), buffer(), count(0) {
   }
 
   virtual ~XSMBService_WriteFileByHandle_args() throw();
-  std::string handleId;
+  int32_t handleId;
   int64_t offset;
   std::string buffer;
   int64_t count;
 
   _XSMBService_WriteFileByHandle_args__isset __isset;
 
-  void __set_handleId(const std::string& val);
+  void __set_handleId(const int32_t val);
 
   void __set_offset(const int64_t val);
 
@@ -1816,12 +1816,12 @@ class XSMBService_WriteFileByHandle_args {
 class XSMBService_WriteFileByHandle_pargs {
  public:
 
-  static const char* ascii_fingerprint; // = "35DBF03AFE6CFC38FE634CDAF038307C";
-  static const uint8_t binary_fingerprint[16]; // = {0x35,0xDB,0xF0,0x3A,0xFE,0x6C,0xFC,0x38,0xFE,0x63,0x4C,0xDA,0xF0,0x38,0x30,0x7C};
+  static const char* ascii_fingerprint; // = "88C6C8491531BE020F1333360573FCC9";
+  static const uint8_t binary_fingerprint[16]; // = {0x88,0xC6,0xC8,0x49,0x15,0x31,0xBE,0x02,0x0F,0x13,0x33,0x36,0x05,0x73,0xFC,0xC9};
 
 
   virtual ~XSMBService_WriteFileByHandle_pargs() throw();
-  const std::string* handleId;
+  const int32_t* handleId;
   const int64_t* offset;
   const std::string* buffer;
   const int64_t* count;
@@ -1954,17 +1954,17 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
   void send_SetFileLength(const std::string& filePath, const int64_t fileLength);
   void recv_SetFileLength(LinuxFileResponse& _return);
-  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId);
-  void send_OpenFileHandle(const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId);
+  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const int32_t handleId);
+  void send_OpenFileHandle(const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const int32_t handleId);
   void recv_OpenFileHandle(LinuxFileResponse& _return);
-  void CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId);
-  void send_CloseFileHandle(const std::string& handleId);
+  void CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId);
+  void send_CloseFileHandle(const int32_t handleId);
   void recv_CloseFileHandle(LinuxFileResponse& _return);
-  void ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count);
-  void send_ReadFileByHandle(const std::string& handleId, const int64_t offset, const int64_t count);
+  void ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count);
+  void send_ReadFileByHandle(const int32_t handleId, const int64_t offset, const int64_t count);
   void recv_ReadFileByHandle(LinuxFileResponse& _return);
-  void WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count);
-  void send_WriteFileByHandle(const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count);
+  void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count);
+  void send_WriteFileByHandle(const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count);
   void recv_WriteFileByHandle(LinuxFileResponse& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
@@ -2128,7 +2128,7 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId) {
+  void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const int32_t handleId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -2138,7 +2138,7 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId) {
+  void CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -2148,7 +2148,7 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count) {
+  void ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -2158,7 +2158,7 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     return;
   }
 
-  void WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
+  void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {

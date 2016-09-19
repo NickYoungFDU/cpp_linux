@@ -11,6 +11,21 @@ enum MatchInformation {
     Match = 4
 }
 
+enum LinuxFileMode {
+    Append = 0,
+    Create = 1, 
+    CreateNew = 2, 
+    Open = 3, 
+    OpenOrCreate = 4, 
+    Truncate = 5   
+}
+
+enum LinuxFileAccess {
+    Read = 0, 
+    Write = 1, 
+    ReadWrite = 2
+}
+
 enum OperationType {
     MapFileShare = 0,
     UnmapFileShare = 1, 
@@ -74,11 +89,11 @@ service XSMBService {
     LinuxFileResponse SetFileLength(1:string filePath, 2:i64 fileLength) 
                         throws (1:LinuxFileException linuxFileException)
                         
-    LinuxFileResponse OpenFileHandle(1:string filePath, 2:string fileMode, 3:string fileAccess, 4:string handleId) throws(1:LinuxFileException linuxFileException)
+    LinuxFileResponse OpenFileHandle(1:string filePath, 2:LinuxFileMode fileMode, 3:LinuxFileAccess fileAccess, 4:i32 handleId) throws(1:LinuxFileException linuxFileException)
     
-    LinuxFileResponse CloseFileHandle(1:string handleId) throws(1:LinuxFileException linuxFileException)
+    LinuxFileResponse CloseFileHandle(1:i32 handleId) throws(1:LinuxFileException linuxFileException)
     
-    LinuxFileResponse ReadFileByHandle(1:string handleId, 2:i64 offset, 3:i64 count) throws(1:LinuxFileException linuxFileException)
+    LinuxFileResponse ReadFileByHandle(1:i32 handleId, 2:i64 offset, 3:i64 count) throws(1:LinuxFileException linuxFileException)
     
-    LinuxFileResponse WriteFileByHandle(1:string handleId, 2:i64 offset, 3:binary buffer, 4:i64 count) throws(1:LinuxFileException linuxFileException)                        
+    LinuxFileResponse WriteFileByHandle(1:i32 handleId, 2:i64 offset, 3:binary buffer, 4:i64 count) throws(1:LinuxFileException linuxFileException)                        
 }

@@ -253,11 +253,13 @@ namespace azure {
 				return;
 			}
 
-			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId) {
-				
+			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const std::string& handleId) {
 				std::cout << "OpenFileHandle" << std::endl;
 				boost::filesystem::path file(filePath);
-				try {															
+				try {	
+					/*
+					 * Cpp Version
+					 * /					
 					std::ofstream ofs(filePath.c_str());
 					ofs.close();
 					std::fstream* fs = new std::fstream();					
@@ -267,6 +269,23 @@ namespace azure {
 					fs->write("test message", 12);
 					fs->flush();
 					std::cout << "#handles: " << file_handles.size() << std::endl;
+					*/
+
+					/*
+					 * Linux System Call
+					 */
+					int flag = GetFileFlag(fileAccess, fileMode);
+					int fd = open(filePath.c_str(), flag);
+					FILE* file = fdopen(fd, "r+");
+					fputs("test message", file);
+					fflush(file);
+					file_pointers.insert(std::pair<int, FILE*>(fd, file));
+					std::cout << "#handles: " << file_pointers.size() << std::endl;
+					SetResponse(_return, true, "Sucessfully opened file handler [" + IntToString(fd) + "]");
+
+					std::map<std::string, std::string> additional_info;
+					_return.__set_AdditionalInfo(additional_info);
+					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("FileDescriptor", IntToString(fd)));
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::WriteFile);
@@ -274,9 +293,12 @@ namespace azure {
 				return;
 			}
 
-			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId) {				
+			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId) {				
 				std::cout << "CloseFileHandle" << std::endl;
 				try {
+					/*
+					 * Cpp Version
+					 * /
 					std::map<std::string, std::fstream*>::iterator it = file_handles.find(handleId);
 					if (it != file_handles.end()) {
 						std::fstream* fs = file_handles[handleId];
@@ -290,15 +312,33 @@ namespace azure {
 						std::cout << "File handle [" + handleId + "] does not exist. It may have been closed." << std::endl;
 						SetResponse(_return, false, "File handle [" + handleId + "] does not exist. It may have been closed.");
 					}
+					*/
+
+					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
+					if (it != file_pointers.end()) {
+						FILE* file = it->second;
+						fclose(file);
+						file_pointers.erase(it);
+						delete file;
+						std::cout << "Successfully closed file handle [" << handleId << "]" << std::endl;
+						SetResponse(_return, true, "Successfully closed file handle [" + IntToString(handleId) + "]");
+					}
+					else {
+						std::cout << "File handle [" << handleId << "] does not exist. It may have been closed." << std::endl;
+						SetResponse(_return, false, "File handle [" + IntToString(handleId) + "] does not exist. It may have been closed.");
+					}
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::WriteFile);
 				}
 				return;
 			}
-			void XSMBServiceHandler::ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count) {
+			void XSMBServiceHandler::ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count) {
 				std::cout << "ReadFileByHandle" << std::endl;
 				try {
+					/*
+					 * Cpp Version
+					 * /
 					std::map<std::string, std::fstream*>::iterator it = file_handles.find(handleId);
 					if (it != file_handles.end() && it->second->is_open()) {
 						std::fstream* fs = it->second;
@@ -320,16 +360,19 @@ namespace azure {
 						_return.__set_Buffer(buffer_string);
 					}
 					else {
-						std::cout << "file handle [" + handleId + "] does not exist, or somehow it has been closed." << std::endl;
+						std::cout << "file handle [" << handleId << "] does not exist, or somehow it has been closed." << std::endl;
 						SetResponse(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
 					}
+					*/
+
+
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::WriteFile);
 				}
 				return;
 			}
-			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
+			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
 				std::cout << "WriteFileByHandle" << std::endl;
 				try {
 					std::map<std::string, std::fstream*>::iterator it = file_handles.find(handleId);

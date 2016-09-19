@@ -30,6 +30,29 @@ struct MatchInformation {
 
 extern const std::map<int, const char*> _MatchInformation_VALUES_TO_NAMES;
 
+struct LinuxFileMode {
+  enum type {
+    Append = 0,
+    Create = 1,
+    CreateNew = 2,
+    Open = 3,
+    OpenOrCreate = 4,
+    Truncate = 5
+  };
+};
+
+extern const std::map<int, const char*> _LinuxFileMode_VALUES_TO_NAMES;
+
+struct LinuxFileAccess {
+  enum type {
+    Read = 0,
+    Write = 1,
+    ReadWrite = 2
+  };
+};
+
+extern const std::map<int, const char*> _LinuxFileAccess_VALUES_TO_NAMES;
+
 struct OperationType {
   enum type {
     MapFileShare = 0,

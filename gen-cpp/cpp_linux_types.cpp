@@ -27,6 +27,36 @@ const char* _kMatchInformationNames[] = {
 };
 const std::map<int, const char*> _MatchInformation_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(4, _kMatchInformationValues, _kMatchInformationNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
+int _kLinuxFileModeValues[] = {
+  LinuxFileMode::Append,
+  LinuxFileMode::Create,
+  LinuxFileMode::CreateNew,
+  LinuxFileMode::Open,
+  LinuxFileMode::OpenOrCreate,
+  LinuxFileMode::Truncate
+};
+const char* _kLinuxFileModeNames[] = {
+  "Append",
+  "Create",
+  "CreateNew",
+  "Open",
+  "OpenOrCreate",
+  "Truncate"
+};
+const std::map<int, const char*> _LinuxFileMode_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(6, _kLinuxFileModeValues, _kLinuxFileModeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
+int _kLinuxFileAccessValues[] = {
+  LinuxFileAccess::Read,
+  LinuxFileAccess::Write,
+  LinuxFileAccess::ReadWrite
+};
+const char* _kLinuxFileAccessNames[] = {
+  "Read",
+  "Write",
+  "ReadWrite"
+};
+const std::map<int, const char*> _LinuxFileAccess_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kLinuxFileAccessValues, _kLinuxFileAccessNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 int _kOperationTypeValues[] = {
   OperationType::MapFileShare,
   OperationType::UnmapFileShare,

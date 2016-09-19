@@ -48,12 +48,13 @@ namespace azure {
 
 				bool ListFiles(const std::string& dirPath);
 
-				void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const std::string& fileMode, const std::string& fileAccess, const std::string& handleId);
-				void CloseFileHandle(LinuxFileResponse& _return, const std::string& handleId);
-				void ReadFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const int64_t count);
-				void WriteFileByHandle(LinuxFileResponse& _return, const std::string& handleId, const int64_t offset, const std::string& buffer, const int64_t count);
+				void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const std::string& handleId);
+				void CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId);
+				void ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count);
+				void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count);
 			private:
 				std::map<std::string, std::fstream*> file_handles;
+				std::map<int, FILE*> file_pointers;
 			};
 		}
 	}
