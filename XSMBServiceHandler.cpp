@@ -267,10 +267,15 @@ namespace azure {
 				_return.__set_AdditionalInfo(additional_info);
 				_return.AdditionalInfo.insert(std::pair<std::string, std::string>("FileDescriptor", fd_string));				
 				*/
-				boost::iostreams::file_descriptor fd(filePath, std::ios_base::in | std::ios_base::out);
-				std::cout << fd.handle() << std::endl;
-				std::cout << fd.is_open() << std::endl;
-				fd.close();
+				try {
+					boost::iostreams::file_descriptor fd(filePath, std::ios_base::out);
+					std::cout << fd.handle() << std::endl;
+					std::cout << fd.is_open() << std::endl;
+					fd.close();
+				}
+				catch (const std::exception& ex) {
+					throw GetException(ex.what(), OperationType::ListFile);
+				}
 			}
 			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const int32_t fileDescriptor) {
 				/*
