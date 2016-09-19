@@ -260,8 +260,8 @@ namespace azure {
 				try {															
 					std::ofstream ofs(filePath.c_str());
 					ofs.close();
-					std::fstream fs(filePath.c_str());
-					std::pair<std::string, std::fstream> p(handleId, fs);
+					std::fstream* fs = new std::fstream(filePath.c_str());
+					std::pair<std::string, std::fstream*> p(handleId, fs);
 					//file_handles.insert(std::pair<std::string, std::fstream>(handleId, fs));										
 				}
 				catch (const std::exception& ex) {
