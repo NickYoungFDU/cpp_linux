@@ -260,9 +260,12 @@ namespace azure {
 				try {															
 					std::ofstream ofs(filePath.c_str());
 					ofs.close();
-					std::fstream* fs = new std::fstream(filePath.c_str());					
+					std::fstream* fs = new std::fstream();					
+					fs->open(filePath.c_str());
 					file_handles.insert(std::pair<std::string, std::fstream*>(handleId, fs));		
 					std::cout << "[" + handleId + "].is_open():" << (fs->is_open() ? "true" : "false") << std::endl;
+					fs->write("test message", 12);
+					fs->flush();
 					std::cout << "#handles: " << file_handles.size() << std::endl;
 				}
 				catch (const std::exception& ex) {
@@ -335,6 +338,7 @@ namespace azure {
 						std::fstream* fs = it->second;
 						fs->seekp(offset);
 						fs->write(buffer.c_str(), buffer.length());
+						fs->flush();
 						SetResponse(_return, true, "Successfully write to file handle [" + handleId + "]");
 					}
 					else {
