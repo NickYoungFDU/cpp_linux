@@ -362,6 +362,7 @@ namespace azure {
 						FILE* file = it->second;
 						fclose(file);
 						file_pointers.erase(it);
+						close(it->first);
 						//delete file;
 						std::cout << "Successfully closed file handle [" << handleId << "]" << std::endl;
 						set_response(_return, true, "Successfully closed file handle [" + int_to_string(handleId) + "]");
@@ -376,6 +377,7 @@ namespace azure {
 				}
 				return;
 			}
+
 			void XSMBServiceHandler::ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count) {
 				std::cout << "ReadFileByHandle" << std::endl;
 				try {
@@ -437,6 +439,7 @@ namespace azure {
 				}
 				return;
 			}
+
 			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
 				std::cout << "WriteFileByHandle" << std::endl;
 				try {
