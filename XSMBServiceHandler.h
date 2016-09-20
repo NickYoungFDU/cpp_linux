@@ -44,9 +44,7 @@ namespace azure {
 
 				void GetFileLength(LinuxFileResponse& _return, const std::string& filePath);
 
-				void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);
-
-				bool ListFiles(const std::string& dirPath);
+				void SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength);				
 
 				void OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const int32_t handleId);
 				void CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId);

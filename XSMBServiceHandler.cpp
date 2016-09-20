@@ -226,27 +226,11 @@ namespace azure {
 				}
 			}
 
-
-			bool XSMBServiceHandler::ListFiles(const std::string& dirPath) {
-				printf("ListCloudFiles\n");
-				boost::filesystem::path dir(dirPath);
-				try {
-					boost::filesystem::recursive_directory_iterator end_iterator;
-
-				}
-				catch (const boost::filesystem::filesystem_error& ex) {
-					std::cout << ex.what() << std::endl;
-				}
-				return true;
-			}
-
 			void XSMBServiceHandler::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
 				printf("ListCloudFiles\n");
 				boost::filesystem::path dir(dirPath);
 				try {
-					std::copy(boost::filesystem::directory_iterator(dir),
-						boost::filesystem::directory_iterator(),
-						std::ostream_iterator<boost::filesystem::directory_entry>(std::cout, "\n"));
+					list_directory_recursive(dir);
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
