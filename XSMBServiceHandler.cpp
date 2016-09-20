@@ -319,7 +319,7 @@ namespace azure {
 						FILE* file = it->second;
 						fclose(file);
 						file_pointers.erase(it);
-						delete file;
+						//delete file;
 						std::cout << "Successfully closed file handle [" << handleId << "]" << std::endl;
 						SetResponse(_return, true, "Successfully closed file handle [" + IntToString(handleId) + "]");
 					}
