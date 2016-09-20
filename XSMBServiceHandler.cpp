@@ -371,11 +371,18 @@ namespace azure {
 						FILE* file = it->second;
 						char* buffer = new char[count];
 						fseek(file, offset, SEEK_SET);
-						fgets(buffer, count, file);
+						int64_t bytes_read = fread(buffer, sizeof(char), count, file);
 
-						std::string buffer_string = std::string(buffer, count);
+						std::string bytes_read_string = IntToString(bytes_read);
+						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);
+						std::cout << "bytes_read: [" << bytes_read_string << "]" << std::endl;
 						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
+						std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
 						SetResponse(_return, true, "Successfully read from file handle [" + IntToString(handleId) + "]");
+
+						std::map<std::string, std::string> additional_info;
+						_return.__set_AdditionalInfo(additional_info);
+						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read_string));
 						_return.__set_Buffer(buffer_string);
 					}
 					else {
@@ -414,7 +421,7 @@ namespace azure {
 						std::cout << "Start writing..." << std::endl;
 						FILE* file = it->second;
 						fseek(file, offset, SEEK_SET);
-						fputs(buffer.c_str(), file);
+						fwrite(buffer.c_str(), sizeof(char), buffer.length(), file);
 						fflush(file);
 						std::cout << "Should write: [" << buffer << "]" << std::endl;
 						SetResponse(_return, true, "Successfully write to file handle [" + IntToString(handleId) + "]");
