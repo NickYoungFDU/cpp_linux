@@ -253,7 +253,7 @@ namespace azure {
 				return;
 			}
 
-			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const std::string& handleId) {
+			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const int32_t handleId) {
 				std::cout << "OpenFileHandle" << std::endl;
 				boost::filesystem::path file(filePath);
 				try {	
