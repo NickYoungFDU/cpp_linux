@@ -365,7 +365,22 @@ namespace azure {
 					}
 					*/
 
+					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
+					if (it != file_pointers.end() && it->second != NULL) {
+						FILE* file = it->second;
+						char* buffer = new char[count];
+						fseek(file, offset, SEEK_SET);
+						fgets(buffer, count, file);
 
+						std::string buffer_string = std::string(buffer, count);
+						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
+						SetResponse(_return, true, "Successfully read from file handle [" + IntToString(handleId) + "]");
+						_return.__set_Buffer(buffer_string);
+					}
+					else {
+						std::cout << "file handle [" << handleId << "] does not exist, or somehow it has been closed." << std::endl;
+						SetResponse(_return, false, "file handle [" + IntToString(handleId) + "] does not exist, or somehow it has been closed.");
+					}
 				}
 				catch (const std::exception& ex) {
 					throw GetException(ex.what(), OperationType::WriteFile);
@@ -375,6 +390,9 @@ namespace azure {
 			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
 				std::cout << "WriteFileByHandle" << std::endl;
 				try {
+					/*
+					 * Cpp Version
+					 * /
 					std::map<std::string, std::fstream*>::iterator it = file_handles.find(handleId);
 					if (it != file_handles.end() && it->second->is_open()) {
 						std::cout << "Start writing..." << std::endl;
@@ -387,6 +405,22 @@ namespace azure {
 					else {
 						std::cout << "file handle [" + handleId + "] does not exist, or somehow it has been closed." << std::endl;
 						SetResponse(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
+					}
+					*/
+
+					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
+					if (it != file_pointers.end() && it->second != NULL) {
+						std::cout << "Start writing..." << std::endl;
+						FILE* file = it->second;
+						fseek(file, offset, SEEK_SET);
+						fputs(buffer.c_str(), file);
+						fflush(file);
+						std::cout << "Should write: [" << buffer << "]" << std::endl;
+						SetResponse(_return, true, "Successfully write to file handle [" + IntToString(handleId) + "]");
+					}
+					else {
+						std::cout << "file handle [" << handleId << "] does not exist, or somehow it has been closed." << std::endl;
+						SetResponse(_return, false, "file handle [" + IntToString(handleId) + "] does not exist, or somehow it has been closed.");
 					}
 				}
 				catch (const std::exception& ex) {
@@ -433,7 +467,7 @@ namespace azure {
 				}
 				
 			}
-			*/
+			*/ 
 		}
 	}
 }
