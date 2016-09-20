@@ -277,7 +277,8 @@ namespace azure {
 					int flag = GetFileFlag(fileAccess, fileMode);
 					int fd = open(filePath.c_str(), flag);
 					FILE* file = fdopen(fd, "r+");
-					fputs("test message", file);
+					char test[] = { (char)97, (char)98, (char)0, (char)99 };
+					fputs(test, file);
 					fflush(file);
 					file_pointers.insert(std::pair<int, FILE*>(fd, file));
 					std::cout << "#handles: " << file_pointers.size() << std::endl;
