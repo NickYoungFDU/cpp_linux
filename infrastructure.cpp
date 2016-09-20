@@ -45,8 +45,10 @@ namespace azure {
 					break;
 				case LinuxFileMode::OpenOrCreate:
 					flag |= O_CREAT;
+					break;
 				case LinuxFileMode::CreateNew:
 					flag |= O_CREAT | O_EXCL;
+					break;
 				case LinuxFileMode::Truncate:
 					flag |= O_TRUNC;
 					break;
