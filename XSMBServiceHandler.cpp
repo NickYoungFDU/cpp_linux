@@ -111,10 +111,6 @@ namespace azure {
 			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
 				printf("ReadFile\n");
 
-				char test[] = {(char)97, (char)98, (char)0, (char)99};
-				std::string test_str = std::string(test);
-				std::cout << test_str.length() << std::endl;
-
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
@@ -276,6 +272,11 @@ namespace azure {
 					 */
 					int flag = GetFileFlag(fileAccess, fileMode);
 					int fd = open(filePath.c_str(), flag);
+					if (fd == -1) {
+						printf("open() failed with error[%s]\n", strerror(errno));
+						SetResponse(_return, false, "open() failed with error [" + std::string(strerror(errno)) + "]");
+						return;
+					}
 					FILE* file = fdopen(fd, "rb+");
 					char test[] = { (char)97, (char)98, (char)0, (char)99 };
 					fwrite(test, sizeof(char), 4, file);
