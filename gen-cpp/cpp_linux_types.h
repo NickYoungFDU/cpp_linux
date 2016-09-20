@@ -131,16 +131,18 @@ class LinuxFileException : public ::apache::thrift::TException {
 void swap(LinuxFileException &a, LinuxFileException &b);
 
 typedef struct _LinuxFileResponse__isset {
-  _LinuxFileResponse__isset() : AdditionalInfo(false), Buffer(false) {}
+  _LinuxFileResponse__isset() : AdditionalInfo(false), Buffer(false), Directories(false), Files(false) {}
   bool AdditionalInfo :1;
   bool Buffer :1;
+  bool Directories :1;
+  bool Files :1;
 } _LinuxFileResponse__isset;
 
 class LinuxFileResponse {
  public:
 
-  static const char* ascii_fingerprint; // = "1078773DA8EE999B3618DACAB4C9A10B";
-  static const uint8_t binary_fingerprint[16]; // = {0x10,0x78,0x77,0x3D,0xA8,0xEE,0x99,0x9B,0x36,0x18,0xDA,0xCA,0xB4,0xC9,0xA1,0x0B};
+  static const char* ascii_fingerprint; // = "111D3CD199039234A243F1498E751DCF";
+  static const uint8_t binary_fingerprint[16]; // = {0x11,0x1D,0x3C,0xD1,0x99,0x03,0x92,0x34,0xA2,0x43,0xF1,0x49,0x8E,0x75,0x1D,0xCF};
 
   LinuxFileResponse(const LinuxFileResponse&);
   LinuxFileResponse& operator=(const LinuxFileResponse&);
@@ -153,6 +155,8 @@ class LinuxFileResponse {
   OperationType::type Type;
   std::map<std::string, std::string>  AdditionalInfo;
   std::string Buffer;
+  std::map<std::string, MatchInformation::type>  Directories;
+  std::map<std::string, MatchInformation::type>  Files;
 
   _LinuxFileResponse__isset __isset;
 
@@ -165,6 +169,10 @@ class LinuxFileResponse {
   void __set_AdditionalInfo(const std::map<std::string, std::string> & val);
 
   void __set_Buffer(const std::string& val);
+
+  void __set_Directories(const std::map<std::string, MatchInformation::type> & val);
+
+  void __set_Files(const std::map<std::string, MatchInformation::type> & val);
 
   bool operator == (const LinuxFileResponse & rhs) const
   {
@@ -181,6 +189,14 @@ class LinuxFileResponse {
     if (__isset.Buffer != rhs.__isset.Buffer)
       return false;
     else if (__isset.Buffer && !(Buffer == rhs.Buffer))
+      return false;
+    if (__isset.Directories != rhs.__isset.Directories)
+      return false;
+    else if (__isset.Directories && !(Directories == rhs.Directories))
+      return false;
+    if (__isset.Files != rhs.__isset.Files)
+      return false;
+    else if (__isset.Files && !(Files == rhs.Files))
       return false;
     return true;
   }

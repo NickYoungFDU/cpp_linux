@@ -50,8 +50,10 @@ struct LinuxFileResponse {
     1: required bool Success,
     2: required string ResponseMessage,
     3: required OperationType Type,
-    4: optional map<string, string> AdditionalInfo
-    5: optional binary Buffer
+    4: optional map<string, string> AdditionalInfo,
+    5: optional binary Buffer,
+    6: optional map<string, MatchInformation> Directories,
+    7: optional map<string, MatchInformation> Files
 }
 
 service FileShareService {   
@@ -81,7 +83,7 @@ service XSMBService {
     LinuxFileResponse WriteFile(1:string filePath, 2:i64 offset, 3:binary buffer, 4:i64 count)
                         throws (1:LinuxFileException linuxFileException),        
     
-    LinuxFileResponse ListFiles(1:string dirPath, 2:bool isRecursive, 3:map<string, MatchInformation> files, 4:map<string, MatchInformation> dirs)
+    LinuxFileResponse ListFiles(1:string dirPath, 2:bool isRecursive)
                         throws (1:LinuxFileException linuxFileException),
     
     LinuxFileResponse GetFileLength(1:string filePath) throws (1:LinuxFileException linuxFileException),

@@ -52,7 +52,7 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("WriteFile\n");
   }
 
-  void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
+  void ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
     // Your implementation goes here
     printf("ListFiles\n");
   }

@@ -276,8 +276,18 @@ void LinuxFileResponse::__set_Buffer(const std::string& val) {
 __isset.Buffer = true;
 }
 
-const char* LinuxFileResponse::ascii_fingerprint = "1078773DA8EE999B3618DACAB4C9A10B";
-const uint8_t LinuxFileResponse::binary_fingerprint[16] = {0x10,0x78,0x77,0x3D,0xA8,0xEE,0x99,0x9B,0x36,0x18,0xDA,0xCA,0xB4,0xC9,0xA1,0x0B};
+void LinuxFileResponse::__set_Directories(const std::map<std::string, MatchInformation::type> & val) {
+  this->Directories = val;
+__isset.Directories = true;
+}
+
+void LinuxFileResponse::__set_Files(const std::map<std::string, MatchInformation::type> & val) {
+  this->Files = val;
+__isset.Files = true;
+}
+
+const char* LinuxFileResponse::ascii_fingerprint = "111D3CD199039234A243F1498E751DCF";
+const uint8_t LinuxFileResponse::binary_fingerprint[16] = {0x11,0x1D,0x3C,0xD1,0x99,0x03,0x92,0x34,0xA2,0x43,0xF1,0x49,0x8E,0x75,0x1D,0xCF};
 
 uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -359,6 +369,56 @@ uint32_t LinuxFileResponse::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_MAP) {
+          {
+            this->Directories.clear();
+            uint32_t _size19;
+            ::apache::thrift::protocol::TType _ktype20;
+            ::apache::thrift::protocol::TType _vtype21;
+            xfer += iprot->readMapBegin(_ktype20, _vtype21, _size19);
+            uint32_t _i23;
+            for (_i23 = 0; _i23 < _size19; ++_i23)
+            {
+              std::string _key24;
+              xfer += iprot->readString(_key24);
+              MatchInformation::type& _val25 = this->Directories[_key24];
+              int32_t ecast26;
+              xfer += iprot->readI32(ecast26);
+              _val25 = (MatchInformation::type)ecast26;
+            }
+            xfer += iprot->readMapEnd();
+          }
+          this->__isset.Directories = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_MAP) {
+          {
+            this->Files.clear();
+            uint32_t _size27;
+            ::apache::thrift::protocol::TType _ktype28;
+            ::apache::thrift::protocol::TType _vtype29;
+            xfer += iprot->readMapBegin(_ktype28, _vtype29, _size27);
+            uint32_t _i31;
+            for (_i31 = 0; _i31 < _size27; ++_i31)
+            {
+              std::string _key32;
+              xfer += iprot->readString(_key32);
+              MatchInformation::type& _val33 = this->Files[_key32];
+              int32_t ecast34;
+              xfer += iprot->readI32(ecast34);
+              _val33 = (MatchInformation::type)ecast34;
+            }
+            xfer += iprot->readMapEnd();
+          }
+          this->__isset.Files = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -398,11 +458,11 @@ uint32_t LinuxFileResponse::write(::apache::thrift::protocol::TProtocol* oprot) 
     xfer += oprot->writeFieldBegin("AdditionalInfo", ::apache::thrift::protocol::T_MAP, 4);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->AdditionalInfo.size()));
-      std::map<std::string, std::string> ::const_iterator _iter19;
-      for (_iter19 = this->AdditionalInfo.begin(); _iter19 != this->AdditionalInfo.end(); ++_iter19)
+      std::map<std::string, std::string> ::const_iterator _iter35;
+      for (_iter35 = this->AdditionalInfo.begin(); _iter35 != this->AdditionalInfo.end(); ++_iter35)
       {
-        xfer += oprot->writeString(_iter19->first);
-        xfer += oprot->writeString(_iter19->second);
+        xfer += oprot->writeString(_iter35->first);
+        xfer += oprot->writeString(_iter35->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -411,6 +471,34 @@ uint32_t LinuxFileResponse::write(::apache::thrift::protocol::TProtocol* oprot) 
   if (this->__isset.Buffer) {
     xfer += oprot->writeFieldBegin("Buffer", ::apache::thrift::protocol::T_STRING, 5);
     xfer += oprot->writeBinary(this->Buffer);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.Directories) {
+    xfer += oprot->writeFieldBegin("Directories", ::apache::thrift::protocol::T_MAP, 6);
+    {
+      xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->Directories.size()));
+      std::map<std::string, MatchInformation::type> ::const_iterator _iter36;
+      for (_iter36 = this->Directories.begin(); _iter36 != this->Directories.end(); ++_iter36)
+      {
+        xfer += oprot->writeString(_iter36->first);
+        xfer += oprot->writeI32((int32_t)_iter36->second);
+      }
+      xfer += oprot->writeMapEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.Files) {
+    xfer += oprot->writeFieldBegin("Files", ::apache::thrift::protocol::T_MAP, 7);
+    {
+      xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->Files.size()));
+      std::map<std::string, MatchInformation::type> ::const_iterator _iter37;
+      for (_iter37 = this->Files.begin(); _iter37 != this->Files.end(); ++_iter37)
+      {
+        xfer += oprot->writeString(_iter37->first);
+        xfer += oprot->writeI32((int32_t)_iter37->second);
+      }
+      xfer += oprot->writeMapEnd();
+    }
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -426,24 +514,30 @@ void swap(LinuxFileResponse &a, LinuxFileResponse &b) {
   swap(a.Type, b.Type);
   swap(a.AdditionalInfo, b.AdditionalInfo);
   swap(a.Buffer, b.Buffer);
+  swap(a.Directories, b.Directories);
+  swap(a.Files, b.Files);
   swap(a.__isset, b.__isset);
 }
 
-LinuxFileResponse::LinuxFileResponse(const LinuxFileResponse& other20) {
-  Success = other20.Success;
-  ResponseMessage = other20.ResponseMessage;
-  Type = other20.Type;
-  AdditionalInfo = other20.AdditionalInfo;
-  Buffer = other20.Buffer;
-  __isset = other20.__isset;
+LinuxFileResponse::LinuxFileResponse(const LinuxFileResponse& other38) {
+  Success = other38.Success;
+  ResponseMessage = other38.ResponseMessage;
+  Type = other38.Type;
+  AdditionalInfo = other38.AdditionalInfo;
+  Buffer = other38.Buffer;
+  Directories = other38.Directories;
+  Files = other38.Files;
+  __isset = other38.__isset;
 }
-LinuxFileResponse& LinuxFileResponse::operator=(const LinuxFileResponse& other21) {
-  Success = other21.Success;
-  ResponseMessage = other21.ResponseMessage;
-  Type = other21.Type;
-  AdditionalInfo = other21.AdditionalInfo;
-  Buffer = other21.Buffer;
-  __isset = other21.__isset;
+LinuxFileResponse& LinuxFileResponse::operator=(const LinuxFileResponse& other39) {
+  Success = other39.Success;
+  ResponseMessage = other39.ResponseMessage;
+  Type = other39.Type;
+  AdditionalInfo = other39.AdditionalInfo;
+  Buffer = other39.Buffer;
+  Directories = other39.Directories;
+  Files = other39.Files;
+  __isset = other39.__isset;
   return *this;
 }
 std::ostream& operator<<(std::ostream& out, const LinuxFileResponse& obj) {
@@ -454,6 +548,8 @@ std::ostream& operator<<(std::ostream& out, const LinuxFileResponse& obj) {
   out << ", " << "Type=" << to_string(obj.Type);
   out << ", " << "AdditionalInfo="; (obj.__isset.AdditionalInfo ? (out << to_string(obj.AdditionalInfo)) : (out << "<null>"));
   out << ", " << "Buffer="; (obj.__isset.Buffer ? (out << to_string(obj.Buffer)) : (out << "<null>"));
+  out << ", " << "Directories="; (obj.__isset.Directories ? (out << to_string(obj.Directories)) : (out << "<null>"));
+  out << ", " << "Files="; (obj.__isset.Files ? (out << to_string(obj.Files)) : (out << "<null>"));
   out << ")";
   return out;
 }

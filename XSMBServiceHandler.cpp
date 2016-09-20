@@ -195,23 +195,29 @@ namespace azure {
 					std::cout << (boost::filesystem::is_symlink(path) ? 'L' : ' ') << ' ';
 					for (int i = 0; i < level; i++)
 						std::cout << ' ';
-					std::cout << path.filename() << std::endl;
+					std::cout << level << ' ' << path.filename() << std::endl;
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
 				}
 			}
 
-			void list_directory_recursive(const boost::filesystem::path& path) {
-				dump(path, 0);
+			void list_directory_recursive(const boost::filesystem::path& path, std::map<std::string, MatchInformation::type> & files, std::map<std::string, MatchInformation::type> & dirs) {
+				//dump(path, 0);
 				boost::filesystem::recursive_directory_iterator it = create_recursive_directory_iterator(path);
 				boost::filesystem::recursive_directory_iterator end;
-				while (it != end) {
-					dump(*it, it.level());
+				while (it != end) {					
+					/* Take care of symbolic link later.
 					if (boost::filesystem::is_directory(*it) && boost::filesystem::is_symlink(*it))
 						it.no_push();
+					*/					
 					try {
-						it++;
+						dump(*it, it.level());
+						if (boost::filesystem::is_directory(*it))
+							dirs.insert(std::pair<std::string, MatchInformation::type>(boost::filesystem::path(*it).string(), MatchInformation::OnlyOnServer));
+						else if (boost::filesystem::is_regular_file(*it))
+							files.insert(std::pair<std::string, MatchInformation::type>(boost::filesystem::path(*it).string(), MatchInformation::OnlyOnServer));
+						it++;						
 					}
 					catch (const boost::filesystem::filesystem_error& ex) {
 						std::cout << ex.what() << std::endl;
@@ -226,11 +232,15 @@ namespace azure {
 				}
 			}
 
-			void XSMBServiceHandler::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs) {
+			void XSMBServiceHandler::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
 				printf("ListCloudFiles\n");
 				boost::filesystem::path dir(dirPath);
+				std::map<std::string, MatchInformation::type> files, dirs;
 				try {
-					list_directory_recursive(dir);
+					list_directory_recursive(dir, files, dirs);
+					set_response(_return, true, "Success");
+					_return.__set_Directories(dirs);
+					_return.__set_Files(files);
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;

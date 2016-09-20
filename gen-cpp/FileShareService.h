@@ -141,8 +141,8 @@ typedef struct _FileShareService_MapFileShare_result__isset {
 class FileShareService_MapFileShare_result {
  public:
 
-  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
-  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
 
   FileShareService_MapFileShare_result(const FileShareService_MapFileShare_result&);
   FileShareService_MapFileShare_result& operator=(const FileShareService_MapFileShare_result&);
@@ -188,8 +188,8 @@ typedef struct _FileShareService_MapFileShare_presult__isset {
 class FileShareService_MapFileShare_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
-  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
 
 
   virtual ~FileShareService_MapFileShare_presult() throw();
@@ -269,8 +269,8 @@ typedef struct _FileShareService_UnmapFileShare_result__isset {
 class FileShareService_UnmapFileShare_result {
  public:
 
-  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
-  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
 
   FileShareService_UnmapFileShare_result(const FileShareService_UnmapFileShare_result&);
   FileShareService_UnmapFileShare_result& operator=(const FileShareService_UnmapFileShare_result&);
@@ -316,8 +316,8 @@ typedef struct _FileShareService_UnmapFileShare_presult__isset {
 class FileShareService_UnmapFileShare_presult {
  public:
 
-  static const char* ascii_fingerprint; // = "8C54A0F98807EFF15041206ACA731580";
-  static const uint8_t binary_fingerprint[16]; // = {0x8C,0x54,0xA0,0xF9,0x88,0x07,0xEF,0xF1,0x50,0x41,0x20,0x6A,0xCA,0x73,0x15,0x80};
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
 
 
   virtual ~FileShareService_UnmapFileShare_presult() throw();

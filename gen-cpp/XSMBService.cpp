@@ -1413,56 +1413,6 @@ uint32_t XSMBService_ListFiles_args::read(::apache::thrift::protocol::TProtocol*
           xfer += iprot->skip(ftype);
         }
         break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_MAP) {
-          {
-            this->files.clear();
-            uint32_t _size22;
-            ::apache::thrift::protocol::TType _ktype23;
-            ::apache::thrift::protocol::TType _vtype24;
-            xfer += iprot->readMapBegin(_ktype23, _vtype24, _size22);
-            uint32_t _i26;
-            for (_i26 = 0; _i26 < _size22; ++_i26)
-            {
-              std::string _key27;
-              xfer += iprot->readString(_key27);
-              MatchInformation::type& _val28 = this->files[_key27];
-              int32_t ecast29;
-              xfer += iprot->readI32(ecast29);
-              _val28 = (MatchInformation::type)ecast29;
-            }
-            xfer += iprot->readMapEnd();
-          }
-          this->__isset.files = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_MAP) {
-          {
-            this->dirs.clear();
-            uint32_t _size30;
-            ::apache::thrift::protocol::TType _ktype31;
-            ::apache::thrift::protocol::TType _vtype32;
-            xfer += iprot->readMapBegin(_ktype31, _vtype32, _size30);
-            uint32_t _i34;
-            for (_i34 = 0; _i34 < _size30; ++_i34)
-            {
-              std::string _key35;
-              xfer += iprot->readString(_key35);
-              MatchInformation::type& _val36 = this->dirs[_key35];
-              int32_t ecast37;
-              xfer += iprot->readI32(ecast37);
-              _val36 = (MatchInformation::type)ecast37;
-            }
-            xfer += iprot->readMapEnd();
-          }
-          this->__isset.dirs = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1488,32 +1438,6 @@ uint32_t XSMBService_ListFiles_args::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeBool(this->isRecursive);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("files", ::apache::thrift::protocol::T_MAP, 3);
-  {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->files.size()));
-    std::map<std::string, MatchInformation::type> ::const_iterator _iter38;
-    for (_iter38 = this->files.begin(); _iter38 != this->files.end(); ++_iter38)
-    {
-      xfer += oprot->writeString(_iter38->first);
-      xfer += oprot->writeI32((int32_t)_iter38->second);
-    }
-    xfer += oprot->writeMapEnd();
-  }
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("dirs", ::apache::thrift::protocol::T_MAP, 4);
-  {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->dirs.size()));
-    std::map<std::string, MatchInformation::type> ::const_iterator _iter39;
-    for (_iter39 = this->dirs.begin(); _iter39 != this->dirs.end(); ++_iter39)
-    {
-      xfer += oprot->writeString(_iter39->first);
-      xfer += oprot->writeI32((int32_t)_iter39->second);
-    }
-    xfer += oprot->writeMapEnd();
-  }
-  xfer += oprot->writeFieldEnd();
-
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   oprot->decrementRecursionDepth();
@@ -1536,32 +1460,6 @@ uint32_t XSMBService_ListFiles_pargs::write(::apache::thrift::protocol::TProtoco
 
   xfer += oprot->writeFieldBegin("isRecursive", ::apache::thrift::protocol::T_BOOL, 2);
   xfer += oprot->writeBool((*(this->isRecursive)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("files", ::apache::thrift::protocol::T_MAP, 3);
-  {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>((*(this->files)).size()));
-    std::map<std::string, MatchInformation::type> ::const_iterator _iter40;
-    for (_iter40 = (*(this->files)).begin(); _iter40 != (*(this->files)).end(); ++_iter40)
-    {
-      xfer += oprot->writeString(_iter40->first);
-      xfer += oprot->writeI32((int32_t)_iter40->second);
-    }
-    xfer += oprot->writeMapEnd();
-  }
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("dirs", ::apache::thrift::protocol::T_MAP, 4);
-  {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_I32, static_cast<uint32_t>((*(this->dirs)).size()));
-    std::map<std::string, MatchInformation::type> ::const_iterator _iter41;
-    for (_iter41 = (*(this->dirs)).begin(); _iter41 != (*(this->dirs)).end(); ++_iter41)
-    {
-      xfer += oprot->writeString(_iter41->first);
-      xfer += oprot->writeI32((int32_t)_iter41->second);
-    }
-    xfer += oprot->writeMapEnd();
-  }
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2159,9 +2057,9 @@ uint32_t XSMBService_OpenFileHandle_args::read(::apache::thrift::protocol::TProt
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast42;
-          xfer += iprot->readI32(ecast42);
-          this->fileMode = (LinuxFileMode::type)ecast42;
+          int32_t ecast40;
+          xfer += iprot->readI32(ecast40);
+          this->fileMode = (LinuxFileMode::type)ecast40;
           this->__isset.fileMode = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -2169,9 +2067,9 @@ uint32_t XSMBService_OpenFileHandle_args::read(::apache::thrift::protocol::TProt
         break;
       case 3:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast43;
-          xfer += iprot->readI32(ecast43);
-          this->fileAccess = (LinuxFileAccess::type)ecast43;
+          int32_t ecast41;
+          xfer += iprot->readI32(ecast41);
+          this->fileAccess = (LinuxFileAccess::type)ecast41;
           this->__isset.fileAccess = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -3454,13 +3352,13 @@ void XSMBServiceClient::recv_WriteFile(LinuxFileResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "WriteFile failed: unknown result");
 }
 
-void XSMBServiceClient::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs)
+void XSMBServiceClient::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive)
 {
-  send_ListFiles(dirPath, isRecursive, files, dirs);
+  send_ListFiles(dirPath, isRecursive);
   recv_ListFiles(_return);
 }
 
-void XSMBServiceClient::send_ListFiles(const std::string& dirPath, const bool isRecursive, const std::map<std::string, MatchInformation::type> & files, const std::map<std::string, MatchInformation::type> & dirs)
+void XSMBServiceClient::send_ListFiles(const std::string& dirPath, const bool isRecursive)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("ListFiles", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -3468,8 +3366,6 @@ void XSMBServiceClient::send_ListFiles(const std::string& dirPath, const bool is
   XSMBService_ListFiles_pargs args;
   args.dirPath = &dirPath;
   args.isRecursive = &isRecursive;
-  args.files = &files;
-  args.dirs = &dirs;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4277,7 +4173,7 @@ void XSMBServiceProcessor::process_ListFiles(int32_t seqid, ::apache::thrift::pr
 
   XSMBService_ListFiles_result result;
   try {
-    iface_->ListFiles(result.success, args.dirPath, args.isRecursive, args.files, args.dirs);
+    iface_->ListFiles(result.success, args.dirPath, args.isRecursive);
     result.__isset.success = true;
   } catch (LinuxFileException &linuxFileException) {
     result.linuxFileException = linuxFileException;
