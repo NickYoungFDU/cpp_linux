@@ -5,19 +5,19 @@ using namespace ::azure::storage::cpp_linux;
 namespace azure {
 	namespace storage {
 		namespace cpp_linux {
-			void SetResponse(LinuxFileResponse& response, bool success, std::string message) {
+			void set_response(LinuxFileResponse& response, bool success, std::string message) {
 				response.Success = success;
 				response.ResponseMessage = message;
 			}
 
-			LinuxFileException GetException(std::string errorMessage, OperationType::type type) {
+			LinuxFileException set_exception(std::string errorMessage, OperationType::type type) {
 				LinuxFileException linuxFileException;
 				linuxFileException.ErrorMessage = errorMessage;
 				linuxFileException.Type = type;
 				return linuxFileException;
 			}
 
-			std::string IntToString(int64_t integer) {
+			std::string int_to_string(int64_t integer) {
 				std::string result;
 				std::ostringstream convert;
 				convert << integer;
@@ -25,7 +25,7 @@ namespace azure {
 				return result;
 			}
 
-			int GetFileFlag(LinuxFileAccess::type fileAccess, LinuxFileMode::type fileMode) {
+			int set_file_flag(LinuxFileAccess::type fileAccess, LinuxFileMode::type fileMode) {
 				int flag = 0;
 				switch (fileAccess) {
 				case LinuxFileAccess::Read:

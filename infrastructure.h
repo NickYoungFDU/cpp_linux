@@ -9,10 +9,10 @@ using namespace ::azure::storage::cpp_linux;
 namespace azure {
 	namespace storage {
 		namespace cpp_linux {
-			void SetResponse(LinuxFileResponse& response, bool success, std::string message);
-			LinuxFileException GetException(std::string errorMessage, OperationType::type type);
-			std::string IntToString(int64_t integer);
-			int GetFileFlag(LinuxFileAccess::type fileAccess, LinuxFileMode::type fileMode);
+			void set_response(LinuxFileResponse& response, bool success, std::string message);
+			LinuxFileException set_exception(std::string error_message, OperationType::type type);
+			std::string int_to_string(int64_t integer);
+			int set_file_flag(LinuxFileAccess::type file_access, LinuxFileMode::type file_mode);
 		}
 	}
 }

@@ -29,15 +29,15 @@ namespace azure {
 				boost::filesystem::path dir(dirPath);
 				try {
 					if (boost::filesystem::exists(dir) && boost::filesystem::is_directory(dir)) {						
-						SetResponse(_return, false, dirPath + ": directory already exists");						
+						set_response(_return, false, dirPath + ": directory already exists");						
 					}
 					else {
 						boost::filesystem::create_directory(dir);
-						SetResponse(_return, true, "Successfully created directory " + dirPath);
+						set_response(_return, true, "Successfully created directory " + dirPath);
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::CreateDirectory);
+					throw set_exception(ex.what(), OperationType::CreateDirectory);
 				}
 				return;
 			}
@@ -48,20 +48,20 @@ namespace azure {
 				boost::filesystem::path dir(dirPath);
 				try {
 					if (!boost::filesystem::exists(dir) || !boost::filesystem::is_directory(dir)) {						
-						SetResponse(_return, false, dirPath + " does not exist or is not a directory");
+						set_response(_return, false, dirPath + " does not exist or is not a directory");
 					}
 					else {
 						if (boost::filesystem::is_empty(dir) || isRecursive) {							
 							boost::filesystem::remove_all(dir);																					
-							SetResponse(_return, true, "Successfully deleted directory " + dirPath);
+							set_response(_return, true, "Successfully deleted directory " + dirPath);
 						}
 						else {							
-							SetResponse(_return, false, dirPath + " is not empty while isRecursive is false");
+							set_response(_return, false, dirPath + " is not empty while isRecursive is false");
 						}
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::DeleteDirectory);
+					throw set_exception(ex.what(), OperationType::DeleteDirectory);
 				}
 				return;
 			}
@@ -72,7 +72,7 @@ namespace azure {
 				boost::filesystem::path file(filePath);
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
-						SetResponse(_return, false, filePath + " already exists");
+						set_response(_return, false, filePath + " already exists");
 					}
 					else {
 						boost::filesystem::fstream fs;
@@ -80,11 +80,11 @@ namespace azure {
 						fs.seekp(fileSize - 1);
 						fs.write("", 1);
 						fs.close();					
-						SetResponse(_return, true, "Successfully created " + filePath);
+						set_response(_return, true, "Successfully created " + filePath);
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::CreateFile);
+					throw set_exception(ex.what(), OperationType::CreateFile);
 				}
 				return;
 			}
@@ -95,15 +95,15 @@ namespace azure {
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
-						SetResponse(_return, false, filePath + " does not exist or is not a file");
+						set_response(_return, false, filePath + " does not exist or is not a file");
 					}
 					else {
 						boost::filesystem::remove(file);
-						SetResponse(_return, true, "Successfully deleted file " + filePath);
+						set_response(_return, true, "Successfully deleted file " + filePath);
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::DeleteFile);
+					throw set_exception(ex.what(), OperationType::DeleteFile);
 				}
 				return;
 			}
@@ -114,7 +114,7 @@ namespace azure {
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
-						SetResponse(_return, false, filePath + " does not exist or is not a file");
+						set_response(_return, false, filePath + " does not exist or is not a file");
 					}
 					else {
 						std::fstream fs;
@@ -128,7 +128,7 @@ namespace azure {
 
 						int64_t bytes_read = fs.gcount();
 
-						std::string bytes_read_string = IntToString(bytes_read);
+						std::string bytes_read_string = int_to_string(bytes_read);
 
 						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);												
 
@@ -138,7 +138,7 @@ namespace azure {
 
 						fs.close();
 
-						SetResponse(_return, true, "Successfully read from file " + filePath);
+						set_response(_return, true, "Successfully read from file " + filePath);
 
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);												
@@ -147,7 +147,7 @@ namespace azure {
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::ReadFile);
+					throw set_exception(ex.what(), OperationType::ReadFile);
 				}
 				return;
 			}
@@ -158,7 +158,7 @@ namespace azure {
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
-						SetResponse(_return, false, filePath + " does not exist or is not a file");
+						set_response(_return, false, filePath + " does not exist or is not a file");
 					}
 					else {
 						std::fstream fs;
@@ -170,22 +170,69 @@ namespace azure {
 
 						fs.close();
 
-						SetResponse(_return, true, "Successfully write to " + filePath);
+						set_response(_return, true, "Successfully write to " + filePath);
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::WriteFile);
+					throw set_exception(ex.what(), OperationType::WriteFile);
 				}
 				return;
 			}
+
+			boost::filesystem::recursive_directory_iterator create_recursive_directory_iterator(const boost::filesystem::path& path) {
+				try {
+					return boost::filesystem::recursive_directory_iterator(path);
+				}
+				catch (const boost::filesystem::filesystem_error& ex) {
+					std::cout << ex.what() << std::endl;
+					return boost::filesystem::recursive_directory_iterator();
+				}
+			}
+			
+			void dump(const boost::filesystem::path& path, int level) {
+				try {
+					std::cout << (boost::filesystem::is_directory(path) ? 'D' : ' ') << ' ';
+					std::cout << (boost::filesystem::is_symlink(path) ? 'L' : ' ') << ' ';
+					for (int i = 0; i < level; i++)
+						std::cout << ' ';
+					std::cout << path.filename() << std::endl;
+				}
+				catch (const boost::filesystem::filesystem_error& ex) {
+					std::cout << ex.what() << std::endl;
+				}
+			}
+
+			void list_directory_recursive(const boost::filesystem::path& path) {
+				dump(path, 0);
+				boost::filesystem::recursive_directory_iterator it = create_recursive_directory_iterator(path);
+				boost::filesystem::recursive_directory_iterator end;
+				while (it != end) {
+					dump(*it, it.level());
+					if (boost::filesystem::is_directory(*it) && boost::filesystem::is_symlink(*it))
+						it.no_push();
+					try {
+						it++;
+					}
+					catch (const boost::filesystem::filesystem_error& ex) {
+						std::cout << ex.what() << std::endl;
+						it.no_push();
+						try {
+							it++;
+						}
+						catch (...) {
+							std::cout << "!!" << std::endl;
+						}
+					}
+				}
+			}
+
 
 			bool XSMBServiceHandler::ListFiles(const std::string& dirPath) {
 				printf("ListCloudFiles\n");
 				boost::filesystem::path dir(dirPath);
 				try {
-					std::copy(boost::filesystem::directory_iterator(dir),
-						boost::filesystem::directory_iterator(),
-						std::ostream_iterator<boost::filesystem::directory_entry>(std::cout, "\n"));
+					boost::filesystem::recursive_directory_iterator end_iterator;
+
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
 					std::cout << ex.what() << std::endl;
@@ -212,21 +259,21 @@ namespace azure {
 				boost::filesystem::path file(filePath);				
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {			
-						SetResponse(_return, true, "Successfully get file length for " + filePath);
+						set_response(_return, true, "Successfully get file length for " + filePath);
 
 						int64_t file_size =  (int64_t)boost::filesystem::file_size(file);
-						std::string file_size_string = IntToString(file_size);
+						std::string file_size_string = int_to_string(file_size);
 
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("FileLength", file_size_string));						
 					}
 					else {
-						SetResponse(_return, false, filePath + " does not exist or is not a file");
+						set_response(_return, false, filePath + " does not exist or is not a file");
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::GetFileLength);
+					throw set_exception(ex.what(), OperationType::GetFileLength);
 				}				
 				return;
 			}
@@ -237,14 +284,14 @@ namespace azure {
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {						
 						boost::filesystem::resize_file(file, (uintmax_t)fileLength);
-						SetResponse(_return, true, "Successfully set file length!");
+						set_response(_return, true, "Successfully set file length!");
 					}
 					else {
-						SetResponse(_return, false, filePath + " does not exist or is not a file");
+						set_response(_return, false, filePath + " does not exist or is not a file");
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::SetFileLength);
+					throw set_exception(ex.what(), OperationType::SetFileLength);
 				}
 				return;
 			}
@@ -270,11 +317,11 @@ namespace azure {
 					/*
 					 * Linux System Call
 					 */
-					int flag = GetFileFlag(fileAccess, fileMode);
+					int flag = set_file_flag(fileAccess, fileMode);
 					int fd = open(filePath.c_str(), flag);
 					if (fd == -1) {
 						printf("open() failed with error[%s]\n", strerror(errno));
-						SetResponse(_return, false, "open() failed with error [" + std::string(strerror(errno)) + "]");
+						set_response(_return, false, "open() failed with error [" + std::string(strerror(errno)) + "]");
 						return;
 					}
 					FILE* file = fdopen(fd, "rb+");
@@ -283,14 +330,14 @@ namespace azure {
 					fflush(file);
 					file_pointers.insert(std::pair<int, FILE*>(fd, file));
 					std::cout << "#handles: " << file_pointers.size() << std::endl;
-					SetResponse(_return, true, "Sucessfully opened file handler [" + IntToString(fd) + "]");
+					set_response(_return, true, "Sucessfully opened file handler [" + int_to_string(fd) + "]");
 
 					std::map<std::string, std::string> additional_info;
 					_return.__set_AdditionalInfo(additional_info);
-					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("FileDescriptor", IntToString(fd)));
+					_return.AdditionalInfo.insert(std::pair<std::string, std::string>("FileDescriptor", int_to_string(fd)));
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::WriteFile);
+					throw set_exception(ex.what(), OperationType::WriteFile);
 				}
 				return;
 			}
@@ -308,11 +355,11 @@ namespace azure {
 						file_handles.erase(it);
 						delete fs;
 						std::cout << "Successfully closed file handle [" + handleId + "]" << std::endl;
-						SetResponse(_return, true, "Successfully closed file handle [" + handleId + "]");
+						set_response(_return, true, "Successfully closed file handle [" + handleId + "]");
 					}
 					else {
 						std::cout << "File handle [" + handleId + "] does not exist. It may have been closed." << std::endl;
-						SetResponse(_return, false, "File handle [" + handleId + "] does not exist. It may have been closed.");
+						set_response(_return, false, "File handle [" + handleId + "] does not exist. It may have been closed.");
 					}
 					*/
 
@@ -323,15 +370,15 @@ namespace azure {
 						file_pointers.erase(it);
 						//delete file;
 						std::cout << "Successfully closed file handle [" << handleId << "]" << std::endl;
-						SetResponse(_return, true, "Successfully closed file handle [" + IntToString(handleId) + "]");
+						set_response(_return, true, "Successfully closed file handle [" + int_to_string(handleId) + "]");
 					}
 					else {
 						std::cout << "File handle [" << handleId << "] does not exist. It may have been closed." << std::endl;
-						SetResponse(_return, false, "File handle [" + IntToString(handleId) + "] does not exist. It may have been closed.");
+						set_response(_return, false, "File handle [" + int_to_string(handleId) + "] does not exist. It may have been closed.");
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::WriteFile);
+					throw set_exception(ex.what(), OperationType::WriteFile);
 				}
 				return;
 			}
@@ -348,13 +395,13 @@ namespace azure {
 						fs->seekg(offset, fs->beg);
 						fs->read(buffer, count);
 						int64_t bytes_read = fs->gcount();
-						std::string bytes_read_string = IntToString(bytes_read);
+						std::string bytes_read_string = int_to_string(bytes_read);
 						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);
 
 						std::cout << "bytes_read: [" << bytes_read_string << "]" << std::endl;
 						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
 						std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
-						SetResponse(_return, true, "Successfully read from file handle [" + handleId + "]");
+						set_response(_return, true, "Successfully read from file handle [" + handleId + "]");
 
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);
@@ -363,7 +410,7 @@ namespace azure {
 					}
 					else {
 						std::cout << "file handle [" << handleId << "] does not exist, or somehow it has been closed." << std::endl;
-						SetResponse(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
+						set_response(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
 					}
 					*/
 
@@ -374,12 +421,12 @@ namespace azure {
 						fseek(file, offset, SEEK_SET);
 						int64_t bytes_read = fread(buffer, sizeof(char), count, file);
 
-						std::string bytes_read_string = IntToString(bytes_read);
+						std::string bytes_read_string = int_to_string(bytes_read);
 						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);
 						std::cout << "bytes_read: [" << bytes_read_string << "]" << std::endl;
 						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
 						std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
-						SetResponse(_return, true, "Successfully read from file handle [" + IntToString(handleId) + "]");
+						set_response(_return, true, "Successfully read from file handle [" + int_to_string(handleId) + "]");
 
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);
@@ -388,11 +435,11 @@ namespace azure {
 					}
 					else {
 						std::cout << "file handle [" << handleId << "] does not exist, or somehow it has been closed." << std::endl;
-						SetResponse(_return, false, "file handle [" + IntToString(handleId) + "] does not exist, or somehow it has been closed.");
+						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] does not exist, or somehow it has been closed.");
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::WriteFile);
+					throw set_exception(ex.what(), OperationType::WriteFile);
 				}
 				return;
 			}
@@ -409,11 +456,11 @@ namespace azure {
 						fs->seekp(offset);
 						fs->write(buffer.c_str(), buffer.length());
 						fs->flush();
-						SetResponse(_return, true, "Successfully write to file handle [" + handleId + "]");
+						set_response(_return, true, "Successfully write to file handle [" + handleId + "]");
 					}
 					else {
 						std::cout << "file handle [" + handleId + "] does not exist, or somehow it has been closed." << std::endl;
-						SetResponse(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
+						set_response(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
 					}
 					*/
 
@@ -425,15 +472,15 @@ namespace azure {
 						fwrite(buffer.c_str(), sizeof(char), buffer.length(), file);
 						fflush(file);
 						std::cout << "Should write: [" << buffer << "]" << std::endl;
-						SetResponse(_return, true, "Successfully write to file handle [" + IntToString(handleId) + "]");
+						set_response(_return, true, "Successfully write to file handle [" + int_to_string(handleId) + "]");
 					}
 					else {
 						std::cout << "file handle [" << handleId << "] does not exist, or somehow it has been closed." << std::endl;
-						SetResponse(_return, false, "file handle [" + IntToString(handleId) + "] does not exist, or somehow it has been closed.");
+						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] does not exist, or somehow it has been closed.");
 					}
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::WriteFile);
+					throw set_exception(ex.what(), OperationType::WriteFile);
 				}
 				return;
 			}
@@ -443,9 +490,9 @@ namespace azure {
 			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath) {
 				
 				int fd = open(filePath.c_str(), O_CREAT | O_RDWR, S_IRWXU);
-				SetResponse(_return, true, "Successfully opened " + filePath);
+				set_response(_return, true, "Successfully opened " + filePath);
 
-				std::string fd_string = IntToString(fd);
+				std::string fd_string = int_to_string(fd);
 
 				std::map<std::string, std::string> additional_info;
 				_return.__set_AdditionalInfo(additional_info);
@@ -460,7 +507,7 @@ namespace azure {
 					std::cout << "file is open: " << (fd.is_open() ? "true" : "false") << std::endl;
 				}
 				catch (const std::exception& ex) {
-					throw GetException(ex.what(), OperationType::ListFile);
+					throw set_exception(ex.what(), OperationType::ListFile);
 				}
 				
 
@@ -469,7 +516,7 @@ namespace azure {
 				
 				int error_num = close(fileDescriptor);
 				if (error_num == 0) {
-					SetResponse(_return, true, "Successfully closed file descriptor");
+					set_response(_return, true, "Successfully closed file descriptor");
 				}
 				else {
 					std::cout << "error..." << std::endl;	
