@@ -499,11 +499,13 @@ namespace azure {
 				std::cout << "CopyFile" << std::endl;
 				boost::filesystem::path source(sourcePath), destination(destinationPath);
 				try {
-					boost::filesystem::copy_option option = overwriteIfExists ? boost::filesystem::copy_option::overwrite_if_exists : boost::filesystem::copy_option::fail_if_exists;
-					boost::system::error_code error_code;
-					boost::filesystem::copy_file(source, destination, option, error_code);
-					std::cout << "error code: " << error_code << std::endl;
-					
+					if (!overwriteIfExists && boost::filesystem::exists(destination)) {
+						set_response(_return, false, destinationPath + " exists, copy failed.");
+					}
+					else {
+						boost::filesystem::copy_file(source, destination);
+						set_response(_return, true, "Succesfully copied " + sourcePath + " to " + destinationPath);
+					}				
 				} 
 				catch (const std::exception& ex) {
 					throw set_exception(ex.what(), OperationType::CreateDirectory);
