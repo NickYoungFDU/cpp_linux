@@ -52,6 +52,8 @@ namespace azure {
 				void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count);
 
 				void PathExists(LinuxFileResponse& _return, const std::string& path);
+
+				void CopyFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists);
 			private:
 				std::map<std::string, std::fstream*> file_handles;
 				std::map<int, FILE*> file_pointers;

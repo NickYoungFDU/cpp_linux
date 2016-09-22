@@ -473,8 +473,7 @@ namespace azure {
 						std::cout << "file handle [" + handleId + "] does not exist, or somehow it has been closed." << std::endl;
 						set_response(_return, false, "file handle [" + handleId + "] does not exist, or somehow it has been closed.");
 					}
-					*/
-
+					*/					
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end() && it->second != NULL) {
 						std::cout << "Start writing..." << std::endl;
@@ -492,6 +491,22 @@ namespace azure {
 				}
 				catch (const std::exception& ex) {
 					throw set_exception(ex.what(), OperationType::WriteFile);
+				}
+				return;
+			}
+
+			void XSMBServiceHandler::CopyFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists) {
+				std::cout << "CopyFile" << std::endl;
+				boost::filesystem::path source(sourcePath), destination(destinationPath);
+				try {
+					boost::filesystem::copy_option option = overwriteIfExists ? boost::filesystem::copy_option::overwrite_if_exists : boost::filesystem::copy_option::fail_if_exists;
+					boost::system::error_code error_code;
+					boost::filesystem::copy_file(source, destination, option, error_code);
+					std::cout << "error code: " << error_code << std::endl;
+					
+				} 
+				catch (const std::exception& ex) {
+					throw set_exception(ex.what(), OperationType::CreateDirectory);
 				}
 				return;
 			}

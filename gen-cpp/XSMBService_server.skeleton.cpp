@@ -32,6 +32,11 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("CreateDirectory\n");
   }
 
+  void CopyFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists) {
+    // Your implementation goes here
+    printf("CopyFile\n");
+  }
+
   void DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
     // Your implementation goes here
     printf("DeleteDirectory\n");

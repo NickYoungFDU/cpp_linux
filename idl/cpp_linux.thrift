@@ -69,6 +69,9 @@ service XSMBService {
     
     LinuxFileResponse CreateDirectory(1:string dirPath) throws (1:LinuxFileException linuxFileException),
     
+    LinuxFileResponse CopyFile(1:string sourcePath, 2:string destinationPath, 3:bool overwriteIfExists) 
+                        throws(1:LinuxFileException linuxFileException),
+    
     LinuxFileResponse DeleteDirectory(1:string dirPath, 2:bool isRecursive) 
                         throws (1:LinuxFileException linuxFileException),
     
