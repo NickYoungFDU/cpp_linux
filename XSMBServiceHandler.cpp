@@ -30,7 +30,7 @@ namespace azure {
 					if (boost::filesystem::exists(b_path))
 						set_response(_return, true, path + " exists");
 					else
-						set_response(_return, true, path + " does not exist");
+						set_response(_return, false, path + " does not exist");
 				}
 				catch (const std::exception& ex) {
 					throw set_exception(ex.what(), OperationType::ListFile);
