@@ -23,6 +23,20 @@ namespace azure {
 		{
 			// TODO: Add logging to these handler functions.
 
+			void PathExists(LinuxFileResponse& _return, const std::string& path) {
+				printf("PathExists\n");
+				boost::filesystem::path b_path(path);
+				try {
+					if (boost::filesystem::exists(b_path))
+						set_response(_return, true, path + " exists");
+					else
+						set_response(_return, true, path + " does not exist");
+				}
+				catch (const std::exception& ex) {
+					throw set_exception(ex.what(), OperationType::ListFile);
+				}
+			}
+
 			void XSMBServiceHandler::CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
 				printf("CreateDirectory\n");		
 
@@ -254,7 +268,7 @@ namespace azure {
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {			
 						set_response(_return, true, "Successfully get file length for " + filePath);
-
+						
 						int64_t file_size =  (int64_t)boost::filesystem::file_size(file);
 						std::string file_size_string = int_to_string(file_size);
 
@@ -442,7 +456,7 @@ namespace azure {
 
 			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
 				std::cout << "WriteFileByHandle" << std::endl;
-				try {
+				try {					
 					/*
 					 * Cpp Version
 					 * /

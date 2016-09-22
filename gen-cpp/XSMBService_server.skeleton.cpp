@@ -22,6 +22,11 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     // Your initialization goes here
   }
 
+  void PathExists(LinuxFileResponse& _return, const std::string& path) {
+    // Your implementation goes here
+    printf("PathExists\n");
+  }
+
   void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
     // Your implementation goes here
     printf("CreateDirectory\n");

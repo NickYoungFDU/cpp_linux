@@ -65,6 +65,7 @@ service FileShareService {
 }
 
 service XSMBService {
+    LinuxFileResponse PathExists(1:string path) throws (1:LinuxFileException linuxFileException),
     
     LinuxFileResponse CreateDirectory(1:string dirPath) throws (1:LinuxFileException linuxFileException),
     
@@ -89,13 +90,15 @@ service XSMBService {
     LinuxFileResponse GetFileLength(1:string filePath) throws (1:LinuxFileException linuxFileException),
     
     LinuxFileResponse SetFileLength(1:string filePath, 2:i64 fileLength) 
-                        throws (1:LinuxFileException linuxFileException)
+                        throws (1:LinuxFileException linuxFileException),
                         
-    LinuxFileResponse OpenFileHandle(1:string filePath, 2:LinuxFileMode fileMode, 3:LinuxFileAccess fileAccess, 4:i32 handleId) throws(1:LinuxFileException linuxFileException)
+    LinuxFileResponse OpenFileHandle(1:string filePath, 2:LinuxFileMode fileMode, 3:LinuxFileAccess fileAccess, 4:i32 handleId) throws(1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse CloseFileHandle(1:i32 handleId) throws(1:LinuxFileException linuxFileException)
+    LinuxFileResponse CloseFileHandle(1:i32 handleId) throws(1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse ReadFileByHandle(1:i32 handleId, 2:i64 offset, 3:i64 count) throws(1:LinuxFileException linuxFileException)
+    LinuxFileResponse ReadFileByHandle(1:i32 handleId, 2:i64 offset, 3:i64 count) throws(1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse WriteFileByHandle(1:i32 handleId, 2:i64 offset, 3:binary buffer, 4:i64 count) throws(1:LinuxFileException linuxFileException)                        
+    LinuxFileResponse WriteFileByHandle(1:i32 handleId, 2:i64 offset, 3:binary buffer, 4:i64 count) throws(1:LinuxFileException linuxFileException)          
+    
+             
 }

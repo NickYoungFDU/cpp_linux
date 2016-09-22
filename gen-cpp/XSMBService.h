@@ -15,6 +15,7 @@ namespace azure { namespace storage { namespace cpp_linux {
 class XSMBServiceIf {
  public:
   virtual ~XSMBServiceIf() {}
+  virtual void PathExists(LinuxFileResponse& _return, const std::string& path) = 0;
   virtual void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) = 0;
   virtual void DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) = 0;
   virtual void CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) = 0;
@@ -57,6 +58,9 @@ class XSMBServiceIfSingletonFactory : virtual public XSMBServiceIfFactory {
 class XSMBServiceNull : virtual public XSMBServiceIf {
  public:
   virtual ~XSMBServiceNull() {}
+  void PathExists(LinuxFileResponse& /* _return */, const std::string& /* path */) {
+    return;
+  }
   void CreateDirectory(LinuxFileResponse& /* _return */, const std::string& /* dirPath */) {
     return;
   }
@@ -96,6 +100,134 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
   void WriteFileByHandle(LinuxFileResponse& /* _return */, const int32_t /* handleId */, const int64_t /* offset */, const std::string& /* buffer */, const int64_t /* count */) {
     return;
   }
+};
+
+typedef struct _XSMBService_PathExists_args__isset {
+  _XSMBService_PathExists_args__isset() : path(false) {}
+  bool path :1;
+} _XSMBService_PathExists_args__isset;
+
+class XSMBService_PathExists_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
+  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+
+  XSMBService_PathExists_args(const XSMBService_PathExists_args&);
+  XSMBService_PathExists_args& operator=(const XSMBService_PathExists_args&);
+  XSMBService_PathExists_args() : path() {
+  }
+
+  virtual ~XSMBService_PathExists_args() throw();
+  std::string path;
+
+  _XSMBService_PathExists_args__isset __isset;
+
+  void __set_path(const std::string& val);
+
+  bool operator == (const XSMBService_PathExists_args & rhs) const
+  {
+    if (!(path == rhs.path))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_PathExists_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_PathExists_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_PathExists_args& obj);
+};
+
+
+class XSMBService_PathExists_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
+  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+
+
+  virtual ~XSMBService_PathExists_pargs() throw();
+  const std::string* path;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_PathExists_pargs& obj);
+};
+
+typedef struct _XSMBService_PathExists_result__isset {
+  _XSMBService_PathExists_result__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_PathExists_result__isset;
+
+class XSMBService_PathExists_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
+
+  XSMBService_PathExists_result(const XSMBService_PathExists_result&);
+  XSMBService_PathExists_result& operator=(const XSMBService_PathExists_result&);
+  XSMBService_PathExists_result() {
+  }
+
+  virtual ~XSMBService_PathExists_result() throw();
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_PathExists_result__isset __isset;
+
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
+
+  bool operator == (const XSMBService_PathExists_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_PathExists_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_PathExists_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_PathExists_result& obj);
+};
+
+typedef struct _XSMBService_PathExists_presult__isset {
+  _XSMBService_PathExists_presult__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_PathExists_presult__isset;
+
+class XSMBService_PathExists_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
+
+
+  virtual ~XSMBService_PathExists_presult() throw();
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_PathExists_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_PathExists_presult& obj);
 };
 
 typedef struct _XSMBService_CreateDirectory_args__isset {
@@ -1913,6 +2045,9 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
+  void PathExists(LinuxFileResponse& _return, const std::string& path);
+  void send_PathExists(const std::string& path);
+  void recv_PathExists(LinuxFileResponse& _return);
   void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath);
   void send_CreateDirectory(const std::string& dirPath);
   void recv_CreateDirectory(LinuxFileResponse& _return);
@@ -1967,6 +2102,7 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (XSMBServiceProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
+  void process_PathExists(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CreateDirectory(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DeleteDirectory(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CreateFile(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -1983,6 +2119,7 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
  public:
   XSMBServiceProcessor(boost::shared_ptr<XSMBServiceIf> iface) :
     iface_(iface) {
+    processMap_["PathExists"] = &XSMBServiceProcessor::process_PathExists;
     processMap_["CreateDirectory"] = &XSMBServiceProcessor::process_CreateDirectory;
     processMap_["DeleteDirectory"] = &XSMBServiceProcessor::process_DeleteDirectory;
     processMap_["CreateFile"] = &XSMBServiceProcessor::process_CreateFile;
@@ -2024,6 +2161,16 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
     ifaces_.push_back(iface);
   }
  public:
+  void PathExists(LinuxFileResponse& _return, const std::string& path) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->PathExists(_return, path);
+    }
+    ifaces_[i]->PathExists(_return, path);
+    return;
+  }
+
   void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
     size_t sz = ifaces_.size();
     size_t i = 0;

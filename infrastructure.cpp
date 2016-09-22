@@ -52,6 +52,7 @@ namespace azure {
 				case LinuxFileMode::Truncate:
 					flag |= O_TRUNC;
 					break;
+				// TODO: May not map exactly, consider later
 				case LinuxFileMode::Open:
 				default:
 					break;
