@@ -23,7 +23,7 @@ namespace azure {
 		{
 			// TODO: Add logging to these handler functions.
 
-			void PathExists(LinuxFileResponse& _return, const std::string& path) {
+			void XSMBServiceHandler::PathExists(LinuxFileResponse& _return, const std::string& path) {
 				printf("PathExists\n");
 				boost::filesystem::path b_path(path);
 				try {

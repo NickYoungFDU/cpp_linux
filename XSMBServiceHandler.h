@@ -50,6 +50,8 @@ namespace azure {
 				void CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId);
 				void ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count);
 				void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count);
+
+				void PathExists(LinuxFileResponse& _return, const std::string& path);
 			private:
 				std::map<std::string, std::fstream*> file_handles;
 				std::map<int, FILE*> file_pointers;
