@@ -24,13 +24,17 @@ namespace azure {
 			// TODO: Add logging to these handler functions.
 
 			void XSMBServiceHandler::PathExists(LinuxFileResponse& _return, const std::string& path) {
-				printf("PathExists\n");
+				printf("Calling [PathExists]\n");
 				boost::filesystem::path b_path(path);
 				try {
-					if (boost::filesystem::exists(b_path))
+					if (boost::filesystem::exists(b_path)) {
 						set_response(_return, true, path + " exists");
-					else
+						std::cout << "[PathExists] - " << path << " exists." << std::endl;
+					}
+					else{
 						set_response(_return, false, path + " does not exist");
+						std::cout << "[PathExists] - " << path << " does not exist." << std::endl;
+					}
 				}
 				catch (const std::exception& ex) {
 					throw set_exception(ex.what(), OperationType::ListFile);
@@ -38,16 +42,18 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
-				printf("CreateDirectory\n");		
+				printf("Calling [CreateDirectory]\n");		
 
 				boost::filesystem::path dir(dirPath);
 				try {
 					if (boost::filesystem::exists(dir) && boost::filesystem::is_directory(dir)) {						
 						set_response(_return, false, dirPath + ": directory already exists");						
+						std::cout << "[CreateDirectory] - " << dirPath << ": directory already exists." << std::endl;
 					}
 					else {
 						boost::filesystem::create_directory(dir);
 						set_response(_return, true, "Successfully created directory " + dirPath);
+						std::cout << "[CreateDirectory] - Successfully created directory " << dirPath << std::endl;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -57,20 +63,23 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
-				printf("DeleteDirectory\n");
+				printf("Calling [DeleteDirectory]\n");
 				
 				boost::filesystem::path dir(dirPath);
 				try {
 					if (!boost::filesystem::exists(dir) || !boost::filesystem::is_directory(dir)) {						
 						set_response(_return, false, dirPath + " does not exist or is not a directory");
+						std::cout << "[DeleteDirectory] - " << dirPath << "does not exist or is not a directory" << std::endl;
 					}
 					else {
 						if (boost::filesystem::is_empty(dir) || isRecursive) {							
 							boost::filesystem::remove_all(dir);																					
 							set_response(_return, true, "Successfully deleted directory " + dirPath);
+							std::cout << "[DeleteDirectory] - Successfully deleted directory " << dirPath << std::endl;
 						}
 						else {							
 							set_response(_return, false, dirPath + " is not empty while isRecursive is false");
+							std::cout << "[DeleteDirectory] - " << dirPath << " is not empty while isRecursive is false" << std::endl;
 						}
 					}
 				}
@@ -81,12 +90,13 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
-				printf("CreateFile\n");
+				printf("Calling [CreateFile]\n");
 				
 				boost::filesystem::path file(filePath);
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
 						set_response(_return, false, filePath + " already exists");
+						std::cout << "[CreateFile] - " << filePath << " already exists" << std::endl;
 					}
 					else {
 						boost::filesystem::fstream fs;
@@ -95,6 +105,7 @@ namespace azure {
 						fs.write("", 1);
 						fs.close();					
 						set_response(_return, true, "Successfully created " + filePath);
+						std::cout << "[CreateFile] - Successfully created " << filePath << std::endl;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -104,16 +115,18 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::DeleteFile(LinuxFileResponse& _return, const std::string& filePath) {
-				printf("DeleteFile\n");
+				printf("Calling [DeleteFile]\n");
 				
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
+						std::cout << "[DeleteFile] - " << filePath << " does not exist or is not a file" << std::endl;
 					}
 					else {
 						boost::filesystem::remove(file);
 						set_response(_return, true, "Successfully deleted file " + filePath);
+						std::cout << "[DeleteFile] - Successfully deleted file " << filePath << std::endl;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -123,12 +136,13 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
-				printf("ReadFile\n");
+				printf("Calling [ReadFile]\n");
 
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
+						std::cout << "[ReadFile] - " << filePath << " does not exist or is not a file" << std::endl;
 					}
 					else {
 						std::fstream fs;
@@ -146,14 +160,14 @@ namespace azure {
 
 						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);												
 
-						std::cout << "bytes_read: [" << bytes_read_string << "]" << std::endl;
-						std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
-						std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
+						//std::cout << "bytes_read: [" << bytes_read_string << "]" << std::endl;
+						//std::cout << "buffer_string: [" << buffer_string << "]" << std::endl;
+						//std::cout << "buffer_string.length(): [" << buffer_string.length() << "]" << std::endl;
 
 						fs.close();
 
 						set_response(_return, true, "Successfully read from file " + filePath);
-
+						std::cout << "[ReadFile] - Successfully read from file " << filePath << std::endl;
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);												
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read_string));
@@ -167,12 +181,13 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count) {
-				printf("WriteFile\n");
-				std::cout << "buffer.length() - [" << buffer.length() << "]" << std::endl;
+				printf("Calling [WriteFile]\n");
+				//std::cout << "buffer.length() - [" << buffer.length() << "]" << std::endl;
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
+						std::cout << "[WriteFile] - " << filePath << " does not exist or is not a file" << std::endl;
 					}
 					else {
 						std::fstream fs;
@@ -185,6 +200,7 @@ namespace azure {
 						fs.close();
 
 						set_response(_return, true, "Successfully write to " + filePath);
+						std::cout << "[WriteFile] - Successfully write to " << filePath << std::endl;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -247,7 +263,7 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
-				printf("ListCloudFiles\n");
+				printf("Calling [ListCloudFiles]\n");
 				boost::filesystem::path dir(dirPath);
 				std::map<std::string, MatchInformation::type> files, dirs;
 				try {
@@ -263,11 +279,12 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::GetFileLength(LinuxFileResponse& _return, const std::string& filePath) {
-				printf("GetFileLength\n");
+				printf("Calling [GetFileLength]\n");
 				boost::filesystem::path file(filePath);				
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {			
 						set_response(_return, true, "Successfully get file length for " + filePath);
+						std::cout << "[GetFileLength] - Successfully get file length for " << filePath << std::endl;
 						
 						int64_t file_size =  (int64_t)boost::filesystem::file_size(file);
 						std::string file_size_string = int_to_string(file_size);
@@ -278,6 +295,7 @@ namespace azure {
 					}
 					else {
 						set_response(_return, false, filePath + " does not exist or is not a file");
+						std::cout << 
 					}
 				}
 				catch (const std::exception& ex) {
@@ -496,15 +514,17 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::CopyFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists) {
-				std::cout << "[CopyFile] - " << "Source - [" << sourcePath << "] - Destination - [" << destinationPath << "]" << std::endl;
+				std::cout << "Calling [CopyFile]" << std::endl;
 				boost::filesystem::path source(sourcePath), destination(destinationPath);
 				try {
 					if (!overwriteIfExists && boost::filesystem::exists(destination)) {
 						set_response(_return, false, destinationPath + " exists, copy failed.");
+						std::cout << destinationPath << " exists, copy failed." << std::endl;
 					}
 					else {
 						boost::filesystem::copy_file(source, destination);
-						set_response(_return, true, "Succesfully copied " + sourcePath + " to " + destinationPath);
+						set_response(_return, true, "Succesfully copied " + sourcePath + " to" + destinationPath);
+						std::cout << "[CopyFile] - Source - " << sourcePath << " - Destination - " << destinationPath << std::endl;
 					}				
 				} 
 				catch (const std::exception& ex) {
@@ -514,17 +534,19 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed) {
-				std::cout << "MoveFile" << std::endl;
+				std::cout << "Calling [MoveFile]" << std::endl;
 				boost::filesystem::path source(sourcePath), destination(destinationPath);
 				try {
 					if (fileCopyAllowed) {
 						if (!overwriteIfExists && boost::filesystem::exists(destination)) {
 							set_response(_return, false, "overwriteIfExists: " + (overwriteIfExists ? std::string("[true]. ") : std::string("[false]. ")) +  destinationPath + " exists, move failed.");
+							std::cout << "[MoveFile] - overwriteIfExists: " << (overwriteIfExists ? "[true] - " : "[false] - ") << destinationPath << " exists, move failed." << std::endl;
 						}
 						else {
 							boost::filesystem::copy_file(source, destination);
 							boost::filesystem::remove(source);
-							set_response(_return, true, "Succesfully moved " + sourcePath + " to " + destinationPath);
+							set_response(_return, true, "Successfully moved " + sourcePath + " to " + destinationPath);
+							std::cout << "[MoveFile] - Successfully moved " << sourcePath << " to " << destinationPath << std::endl;
 						}
 					} 
 					else {
@@ -535,8 +557,9 @@ namespace azure {
 							cmd += "-n ";
 						cmd += sourcePath + " " + destinationPath;
 						std::string ret = exec(cmd.c_str());
-						std::cout << ret << std::endl;
+						std::cout << "[MoveFile] - Running command - " << ret << std::endl;
 						set_response(_return, true, "Successfully moved " + sourcePath + " to " + destinationPath);
+						std::cout << "[MoveFile] - Successfully moved " << sourcePath << " to " << destinationPath << std::endl;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -546,17 +569,19 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::TruncateFile(LinuxFileResponse& _return, const std::string& filePath) {
-				std::cout << "TruncateFile" << std::endl;
+				std::cout << "Calling [TruncateFile]" << std::endl;
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
+						std::cout << "[TruncateFile] - " << filePath << " does not exist or is not a file" << std::endl;
 					}
 					else {
 						boost::filesystem::fstream fs;
 						fs.open(file, boost::filesystem::fstream::out);						
 						fs.close();
 						set_response(_return, true, "Successfully truncated " + filePath);
+						std::cout << "[TruncateFile] - Successfully truncated " << filePath << std::endl;
 					}
 				}
 				catch (const std::exception& ex) {
