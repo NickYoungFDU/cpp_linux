@@ -545,6 +545,26 @@ namespace azure {
 				return;
 			}
 
+			void XSMBServiceHandler::TruncateFile(LinuxFileResponse& _return, const std::string& filePath) {
+				std::cout << "TruncateFile" << std::endl;
+				boost::filesystem::path file(filePath);
+				try {
+					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
+						set_response(_return, false, filePath + " does not exist or is not a file");
+					}
+					else {
+						boost::filesystem::fstream fs;
+						fs.open(file, boost::filesystem::fstream::out);						
+						fs.close();
+						set_response(_return, true, "Successfully truncated " + filePath);
+					}
+				}
+				catch (const std::exception& ex) {
+					throw set_exception(ex.what(), OperationType::CreateDirectory);
+				}
+				return;
+			}
+
 
 			/*
 			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath) {

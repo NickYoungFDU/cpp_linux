@@ -56,6 +56,8 @@ namespace azure {
 				void CopyFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists);
 
 				void MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed);
+
+				void TruncateFile(LinuxFileResponse& _return, const std::string& filePath);
 			private:
 				std::map<std::string, std::fstream*> file_handles;
 				std::map<int, FILE*> file_pointers;

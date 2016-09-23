@@ -102,6 +102,11 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("MoveFile\n");
   }
 
+  void TruncateFile(LinuxFileResponse& _return, const std::string& filePath) {
+    // Your implementation goes here
+    printf("TruncateFile\n");
+  }
+
 };
 
 int main(int argc, char **argv) {
