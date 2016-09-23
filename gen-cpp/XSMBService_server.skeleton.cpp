@@ -97,6 +97,11 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("WriteFileByHandle\n");
   }
 
+  void MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed) {
+    // Your implementation goes here
+    printf("MoveFile\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

@@ -101,7 +101,7 @@ service XSMBService {
     
     LinuxFileResponse ReadFileByHandle(1:i32 handleId, 2:i64 offset, 3:i64 count) throws(1:LinuxFileException linuxFileException),
     
-    LinuxFileResponse WriteFileByHandle(1:i32 handleId, 2:i64 offset, 3:binary buffer, 4:i64 count) throws(1:LinuxFileException linuxFileException)          
+    LinuxFileResponse WriteFileByHandle(1:i32 handleId, 2:i64 offset, 3:binary buffer, 4:i64 count) throws(1:LinuxFileException linuxFileException),
     
-             
+    LinuxFileResponse MoveFile(1:string sourcePath, 2:string destinationPath, 3:bool overwriteIfExists, 4:bool fileCopyAllowed) throws(1:LinuxFileException linuxFileException)            
 }

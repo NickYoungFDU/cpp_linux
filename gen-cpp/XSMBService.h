@@ -30,6 +30,7 @@ class XSMBServiceIf {
   virtual void CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId) = 0;
   virtual void ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count) = 0;
   virtual void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) = 0;
+  virtual void MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed) = 0;
 };
 
 class XSMBServiceIfFactory {
@@ -102,6 +103,9 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
     return;
   }
   void WriteFileByHandle(LinuxFileResponse& /* _return */, const int32_t /* handleId */, const int64_t /* offset */, const std::string& /* buffer */, const int64_t /* count */) {
+    return;
+  }
+  void MoveFile(LinuxFileResponse& /* _return */, const std::string& /* sourcePath */, const std::string& /* destinationPath */, const bool /* overwriteIfExists */, const bool /* fileCopyAllowed */) {
     return;
   }
 };
@@ -2166,6 +2170,155 @@ class XSMBService_WriteFileByHandle_presult {
   friend std::ostream& operator<<(std::ostream& out, const XSMBService_WriteFileByHandle_presult& obj);
 };
 
+typedef struct _XSMBService_MoveFile_args__isset {
+  _XSMBService_MoveFile_args__isset() : sourcePath(false), destinationPath(false), overwriteIfExists(false), fileCopyAllowed(false) {}
+  bool sourcePath :1;
+  bool destinationPath :1;
+  bool overwriteIfExists :1;
+  bool fileCopyAllowed :1;
+} _XSMBService_MoveFile_args__isset;
+
+class XSMBService_MoveFile_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "205A83737DD361E88B396E77A0B7A5BD";
+  static const uint8_t binary_fingerprint[16]; // = {0x20,0x5A,0x83,0x73,0x7D,0xD3,0x61,0xE8,0x8B,0x39,0x6E,0x77,0xA0,0xB7,0xA5,0xBD};
+
+  XSMBService_MoveFile_args(const XSMBService_MoveFile_args&);
+  XSMBService_MoveFile_args& operator=(const XSMBService_MoveFile_args&);
+  XSMBService_MoveFile_args() : sourcePath(), destinationPath(), overwriteIfExists(0), fileCopyAllowed(0) {
+  }
+
+  virtual ~XSMBService_MoveFile_args() throw();
+  std::string sourcePath;
+  std::string destinationPath;
+  bool overwriteIfExists;
+  bool fileCopyAllowed;
+
+  _XSMBService_MoveFile_args__isset __isset;
+
+  void __set_sourcePath(const std::string& val);
+
+  void __set_destinationPath(const std::string& val);
+
+  void __set_overwriteIfExists(const bool val);
+
+  void __set_fileCopyAllowed(const bool val);
+
+  bool operator == (const XSMBService_MoveFile_args & rhs) const
+  {
+    if (!(sourcePath == rhs.sourcePath))
+      return false;
+    if (!(destinationPath == rhs.destinationPath))
+      return false;
+    if (!(overwriteIfExists == rhs.overwriteIfExists))
+      return false;
+    if (!(fileCopyAllowed == rhs.fileCopyAllowed))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_MoveFile_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_MoveFile_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_MoveFile_args& obj);
+};
+
+
+class XSMBService_MoveFile_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "205A83737DD361E88B396E77A0B7A5BD";
+  static const uint8_t binary_fingerprint[16]; // = {0x20,0x5A,0x83,0x73,0x7D,0xD3,0x61,0xE8,0x8B,0x39,0x6E,0x77,0xA0,0xB7,0xA5,0xBD};
+
+
+  virtual ~XSMBService_MoveFile_pargs() throw();
+  const std::string* sourcePath;
+  const std::string* destinationPath;
+  const bool* overwriteIfExists;
+  const bool* fileCopyAllowed;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_MoveFile_pargs& obj);
+};
+
+typedef struct _XSMBService_MoveFile_result__isset {
+  _XSMBService_MoveFile_result__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_MoveFile_result__isset;
+
+class XSMBService_MoveFile_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
+
+  XSMBService_MoveFile_result(const XSMBService_MoveFile_result&);
+  XSMBService_MoveFile_result& operator=(const XSMBService_MoveFile_result&);
+  XSMBService_MoveFile_result() {
+  }
+
+  virtual ~XSMBService_MoveFile_result() throw();
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_MoveFile_result__isset __isset;
+
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
+
+  bool operator == (const XSMBService_MoveFile_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_MoveFile_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_MoveFile_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_MoveFile_result& obj);
+};
+
+typedef struct _XSMBService_MoveFile_presult__isset {
+  _XSMBService_MoveFile_presult__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_MoveFile_presult__isset;
+
+class XSMBService_MoveFile_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
+
+
+  virtual ~XSMBService_MoveFile_presult() throw();
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_MoveFile_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_MoveFile_presult& obj);
+};
+
 class XSMBServiceClient : virtual public XSMBServiceIf {
  public:
   XSMBServiceClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -2236,6 +2389,9 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count);
   void send_WriteFileByHandle(const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count);
   void recv_WriteFileByHandle(LinuxFileResponse& _return);
+  void MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed);
+  void send_MoveFile(const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed);
+  void recv_MoveFile(LinuxFileResponse& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -2266,6 +2422,7 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_CloseFileHandle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ReadFileByHandle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_WriteFileByHandle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_MoveFile(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   XSMBServiceProcessor(boost::shared_ptr<XSMBServiceIf> iface) :
     iface_(iface) {
@@ -2284,6 +2441,7 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["CloseFileHandle"] = &XSMBServiceProcessor::process_CloseFileHandle;
     processMap_["ReadFileByHandle"] = &XSMBServiceProcessor::process_ReadFileByHandle;
     processMap_["WriteFileByHandle"] = &XSMBServiceProcessor::process_WriteFileByHandle;
+    processMap_["MoveFile"] = &XSMBServiceProcessor::process_MoveFile;
   }
 
   virtual ~XSMBServiceProcessor() {}
@@ -2459,6 +2617,16 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
       ifaces_[i]->WriteFileByHandle(_return, handleId, offset, buffer, count);
     }
     ifaces_[i]->WriteFileByHandle(_return, handleId, offset, buffer, count);
+    return;
+  }
+
+  void MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->MoveFile(_return, sourcePath, destinationPath, overwriteIfExists, fileCopyAllowed);
+    }
+    ifaces_[i]->MoveFile(_return, sourcePath, destinationPath, overwriteIfExists, fileCopyAllowed);
     return;
   }
 

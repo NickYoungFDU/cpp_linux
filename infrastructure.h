@@ -13,6 +13,7 @@ namespace azure {
 			LinuxFileException set_exception(std::string error_message, OperationType::type type);
 			std::string int_to_string(int64_t integer);
 			int set_file_flag(LinuxFileAccess::type file_access, LinuxFileMode::type file_mode);
+			std::string exec(const char* cmd);
 		}
 	}
 }

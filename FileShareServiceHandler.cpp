@@ -43,28 +43,7 @@ namespace azure {
 				catch (const std::exception& ex) {
 					throw set_exception(ex.what(), OperationType::UnmapFileShare);
 				}
-			}
-
-						
-			std::string FileShareServiceHandler::exec(const char* cmd) {
-				char buffer[128];
-				std::string result = "";
-				FILE* pipe = popen(cmd, "r");
-				if (!pipe) throw std::runtime_error("popen() failed!");
-				try {
-					while (!feof(pipe)) {
-						if (fgets(buffer, 128, pipe) != NULL)
-							result += buffer;
-					}
-				}
-				catch (...) {
-					pclose(pipe);
-					throw;
-				}
-				pclose(pipe);
-				return result;
-			}
-			
+			}			
 		}
 	}
 }

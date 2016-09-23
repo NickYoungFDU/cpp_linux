@@ -513,6 +513,38 @@ namespace azure {
 				return;
 			}
 
+			void XSMBServiceHandler::MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed) {
+				std::cout << "MoveFile" << std::endl;
+				boost::filesystem::path source(sourcePath), destination(destinationPath);
+				try {
+					if (fileCopyAllowed) {
+						if (!overwriteIfExists && boost::filesystem::exists(destination)) {
+							set_response(_return, false, "overwriteIfExists: " + (overwriteIfExists ? "[true]. " : "[false]. ") +  destinationPath + " exists, move failed.");
+						}
+						else {
+							boost::filesystem::copy_file(source, destination);
+							boost::filesystem::remove(source);
+							set_response(_return, true, "Succesfully moved " + sourcePath + " to " + destinationPath);
+						}
+					} 
+					else {
+						std::string cmd = "mv ";
+						if (overwriteIfExists)
+							cmd += "-f ";
+						else
+							cmd += "-n ";
+						cmd += sourcePath + " " + destinationPath;
+						std::string ret = exec(cmd.c_str());
+						std::cout << ret << std::endl;
+						set_response(_return, true, "Successfully moved " + sourcePath + " to " + destinationPath);
+					}
+				}
+				catch (const std::exception& ex) {
+					throw set_exception(ex.what(), OperationType::CreateDirectory);
+				}
+				return;
+			}
+
 
 			/*
 			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath) {
