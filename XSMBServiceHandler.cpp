@@ -519,7 +519,7 @@ namespace azure {
 				try {
 					if (fileCopyAllowed) {
 						if (!overwriteIfExists && boost::filesystem::exists(destination)) {
-							set_response(_return, false, "overwriteIfExists: " + (overwriteIfExists ? "[true]. " : "[false]. ") +  destinationPath + " exists, move failed.");
+							set_response(_return, false, "overwriteIfExists: " + (overwriteIfExists ? std::string("[true]. ") : std::string("[false]. ")) +  destinationPath + " exists, move failed.");
 						}
 						else {
 							boost::filesystem::copy_file(source, destination);
