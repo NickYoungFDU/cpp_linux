@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdexcept>
 
 using namespace ::azure::storage::cpp_linux;
 

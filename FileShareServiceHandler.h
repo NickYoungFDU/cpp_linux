@@ -3,7 +3,6 @@
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
-#include <stdexcept>
 #include <iostream>
 
 using namespace ::apache::thrift;
@@ -27,9 +26,7 @@ namespace azure {
 
 				void MapFileShare(LinuxFileResponse& _return, const std::string& smbShareAddress, const std::string& username, const std::string& password, const std::string& mountPoint);
 
-				void UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint);
-
-				std::string exec(const char* cmd);
+				void UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint);				
 			};
 		}
 	}
