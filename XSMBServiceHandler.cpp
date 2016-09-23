@@ -295,7 +295,7 @@ namespace azure {
 					}
 					else {
 						set_response(_return, false, filePath + " does not exist or is not a file");
-						std::cout << 
+						std::cout << "[GetFileLength] - " << filePath << " does not exist or is not a file" << std::endl;
 					}
 				}
 				catch (const std::exception& ex) {
