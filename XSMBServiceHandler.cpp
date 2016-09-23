@@ -496,7 +496,7 @@ namespace azure {
 			}
 
 			void XSMBServiceHandler::CopyFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists) {
-				std::cout << "CopyFile" << std::endl;
+				std::cout << "[CopyFile] - " << "Source - [" << sourcePath << "] - Destination - [" << destinationPath << "]" << std::endl;
 				boost::filesystem::path source(sourcePath), destination(destinationPath);
 				try {
 					if (!overwriteIfExists && boost::filesystem::exists(destination)) {
