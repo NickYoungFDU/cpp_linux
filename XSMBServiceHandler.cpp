@@ -522,7 +522,7 @@ namespace azure {
 						std::cout << destinationPath << " exists, copy failed." << std::endl;
 					}
 					else {
-						boost::filesystem::copy_file(source, destination);
+						boost::filesystem::copy_file(source, destination, boost::filesystem::copy_option::overwrite_if_exists);
 						set_response(_return, true, "Succesfully copied " + sourcePath + " to" + destinationPath);
 						std::cout << "[CopyFile] - Source - " << sourcePath << " - Destination - " << destinationPath << std::endl;
 					}				
