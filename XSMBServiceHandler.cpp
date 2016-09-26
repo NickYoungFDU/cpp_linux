@@ -106,8 +106,9 @@ namespace azure {
 						fs.write("", 1);
 						fs.close();					
 						*/
-						creat(filePath.c_str(), 0777);
+						int fd = creat(filePath.c_str(), 0777);
 						boost::filesystem::resize_file(file, (uintmax_t)fileSize);
+						close(fd);
 						set_response(_return, true, "Successfully created " + filePath);
 						std::cout << "[CreateFile] - Successfully created " << filePath << std::endl;
 					}
