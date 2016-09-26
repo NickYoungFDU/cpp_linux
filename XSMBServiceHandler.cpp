@@ -99,11 +99,15 @@ namespace azure {
 						std::cout << "[CreateFile] - " << filePath << " already exists" << std::endl;
 					}
 					else {
+						/*
 						boost::filesystem::fstream fs;
 						fs.open(file, boost::filesystem::fstream::out);
 						fs.seekp(fileSize - 1);
 						fs.write("", 1);
 						fs.close();					
+						*/
+						creat(filePath.c_str(), 0777);
+						boost::filesystem::resize_file(file, (uintmax_t)fileSize);
 						set_response(_return, true, "Successfully created " + filePath);
 						std::cout << "[CreateFile] - Successfully created " << filePath << std::endl;
 					}
