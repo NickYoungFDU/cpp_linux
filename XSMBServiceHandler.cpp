@@ -558,7 +558,10 @@ namespace azure {
 							std::cout << "[MoveFile] - overwriteIfExists: " << (overwriteIfExists ? "[true] - " : "[false] - ") << destinationPath << " exists, move failed." << std::endl;
 						}
 						else {
-							boost::filesystem::copy_file(source, destination);
+							//boost::filesystem::copy_file(source, destination);
+							std::string cp_cmd = "cp ";
+							cp_cmd += "-f " + sourcePath + " " + destinationPath;
+							exec(cp_cmd.c_str());
 							boost::filesystem::remove(source);
 							set_response(_return, true, "Successfully moved " + sourcePath + " to " + destinationPath);
 							std::cout << "[MoveFile] - Successfully moved " << sourcePath << " to " << destinationPath << std::endl;
