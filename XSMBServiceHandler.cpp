@@ -527,7 +527,17 @@ namespace azure {
 						std::cout << destinationPath << " exists, copy failed." << std::endl;
 					}
 					else {
+						/*
 						boost::filesystem::copy_file(source, destination, boost::filesystem::copy_option::overwrite_if_exists);
+						*/
+						std::string cmd = "cp ";
+						if (overwriteIfExists)
+							cmd += "-f ";
+						else
+							cmd += "-n ";
+						cmd += sourcePath + " " + destinationPath;
+						exec(cmd.c_str());
+						std::cout << "[CopyFile] - Running command - " << cmd << std::endl;
 						set_response(_return, true, "Succesfully copied " + sourcePath + " to" + destinationPath);
 						std::cout << "[CopyFile] - Source - " << sourcePath << " - Destination - " << destinationPath << std::endl;
 					}				
@@ -561,8 +571,8 @@ namespace azure {
 						else
 							cmd += "-n ";
 						cmd += sourcePath + " " + destinationPath;
-						std::string ret = exec(cmd.c_str());
-						std::cout << "[MoveFile] - Running command - " << ret << std::endl;
+						exec(cmd.c_str());
+						std::cout << "[MoveFile] - Running command - " << cmd << std::endl;
 						set_response(_return, true, "Successfully moved " + sourcePath + " to " + destinationPath);
 						std::cout << "[MoveFile] - Successfully moved " << sourcePath << " to " << destinationPath << std::endl;
 					}
