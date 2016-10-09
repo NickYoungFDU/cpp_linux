@@ -356,9 +356,12 @@ namespace azure {
 						return;
 					}
 					FILE* file = fdopen(fd, "rb+");
+					/*
+				     * Oh, shit, what I've done?!
 					char test[] = { (char)97, (char)98, (char)0, (char)99 };
 					fwrite(test, sizeof(char), 4, file);
 					fflush(file);
+					*/
 					file_pointers.insert(std::pair<int, FILE*>(fd, file));
 					std::cout << "#handles: " << file_pointers.size() << std::endl;
 					set_response(_return, true, "Sucessfully opened file handler [" + int_to_string(fd) + "]");
