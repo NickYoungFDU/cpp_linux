@@ -10,12 +10,12 @@
 int OpenFileHandle(std::string filePath) {
 	int fd = open(filePath.c_str(), O_RDWR);
 	if (fd == -1) {
-		printf("open() failed with error[%s]\n", strerror(errno));		
-		return;
+		printf("open() failed with error[%s]\n", strerror(errno));				
 	}
+	return fd;
 }
 
-int CreateFile(std::string filePath) {
+void CreateFile(std::string filePath) {
 	boost::filesystem::path file(filePath);
 	int fd = creat(filePath.c_str(), 0777);
 	int fileSize = 64;
@@ -23,7 +23,7 @@ int CreateFile(std::string filePath) {
 	close(fd);
 }
 
-int LockFileRangeTest(std::string filePath) {
+void LockFileRangeTest(std::string filePath) {
 	if (!boost::filesystem::exists(boost::filesystem::path(filePath)))
 		CreateFile(filePath);
 	int fd = OpenFileHandle(filePath);
@@ -35,7 +35,7 @@ int LockFileRangeTest(std::string filePath) {
 	exLock.l_whence = SEEK_SET;
 	exLock.l_start = 0;
 	exLock.l_len = 4;
-	int result = fcntl(fd, F_SETLK, &lock);
+	int result = fcntl(fd, F_SETLK, &exLock);
 
 	try {
 		FILE* file = fopen(filePath.c_str(), "rb+");
