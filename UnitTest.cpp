@@ -26,7 +26,7 @@ void CreateFile(std::string filePath) {
 void LockFileRangeTest(std::string filePath) {
 	if (!boost::filesystem::exists(boost::filesystem::path(filePath)))
 		CreateFile(filePath);
-	int fd = OpenFileHandle(filePath);
+	int fd1 = OpenFileHandle(filePath);
 
 	/* Lock file range [0, 4). Exclusive. */
 	std::cout << "Lock file range [0, 4). Exclusive." << std::endl;
@@ -36,7 +36,17 @@ void LockFileRangeTest(std::string filePath) {
 	exLock.l_whence = SEEK_SET;
 	exLock.l_start = 0;
 	exLock.l_len = 4;
-	int result = fcntl(fd, F_SETLK, &exLock);
+	int result = fcntl(fd1, F_SETLK, &exLock);
+	std::cout << result << std::endl;
+	
+	int fd2 = OpenFileHandle(filePath);
+	struct flock exLock2;
+	memset(&exLock2, 0, sizeof(exLock2));
+	exLock2.l_type = F_WRLCK;
+	exLock2.l_whence = SEEK_SET;
+	exLock2.l_start = 1;
+	exLock2.l_len = 4;
+	result = fcntl(fd2, F_SETLK, &exLock2);
 	std::cout << result << std::endl;
 	try {
 		FILE* file = fopen(filePath.c_str(), "rb+");
