@@ -29,6 +29,7 @@ void LockFileRangeTest(std::string filePath) {
 	int fd = OpenFileHandle(filePath);
 
 	/* Lock file range [0, 4). Exclusive. */
+	std::cout << "Lock file range [0, 4). Exclusive." << std::endl;
 	struct flock exLock;
 	memset(&exLock, 0, sizeof(exLock));
 	exLock.l_type = F_WRLCK;
@@ -36,7 +37,7 @@ void LockFileRangeTest(std::string filePath) {
 	exLock.l_start = 0;
 	exLock.l_len = 4;
 	int result = fcntl(fd, F_SETLK, &exLock);
-
+	std::cout << result << std::endl;
 	try {
 		FILE* file = fopen(filePath.c_str(), "rb+");
 		fseek(file, 0, SEEK_SET);
