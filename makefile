@@ -1,5 +1,5 @@
 LIB_DIR := ./gen-cpp/
-GEN_SRC := $(LIB_DIR)cpp_linux_constants.cpp $(LIB_DIR)cpp_linux_types.cpp $(LIB_DIR)FileShareService.cpp $(LIB_DIR)XSMBService.cpp infrastructure.cpp
+GEN_SRC := $(LIB_DIR)cpp_linux_constants.cpp $(LIB_DIR)cpp_linux_types.cpp $(LIB_DIR)FileShareService.cpp $(LIB_DIR)XSMBService.cpp infrastructure.cpp UnitTest.cpp
 GEN_OBJ := $(patsubst %.cpp, %.o, $(GEN_SRC))
 
 THRIFT_DIR := /usr/local/include/

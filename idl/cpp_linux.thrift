@@ -106,4 +106,6 @@ service XSMBService {
     LinuxFileResponse MoveFile(1:string sourcePath, 2:string destinationPath, 3:bool overwriteIfExists, 4:bool fileCopyAllowed) throws(1:LinuxFileException linuxFileException),     
     
     LinuxFileResponse TruncateFile(1:string filePath) throws (1:LinuxFileException linuxFileException)       
+    
+    LinuxFileResponse 
 }
