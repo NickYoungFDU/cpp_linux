@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
+#include <UnitTest.h>
 
 using namespace azure::storage::cpp_linux;
 
@@ -50,6 +51,11 @@ int main(int argc, char* argv[]) {
 	// Parse command line options
 	for (int i = 1; i < argc; i++)
 	{
+		if (strcmp(argv[i], "-test") == 0) {
+			LockFileRangeTest("/home/xufyan/testfile");
+			return;
+		}
+
 		if (strcmp(argv[i], "-p") == 0)
 		{
 			if (++i >= argc)
