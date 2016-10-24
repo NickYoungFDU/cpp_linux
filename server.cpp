@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
 	{
 		if (strcmp(argv[i], "-test") == 0) {
 			LockFileRangeTest("/home/xufyan/testfile");
-			return;
+			return -1;
 		}
 
 		if (strcmp(argv[i], "-p") == 0)
