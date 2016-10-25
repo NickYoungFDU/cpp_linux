@@ -195,7 +195,8 @@ namespace azure {
 						
 						fs.seekp(offset);
 
-						fs.write(buffer.c_str(), buffer.length());
+						/* fix a bug here, should use 'count' rather than 'buffer.length()' in the following line of code */
+						fs.write(buffer.c_str(), /* buffer.length() */ count);
 
 						fs.close();
 
