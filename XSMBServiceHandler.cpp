@@ -422,7 +422,7 @@ namespace azure {
 						log << "bytes_read: [" << bytes_read_string << "]\n";
 						log << "buffer dump:\n";
 						for (int i = 0; i < count; i++) {
-							log << (int)buffer[i] << " ";
+							log << (((int)(buffer[i])) & 0xff)  << " ";
 						}
 						log << "\n";
 						log << "buffer_string.length(): [" << buffer_string.length() << "]\n";
