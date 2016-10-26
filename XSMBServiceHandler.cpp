@@ -209,7 +209,11 @@ namespace azure {
 
 						/* fix a bug here, should use 'count' rather than 'buffer.length()' in the following line of code */
 						fs.write(buffer.c_str(), /* buffer.length() */ count);
-
+						log << "buffer dump:\n";
+						for (int i = 0; i < count; i++) {
+							log << (((int)(buffer[i])) & 0xff) << " ";
+						}
+						log << "\n";
 						fs.close();
 
 						set_response(_return, true, "Successfully write to " + filePath);
@@ -459,7 +463,7 @@ namespace azure {
 						fflush(file);
 						log << "buffer dump:\n";
 						for (int i = 0; i < count; i++) {
-							log << (int)buffer[i] << " ";
+							log << (((int)(buffer[i])) & 0xff) << " ";
 						}
 						log << "\n";
 						set_response(_return, true, "Successfully write to file handle [" + int_to_string(handleId) + "]");
