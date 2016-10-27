@@ -26,16 +26,16 @@ namespace azure {
 
 			void XSMBServiceHandler::PathExists(LinuxFileResponse& _return, const std::string& path) {
 				 
-				BOOST_LOG(lg) << "Calling [PathExists]\n";
+				BOOST_LOG(lg) << "Calling [PathExists] ";
 				boost::filesystem::path b_path(path);
 				try {
 					if (boost::filesystem::exists(b_path)) {
 						set_response(_return, true, path + " exists");
-						BOOST_LOG(lg) << "[PathExists] - " << path << " exists.\n";
+						BOOST_LOG(lg) << "[PathExists] - " << path << " exists. ";
 					}
 					else{
 						set_response(_return, false, path + " does not exist");
-						BOOST_LOG(lg) << "[PathExists] - " << path << " does not exist.\n";
+						BOOST_LOG(lg) << "[PathExists] - " << path << " does not exist. ";
 					}
 				}
 				catch (const std::exception& ex) {
@@ -46,18 +46,18 @@ namespace azure {
 
 			void XSMBServiceHandler::CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath) {
 				 
-				BOOST_LOG(lg) << "Calling [CreateDirectory]\n";
+				BOOST_LOG(lg) << "Calling [CreateDirectory] ";
 
 				boost::filesystem::path dir(dirPath);
 				try {
 					if (boost::filesystem::exists(dir) && boost::filesystem::is_directory(dir)) {						
 						set_response(_return, false, dirPath + ": directory already exists");						
-						BOOST_LOG(lg) << "[CreateDirectory] - " << dirPath << ": directory already exists.\n";
+						BOOST_LOG(lg) << "[CreateDirectory] - " << dirPath << ": directory already exists. ";
 					}
 					else {
 						boost::filesystem::create_directory(dir);
 						set_response(_return, true, "Successfully created directory " + dirPath);
-						BOOST_LOG(lg) << "[CreateDirectory] - Successfully created directory " << dirPath << "\n" ;
+						BOOST_LOG(lg) << "[CreateDirectory] - Successfully created directory " << dirPath << " " ;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -68,23 +68,23 @@ namespace azure {
 
 			void XSMBServiceHandler::DeleteDirectory(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
 				 
-				BOOST_LOG(lg) << "Calling [DeleteDirectory]\n";
+				BOOST_LOG(lg) << "Calling [DeleteDirectory] ";
 				
 				boost::filesystem::path dir(dirPath);
 				try {
 					if (!boost::filesystem::exists(dir) || !boost::filesystem::is_directory(dir)) {						
 						set_response(_return, false, dirPath + " does not exist or is not a directory");
-						BOOST_LOG(lg) << "[DeleteDirectory] - " << dirPath << "does not exist or is not a directory\n";
+						BOOST_LOG(lg) << "[DeleteDirectory] - " << dirPath << "does not exist or is not a directory ";
 					}
 					else {
 						if (boost::filesystem::is_empty(dir) || isRecursive) {							
 							boost::filesystem::remove_all(dir);																					
 							set_response(_return, true, "Successfully deleted directory " + dirPath);
-							BOOST_LOG(lg) << "[DeleteDirectory] - Successfully deleted directory " << dirPath << "\n" ;
+							BOOST_LOG(lg) << "[DeleteDirectory] - Successfully deleted directory " << dirPath << " " ;
 						}
 						else {							
 							set_response(_return, false, dirPath + " is not empty while isRecursive is false");
-							BOOST_LOG(lg) << "[DeleteDirectory] - " << dirPath << " is not empty while isRecursive is false\n";
+							BOOST_LOG(lg) << "[DeleteDirectory] - " << dirPath << " is not empty while isRecursive is false ";
 						}
 					}
 				}
@@ -97,13 +97,13 @@ namespace azure {
 
 			void XSMBServiceHandler::CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) {
 				 
-				BOOST_LOG(lg) << "Calling [CreateFile]\n"; 
+				BOOST_LOG(lg) << "Calling [CreateFile] "; 
 				
 				boost::filesystem::path file(filePath);
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
 						set_response(_return, false, filePath + " already exists");
-						BOOST_LOG(lg) << "[CreateFile] - " << filePath << " already exists\n";
+						BOOST_LOG(lg) << "[CreateFile] - " << filePath << " already exists ";
 					}
 					else {
 						/*
@@ -117,7 +117,7 @@ namespace azure {
 						boost::filesystem::resize_file(file, (uintmax_t)fileSize);
 						close(fd);
 						set_response(_return, true, "Successfully created " + filePath);
-						BOOST_LOG(lg) << "[CreateFile] - Successfully created " << filePath << "\n" ;
+						BOOST_LOG(lg) << "[CreateFile] - Successfully created " << filePath << " " ;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -129,18 +129,18 @@ namespace azure {
 
 			void XSMBServiceHandler::DeleteFile(LinuxFileResponse& _return, const std::string& filePath) {
 				 
-				BOOST_LOG(lg) << "Calling [DeleteFile]\n";
+				BOOST_LOG(lg) << "Calling [DeleteFile] ";
 				
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
-						BOOST_LOG(lg) << "[DeleteFile] - " << filePath << " does not exist or is not a file\n";
+						BOOST_LOG(lg) << "[DeleteFile] - " << filePath << " does not exist or is not a file ";
 					}
 					else {
 						boost::filesystem::remove(file);
 						set_response(_return, true, "Successfully deleted file " + filePath);
-						BOOST_LOG(lg) << "[DeleteFile] - Successfully deleted file " << filePath << "\n" ;
+						BOOST_LOG(lg) << "[DeleteFile] - Successfully deleted file " << filePath << " " ;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -152,13 +152,13 @@ namespace azure {
 
 			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {
 				 
-				BOOST_LOG(lg) << "Calling [ReadFile]\n";
+				BOOST_LOG(lg) << "Calling [ReadFile] ";
 
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
-						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file\n";
+						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file ";
 					}
 					else {
 						std::fstream fs;
@@ -179,7 +179,7 @@ namespace azure {
 						fs.close();
 
 						set_response(_return, true, "Successfully read from file " + filePath);
-						BOOST_LOG(lg) << "[ReadFile] - Successfully read from file " << filePath << "\n" ;
+						BOOST_LOG(lg) << "[ReadFile] - Successfully read from file " << filePath << " " ;
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);												
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read_string));
@@ -195,12 +195,12 @@ namespace azure {
 
 			void XSMBServiceHandler::WriteFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const std::string& buffer, const int64_t count) {
 				 
-				BOOST_LOG(lg) << "Calling [WriteFile]\n";
+				BOOST_LOG(lg) << "Calling [WriteFile] ";
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
-						BOOST_LOG(lg) << "[WriteFile] - " << filePath << " does not exist or is not a file\n";
+						BOOST_LOG(lg) << "[WriteFile] - " << filePath << " does not exist or is not a file ";
 					}
 					else {
 						std::fstream fs;
@@ -214,13 +214,16 @@ namespace azure {
 						fs.close();
 
 						set_response(_return, true, "Successfully write to " + filePath);
-						BOOST_LOG(lg) << "[WriteFile] - Successfully write to " << filePath << "\n" ;
-						BOOST_LOG(lg) << "[WriteFile] - Dump - offset " << offset << " - count " << count << "\n";
-						BOOST_LOG(lg) << "buffer dump:\n";
+						BOOST_LOG(lg) << "[WriteFile] - Successfully write to " << filePath << " " ;
+						BOOST_LOG(lg) << "[WriteFile] - Dump - offset " << offset << " - count " << count << " ";
+						BOOST_LOG(lg) << "buffer dump: ";
+						std::string result;
+						std::ostringstream convert;												
 						for (int i = 0; i < count; i++) {
-							BOOST_LOG(lg) << (((int)(buffer[i])) & 0xff) << " ";
+							//BOOST_LOG(lg) << (((int)(buffer[i])) & 0xff) << " ";
+							convert << (((int)(buffer[i])) & 0xff) << " ";
 						}
-						BOOST_LOG(lg) << "\n";
+						BOOST_LOG(lg) << convert.str();
 					}
 				}
 				catch (const std::exception& ex) {
@@ -236,7 +239,7 @@ namespace azure {
 					return boost::filesystem::recursive_directory_iterator(path);
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
-					//BOOST_LOG(lg) << ex.what() << "\n" ;
+					//BOOST_LOG(lg) << ex.what() << " " ;
 					return boost::filesystem::recursive_directory_iterator();
 				}
 			}
@@ -248,10 +251,10 @@ namespace azure {
 					//BOOST_LOG(lg) << (boost::filesystem::is_symlink(path) ? 'L' : ' ') << ' ';
 					//for (int i = 0; i < level; i++)
 						//BOOST_LOG(lg) << ' ';
-					//BOOST_LOG(lg) << level << ' ' << path.filename() << "\n" ;
+					//BOOST_LOG(lg) << level << ' ' << path.filename() << " " ;
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
-					//BOOST_LOG(lg) << ex.what() << "\n" ;
+					//BOOST_LOG(lg) << ex.what() << " " ;
 				}
 			}
 
@@ -274,13 +277,13 @@ namespace azure {
 						it++;						
 					}
 					catch (const boost::filesystem::filesystem_error& ex) {
-						//BOOST_LOG(lg) << ex.what() << "\n" ;
+						//BOOST_LOG(lg) << ex.what() << " " ;
 						it.no_push();
 						try {
 							it++;
 						}
 						catch (...) {
-							//BOOST_LOG(lg) << "!!\n";
+							//BOOST_LOG(lg) << "!! ";
 						}
 					}
 				}
@@ -288,7 +291,7 @@ namespace azure {
 
 			void XSMBServiceHandler::ListFiles(LinuxFileResponse& _return, const std::string& dirPath, const bool isRecursive) {
 				 
-				printf("Calling [ListCloudFiles]\n");
+				printf("Calling [ListCloudFiles] ");
 				boost::filesystem::path dir(dirPath);
 				std::map<std::string, MatchInformation::type> files, dirs;
 				try {
@@ -298,19 +301,19 @@ namespace azure {
 					_return.__set_Files(files);
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
-					BOOST_LOG(lg) << ex.what() << "\n" ;
+					BOOST_LOG(lg) << ex.what() << " " ;
 				}
 				return;
 			}
 
 			void XSMBServiceHandler::GetFileLength(LinuxFileResponse& _return, const std::string& filePath) {
 				 
-				BOOST_LOG(lg) << "Calling [GetFileLength]\n";
+				BOOST_LOG(lg) << "Calling [GetFileLength] ";
 				boost::filesystem::path file(filePath);				
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {			
 						set_response(_return, true, "Successfully get file length for " + filePath);
-						BOOST_LOG(lg) << "[GetFileLength] - Successfully get file length for " << filePath << "\n" ;
+						BOOST_LOG(lg) << "[GetFileLength] - Successfully get file length for " << filePath << " " ;
 						
 						int64_t file_size =  (int64_t)boost::filesystem::file_size(file);
 						std::string file_size_string = int_to_string(file_size);
@@ -321,7 +324,7 @@ namespace azure {
 					}
 					else {
 						set_response(_return, false, filePath + " does not exist or is not a file");
-						BOOST_LOG(lg) << "[GetFileLength] - " << filePath << " does not exist or is not a file\n";
+						BOOST_LOG(lg) << "[GetFileLength] - " << filePath << " does not exist or is not a file ";
 					}
 				}
 				catch (const std::exception& ex) {
@@ -333,7 +336,7 @@ namespace azure {
 
 			void XSMBServiceHandler::SetFileLength(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileLength) {
 				 
-				BOOST_LOG(lg) << "SetCloudFileLength\n";
+				BOOST_LOG(lg) << "SetCloudFileLength ";
 				boost::filesystem::path file(filePath);
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {						
@@ -353,7 +356,7 @@ namespace azure {
 
 			void XSMBServiceHandler::OpenFileHandle(LinuxFileResponse& _return, const std::string& filePath, const LinuxFileMode::type fileMode, const LinuxFileAccess::type fileAccess, const int32_t handleId) {
 				 
-				BOOST_LOG(lg) << "OpenFileHandle\n";
+				BOOST_LOG(lg) << "OpenFileHandle ";
 				boost::filesystem::path file(filePath);
 				try {	
 					/*
@@ -362,14 +365,14 @@ namespace azure {
 					int flag = set_file_flag(fileAccess, fileMode);
 					int fd = open(filePath.c_str(), flag);
 					if (fd == -1) {
-						printf("open() failed with error[%s]\n", strerror(errno));
+						printf("open() failed with error[%s] ", strerror(errno));
 						set_response(_return, false, "open() failed with error [" + std::string(strerror(errno)) + "]");
 						return;
 					}
 					FILE* file = fdopen(fd, "rb+");
 					file_pointers.insert(std::pair<int, FILE*>(fd, file));
 
-					BOOST_LOG(lg) << "Open file " << filePath << ", descriptor " << fd << "\n";
+					BOOST_LOG(lg) << "Open file " << filePath << ", descriptor " << fd << " ";
 					set_response(_return, true, "Sucessfully opened file handler [" + int_to_string(fd) + "]");
 
 					std::map<std::string, std::string> additional_info;
@@ -385,7 +388,7 @@ namespace azure {
 
 			void XSMBServiceHandler::CloseFileHandle(LinuxFileResponse& _return, const int32_t handleId) {		
 				 
-				BOOST_LOG(lg) << "CloseFileHandle\n";
+				BOOST_LOG(lg) << "CloseFileHandle ";
 				try {
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end()) {
@@ -393,11 +396,11 @@ namespace azure {
 						fclose(file);
 						file_pointers.erase(it);
 						close(it->first);						
-						BOOST_LOG(lg) << "Successfully closed file handle [" << handleId << "]\n";
+						BOOST_LOG(lg) << "Successfully closed file handle [" << handleId << "] ";
 						set_response(_return, true, "Successfully closed file handle [" + int_to_string(handleId) + "]");
 					}
 					else {
-						BOOST_LOG(lg) << "File handle [" << handleId << "] does not exist. It may have been closed.\n";
+						BOOST_LOG(lg) << "File handle [" << handleId << "] does not exist. It may have been closed. ";
 						set_response(_return, false, "File handle [" + int_to_string(handleId) + "] does not exist. It may have been closed.");
 					}
 				}
@@ -410,7 +413,7 @@ namespace azure {
 
 			void XSMBServiceHandler::ReadFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const int64_t count) {
 				 
-				BOOST_LOG(lg) << "ReadFileByHandle\n";
+				BOOST_LOG(lg) << "ReadFileByHandle ";
 				try {
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end() && it->second != NULL) {
@@ -418,16 +421,19 @@ namespace azure {
 						char* buffer = new char[count];
 						fseek(file, offset, SEEK_SET);
 						int64_t bytes_read = fread(buffer, sizeof(char), count, file);
-						BOOST_LOG(lg) << "handleId" << handleId << " - offset " << offset << " - count " << count << "\n";
+						BOOST_LOG(lg) << "handleId" << handleId << " - offset " << offset << " - count " << count << " ";
 						std::string bytes_read_string = int_to_string(bytes_read);
 						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);
-						BOOST_LOG(lg) << "bytes_read: [" << bytes_read_string << "]\n";
-						BOOST_LOG(lg) << "buffer dump:\n";
+						BOOST_LOG(lg) << "bytes_read: [" << bytes_read_string << "] ";
+						BOOST_LOG(lg) << "buffer dump: ";
+						std::string result;
+						std::ostringstream convert;
 						for (int i = 0; i < count; i++) {
-							BOOST_LOG(lg) << (((int)(buffer[i])) & 0xff)  << " ";
+							//BOOST_LOG(lg) << (((int)(buffer[i])) & 0xff) << " ";
+							convert << (((int)(buffer[i])) & 0xff) << " ";
 						}
-						BOOST_LOG(lg) << "\n";
-						BOOST_LOG(lg) << "buffer_string.length(): [" << buffer_string.length() << "]\n";
+						BOOST_LOG(lg) << convert.str();
+						BOOST_LOG(lg) << "buffer_string.length(): [" << buffer_string.length() << "] ";
 						set_response(_return, true, "Successfully read from file handle [" + int_to_string(handleId) + "]");
 
 						std::map<std::string, std::string> additional_info;
@@ -436,7 +442,7 @@ namespace azure {
 						_return.__set_Buffer(buffer_string);
 					}
 					else {
-						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist, or somehow it has been closed.\n";
+						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist, or somehow it has been closed. ";
 						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] does not exist, or somehow it has been closed.");
 					}
 				}
@@ -449,25 +455,28 @@ namespace azure {
 
 			void XSMBServiceHandler::WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) {
 				 
-				BOOST_LOG(lg) << "WriteFileByHandle\n";
+				BOOST_LOG(lg) << "WriteFileByHandle ";
 				try {								
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end() && it->second != NULL) {
-						BOOST_LOG(lg) << "Start writing...\n";
-						BOOST_LOG(lg) << "handleId" << handleId << " - offset " << offset << " - count " << count << "\n";
+						BOOST_LOG(lg) << "Start writing... ";
+						BOOST_LOG(lg) << "handleId" << handleId << " - offset " << offset << " - count " << count << " ";
 						FILE* file = it->second;
 						fseek(file, offset, SEEK_SET);
 						fwrite(buffer.c_str(), sizeof(char), /* buffer.length() */ count, file);
 						fflush(file);
-						BOOST_LOG(lg) << "buffer dump:\n";
+						BOOST_LOG(lg) << "buffer dump: ";
+						std::string result;
+						std::ostringstream convert;
 						for (int i = 0; i < count; i++) {
-							BOOST_LOG(lg) << (((int)(buffer[i])) & 0xff) << " ";
+							//BOOST_LOG(lg) << (((int)(buffer[i])) & 0xff) << " ";
+							convert << (((int)(buffer[i])) & 0xff) << " ";
 						}
-						BOOST_LOG(lg) << "\n";
+						BOOST_LOG(lg) << convert.str();
 						set_response(_return, true, "Successfully write to file handle [" + int_to_string(handleId) + "]");
 					}
 					else {
-						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist, or somehow it has been closed.\n";
+						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist, or somehow it has been closed. ";
 						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] does not exist, or somehow it has been closed.");
 					}
 				}
@@ -480,12 +489,12 @@ namespace azure {
 
 			void XSMBServiceHandler::CopyFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists) {
 				 
-				BOOST_LOG(lg) << "Calling [CopyFile]\n";
+				BOOST_LOG(lg) << "Calling [CopyFile] ";
 				boost::filesystem::path source(sourcePath), destination(destinationPath);
 				try {
 					if (!overwriteIfExists && boost::filesystem::exists(destination)) {
 						set_response(_return, false, destinationPath + " exists, copy failed.");
-						BOOST_LOG(lg) << destinationPath << " exists, copy failed.\n";
+						BOOST_LOG(lg) << destinationPath << " exists, copy failed. ";
 					}
 					else {
 						/*
@@ -498,9 +507,9 @@ namespace azure {
 							cmd += "-n ";
 						cmd += sourcePath + " " + destinationPath;
 						exec(cmd.c_str());
-						BOOST_LOG(lg) << "[CopyFile] - Running command - " << cmd << "\n" ;
+						BOOST_LOG(lg) << "[CopyFile] - Running command - " << cmd << " " ;
 						set_response(_return, true, "Succesfully copied " + sourcePath + " to" + destinationPath);
-						BOOST_LOG(lg) << "[CopyFile] - Source - " << sourcePath << " - Destination - " << destinationPath << "\n" ;
+						BOOST_LOG(lg) << "[CopyFile] - Source - " << sourcePath << " - Destination - " << destinationPath << " " ;
 					}				
 				} 
 				catch (const std::exception& ex) {
@@ -512,13 +521,13 @@ namespace azure {
 
 			void XSMBServiceHandler::MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed) {
 				 
-				BOOST_LOG(lg) << "Calling [MoveFile]\n";
+				BOOST_LOG(lg) << "Calling [MoveFile] ";
 				boost::filesystem::path source(sourcePath), destination(destinationPath);
 				try {
 					if (fileCopyAllowed) {
 						if (!overwriteIfExists && boost::filesystem::exists(destination)) {
 							set_response(_return, false, "overwriteIfExists: " + (overwriteIfExists ? std::string("[true]. ") : std::string("[false]. ")) +  destinationPath + " exists, move failed.");
-							BOOST_LOG(lg) << "[MoveFile] - overwriteIfExists: " << (overwriteIfExists ? "[true] - " : "[false] - ") << destinationPath << " exists, move failed.\n";
+							BOOST_LOG(lg) << "[MoveFile] - overwriteIfExists: " << (overwriteIfExists ? "[true] - " : "[false] - ") << destinationPath << " exists, move failed. ";
 						}
 						else {
 							//boost::filesystem::copy_file(source, destination);
@@ -527,7 +536,7 @@ namespace azure {
 							exec(cp_cmd.c_str());
 							boost::filesystem::remove(source);
 							set_response(_return, true, "Successfully moved " + sourcePath + " to " + destinationPath);
-							BOOST_LOG(lg) << "[MoveFile] - Successfully moved " << sourcePath << " to " << destinationPath << "\n" ;
+							BOOST_LOG(lg) << "[MoveFile] - Successfully moved " << sourcePath << " to " << destinationPath << " " ;
 						}
 					} 
 					else {
@@ -538,9 +547,9 @@ namespace azure {
 							cmd += "-n ";
 						cmd += sourcePath + " " + destinationPath;
 						exec(cmd.c_str());
-						BOOST_LOG(lg) << "[MoveFile] - Running command - " << cmd << "\n" ;
+						BOOST_LOG(lg) << "[MoveFile] - Running command - " << cmd << " " ;
 						set_response(_return, true, "Successfully moved " + sourcePath + " to " + destinationPath);
-						BOOST_LOG(lg) << "[MoveFile] - Successfully moved " << sourcePath << " to " << destinationPath << "\n" ;
+						BOOST_LOG(lg) << "[MoveFile] - Successfully moved " << sourcePath << " to " << destinationPath << " " ;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -552,19 +561,19 @@ namespace azure {
 
 			void XSMBServiceHandler::TruncateFile(LinuxFileResponse& _return, const std::string& filePath) {
 				 
-				BOOST_LOG(lg) << "Calling [TruncateFile]\n";
+				BOOST_LOG(lg) << "Calling [TruncateFile] ";
 				boost::filesystem::path file(filePath);
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
-						BOOST_LOG(lg) << "[TruncateFile] - " << filePath << " does not exist or is not a file\n";
+						BOOST_LOG(lg) << "[TruncateFile] - " << filePath << " does not exist or is not a file ";
 					}
 					else {
 						boost::filesystem::fstream fs;
 						fs.open(file, boost::filesystem::fstream::out);						
 						fs.close();
 						set_response(_return, true, "Successfully truncated " + filePath);
-						BOOST_LOG(lg) << "[TruncateFile] - Successfully truncated " << filePath << "\n" ;
+						BOOST_LOG(lg) << "[TruncateFile] - Successfully truncated " << filePath << " " ;
 					}
 				}
 				catch (const std::exception& ex) {
