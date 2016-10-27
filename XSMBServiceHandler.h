@@ -50,9 +50,10 @@ namespace azure {
 					boost::shared_ptr<sink_t> sink(new sink_t(backend));
 					sink->set_formatter
 						(
-						boost::log::expressions::format("[%1%] %2%")
+						boost::log::expressions::format("\t<record id=\"%1%\" timestamp=\"%2%\">%3%</record>")
+						% boost::log::expressions::attr< unsigned int >("RecordID")
 						% boost::log::expressions::attr< boost::posix_time::ptime >("TimeStamp")
-						% boost::log::expressions::smessage
+						% boost::log::expressions::xml_decor[boost::log::expressions::stream << boost::log::expressions::smessage]
 						);
 					sink->locked_backend()->set_file_collector(boost::log::sinks::file::make_collector(
 						boost::log::keywords::target = "logs",
