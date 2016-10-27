@@ -30,8 +30,9 @@ using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 
 using boost::shared_ptr;
-
+namespace expr = boost::log::expressions;
 using namespace  ::azure::storage::cpp_linux;
+
 
 namespace azure {
 	namespace storage {
@@ -50,6 +51,13 @@ namespace azure {
 						);
 					typedef boost::log::sinks::synchronous_sink<boost::log::sinks::text_file_backend> sink_t;
 					boost::shared_ptr<sink_t> sink(new sink_t(backend));
+					sink->set_formatter
+						(
+						expr::format("\t<record id=\"%1%\" timestamp=\"%2%\">%3%</record>")
+						% expr::attr< unsigned int >("RecordID")
+						% expr::attr< boost::posix_time::ptime >("TimeStamp")
+						% expr::smessage
+						);
 					sink->locked_backend()->set_file_collector(boost::log::sinks::file::make_collector(
 						boost::log::keywords::target = "logs",
 						boost::log::keywords::max_size = 500 * 1024 * 1024
