@@ -48,12 +48,12 @@ namespace azure {
 			public:
 				XSMBServiceHandler(bool logOn) {
 					if (logOn) {
-					
+						/*
 					boost::shared_ptr<boost::log::core> core = boost::log::core::get();
 					boost::shared_ptr<boost::log::sinks::text_file_backend> backend =
 						boost::make_shared<boost::log::sinks::text_file_backend>
 						(
-						boost::log::keywords::file_name = "logs/file_%Y-%m-%d_%H-%M-%S.%N.log",
+						boost::log::keywords::file_name = "file_%Y-%m-%d_%H-%M-%S.%N.log",
 						boost::log::keywords::rotation_size = 10 * 1024 * 1024,
 						boost::log::keywords::auto_flush = true,
 						boost::log::keywords::format = "[%TimeStamp%]: %Message%"
@@ -71,14 +71,18 @@ namespace azure {
 						boost::log::keywords::target = "logs",
 						boost::log::keywords::max_size = 500 * 1024 * 1024
 					));
-					core->add_sink(sink);	
-						/*
+					core->add_sink(sink);	*/
+						
 						logging::add_file_log(
 							boost::log::keywords::file_name = "file_%Y-%m-%d_%H-%M-%S.%N.log",
 							boost::log::keywords::rotation_size = 10 * 1024 * 1024,
 							boost::log::keywords::auto_flush = true,
 							boost::log::keywords::format = "[%TimeStamp%]: %Message%"
-							);*/
+							)->locked_backend()->set_file_collector(
+							boost::log::sinks::file::make_collector(
+							boost::log::keywords::target = "~/cpp_linux/logs",
+							boost::log::keywords::max_size = 500 * 1024 * 1024
+							));
 						logging::add_common_attributes();
 					}
 				}
