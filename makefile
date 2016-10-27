@@ -12,10 +12,10 @@ INC := -I$(THRIFT_DIR) -I.
 all: server
 
 %.o: %.cpp
-	g++ -Wall $(INC) -c $< -o $@
+	g++ -Wall $(INC) -c $< -o $@ -DBOOST_LOG_DYN_LINK 
 
 server: server.o FileShareServiceHandler.o XSMBServiceHandler.o $(GEN_OBJ) 
-	g++ $^ -o $@ -L/usr/local/lib -lthrift -lboost_filesystem -lboost_system -lthriftnb -levent
+	g++ $^ -o $@ -L/usr/local/lib -lthrift -lboost_filesystem -lboost_system -lthriftnb -levent -lboost_log -lboost_log_setup -lboost_date_time -lboost_thread -lpthread
 
 clean:
 	rm $(LIB_DIR)*.o *.o server
