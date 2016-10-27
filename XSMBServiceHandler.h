@@ -41,7 +41,8 @@ namespace azure {
 						boost::make_shared<boost::log::sinks::text_file_backend>
 						(
 						boost::log::keywords::file_name = "file_%Y-%m-%d_%H-%M-%S.%N.log",
-						boost::log::keywords::rotation_size = 10 * 1024 * 1024						
+						boost::log::keywords::rotation_size = 10 * 1024 * 1024,
+						boost::log::keywords::auto_flush = true
 						);
 					typedef boost::log::sinks::synchronous_sink<boost::log::sinks::text_file_backend> sink_t;
 					boost::shared_ptr<sink_t> sink(new sink_t(backend));
