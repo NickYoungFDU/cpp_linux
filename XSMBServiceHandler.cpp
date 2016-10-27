@@ -25,7 +25,7 @@ namespace azure {
 
 			void XSMBServiceHandler::PathExists(LinuxFileResponse& _return, const std::string& path) {
 				std::ofstream log("/home/xufyan/cpp_linux/logfile.txt", std::ios_base::app | std::ios_base::out);
-				log << "Calling [PathExists]\n";
+				BOOST_LOG(lg) << "Calling [PathExists]\n";
 				boost::filesystem::path b_path(path);
 				try {
 					if (boost::filesystem::exists(b_path)) {
