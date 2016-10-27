@@ -20,6 +20,8 @@
 #include <boost/log/sources/global_logger_storage.hpp>
 #include <boost/log/utility/setup/file.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/expressions.hpp>
+#include <boost/log/attributes.hpp>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -46,7 +48,12 @@ namespace azure {
 						);
 					typedef boost::log::sinks::synchronous_sink<boost::log::sinks::text_file_backend> sink_t;
 					boost::shared_ptr<sink_t> sink(new sink_t(backend));
-					//sink->set_formatter();
+					sink->set_formatter
+						(
+						boost::log::expressions::format("[%1%] %2%")
+						% boost::log::expressions::attr< boost::posix_time::ptime >("TimeStamp")
+						% boost::log::expressions::smessage
+						);
 					sink->locked_backend()->set_file_collector(boost::log::sinks::file::make_collector(
 						boost::log::keywords::target = "logs",
 						boost::log::keywords::max_size = 500 * 1024 * 1024
