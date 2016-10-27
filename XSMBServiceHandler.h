@@ -23,6 +23,11 @@
 #include <boost/log/expressions.hpp>
 #include <boost/log/attributes.hpp>
 #include <boost/log/keywords/format.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/sources/severity_logger.hpp>
+#include <boost/log/sources/record_ostream.hpp>
+#include <boost/log/support/date_time.hpp>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
