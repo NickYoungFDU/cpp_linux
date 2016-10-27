@@ -22,6 +22,7 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/attributes.hpp>
+#include <boost/log/keywords/format.hpp>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -39,22 +40,16 @@ namespace azure {
 			public:
 				XSMBServiceHandler() {
 					boost::shared_ptr<boost::log::core> core = boost::log::core::get();
-					boost::shared_ptr<boost::log::sinks::text_file_backend> backend = 
+					boost::shared_ptr<boost::log::sinks::text_file_backend> backend =
 						boost::make_shared<boost::log::sinks::text_file_backend>
 						(
 						boost::log::keywords::file_name = "file_%Y-%m-%d_%H-%M-%S.%N.log",
 						boost::log::keywords::rotation_size = 10 * 1024 * 1024,
-						boost::log::keywords::auto_flush = true
+						boost::log::keywords::auto_flush = true,
+						boost::log::keywords::format = "[%TimeStamp%]: %Message%"
 						);
 					typedef boost::log::sinks::synchronous_sink<boost::log::sinks::text_file_backend> sink_t;
 					boost::shared_ptr<sink_t> sink(new sink_t(backend));
-					sink->set_formatter
-						(
-						boost::log::expressions::format("\t<record id=\"%1%\" timestamp=\"%2%\">%3%</record>")
-						% boost::log::expressions::attr< unsigned int >("RecordID")
-						% boost::log::expressions::attr< boost::posix_time::ptime >("TimeStamp")
-						% boost::log::expressions::xml_decor[boost::log::expressions::stream << boost::log::expressions::smessage]
-						);
 					sink->locked_backend()->set_file_collector(boost::log::sinks::file::make_collector(
 						boost::log::keywords::target = "logs",
 						boost::log::keywords::max_size = 500 * 1024 * 1024
