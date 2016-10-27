@@ -46,8 +46,9 @@ namespace azure {
 		namespace cpp_linux {
 			class XSMBServiceHandler : public XSMBServiceIf {
 			public:
-				XSMBServiceHandler() {
-					/*
+				XSMBServiceHandler(bool logOn) {
+					if (logOn) {
+					
 					boost::shared_ptr<boost::log::core> core = boost::log::core::get();
 					boost::shared_ptr<boost::log::sinks::text_file_backend> backend =
 						boost::make_shared<boost::log::sinks::text_file_backend>
@@ -70,14 +71,16 @@ namespace azure {
 						boost::log::keywords::target = "logs",
 						boost::log::keywords::max_size = 500 * 1024 * 1024
 					));
-					core->add_sink(sink);*/
-					logging::add_file_log(
-						boost::log::keywords::file_name = "file_%Y-%m-%d_%H-%M-%S.%N.log",
-						boost::log::keywords::rotation_size = 10 * 1024 * 1024,
-						boost::log::keywords::auto_flush = true,
-						boost::log::keywords::format = "[%TimeStamp%]: %Message%"
-						);
-					logging::add_common_attributes();
+					core->add_sink(sink);	
+						/*
+						logging::add_file_log(
+							boost::log::keywords::file_name = "file_%Y-%m-%d_%H-%M-%S.%N.log",
+							boost::log::keywords::rotation_size = 10 * 1024 * 1024,
+							boost::log::keywords::auto_flush = true,
+							boost::log::keywords::format = "[%TimeStamp%]: %Message%"
+							);
+						logging::add_common_attributes();*/
+					}
 				}
 
 				void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath);
@@ -110,8 +113,7 @@ namespace azure {
 				void MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed);
 
 				void TruncateFile(LinuxFileResponse& _return, const std::string& filePath);
-			private:
-				std::map<std::string, std::fstream*> file_handles;
+			private:				
 				std::map<int, FILE*> file_pointers;
 				boost::log::sources::logger lg;
 			};

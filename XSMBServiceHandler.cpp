@@ -106,13 +106,6 @@ namespace azure {
 						BOOST_LOG(lg) << "[CreateFile] - " << filePath << " already exists ";
 					}
 					else {
-						/*
-						boost::filesystem::fstream fs;
-						fs.open(file, boost::filesystem::fstream::out);
-						fs.seekp(fileSize - 1);
-						fs.write("", 1);
-						fs.close();					
-						*/
 						int fd = creat(filePath.c_str(), 0777);
 						boost::filesystem::resize_file(file, (uintmax_t)fileSize);
 						close(fd);

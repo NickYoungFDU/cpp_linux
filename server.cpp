@@ -22,9 +22,9 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
 
-int run_server(int port, unsigned int threadCount) {
+int run_server(int port, unsigned int threadCount, bool logOn) {
 
-	boost::shared_ptr<XSMBServiceHandler> xSMBServiceHandler(new XSMBServiceHandler());
+	boost::shared_ptr<XSMBServiceHandler> xSMBServiceHandler(new XSMBServiceHandler(logOn));
 	boost::shared_ptr<TProcessor> xSMBServiceProcessor(new XSMBServiceProcessor(xSMBServiceHandler));
 
 	boost::shared_ptr<FileShareServiceHandler> fileShareServiceHandler(new FileShareServiceHandler());
@@ -47,13 +47,17 @@ int run_server(int port, unsigned int threadCount) {
 int main(int argc, char* argv[]) {
 	int port = 0;
 	unsigned int threadCount = 0U;
-
+	bool logOn = false;
 	// Parse command line options
 	for (int i = 1; i < argc; i++)
 	{
 		if (strcmp(argv[i], "-test") == 0) {
 			LockFileRangeTest("/home/xufyan/testfile");
 			return -1;
+		}
+
+		if (strcmp(argv[i], "-l") == 0) {
+			logOn = true;
 		}
 
 		if (strcmp(argv[i], "-p") == 0)
@@ -82,6 +86,6 @@ int main(int argc, char* argv[]) {
 		threadCount = 15;
 	}
 
-	return run_server(port, threadCount);
+	return run_server(port, threadCount, logOn);
 }
 
