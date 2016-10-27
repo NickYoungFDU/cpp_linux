@@ -80,7 +80,7 @@ namespace azure {
 							boost::log::keywords::format = "[%TimeStamp%]: %Message%"
 							)->locked_backend()->set_file_collector(
 							boost::log::sinks::file::make_collector(
-							boost::log::keywords::target = "~/cpp_linux/logs",
+							boost::log::keywords::target = "/var/log/dir-to-app",
 							boost::log::keywords::max_size = 500 * 1024 * 1024
 							));
 						logging::add_common_attributes();
