@@ -79,9 +79,8 @@ namespace azure {
 							boost::log::keywords::auto_flush = true,
 							boost::log::keywords::format = "[%TimeStamp%]: %Message%"
 							)->locked_backend()->set_file_collector(
-							boost::log::sinks::file::make_collector(
-							boost::log::keywords::target = "/var/log/dir-to-app",
-							boost::log::keywords::max_size = 500 * 1024 * 1024
+							boost::log::sinks::file::make_collector(							
+							boost::log::keywords::max_size = 10 * 1024 * 1024
 							));
 						logging::add_common_attributes();
 					}
