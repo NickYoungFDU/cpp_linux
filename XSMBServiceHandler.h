@@ -53,7 +53,7 @@ namespace azure {
 					boost::shared_ptr<boost::log::sinks::text_file_backend> backend =
 						boost::make_shared<boost::log::sinks::text_file_backend>
 						(
-						boost::log::keywords::file_name = "file_%Y-%m-%d_%H-%M-%S.%N.log",
+						boost::log::keywords::file_name = "logs/file_%Y-%m-%d_%H-%M-%S.%N.log",
 						boost::log::keywords::rotation_size = 10 * 1024 * 1024,
 						boost::log::keywords::auto_flush = true,
 						boost::log::keywords::format = "[%TimeStamp%]: %Message%"
@@ -78,8 +78,8 @@ namespace azure {
 							boost::log::keywords::rotation_size = 10 * 1024 * 1024,
 							boost::log::keywords::auto_flush = true,
 							boost::log::keywords::format = "[%TimeStamp%]: %Message%"
-							);
-						logging::add_common_attributes();*/
+							);*/
+						logging::add_common_attributes();
 					}
 				}
 
