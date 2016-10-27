@@ -77,7 +77,7 @@ namespace azure {
 						boost::log::keywords::auto_flush = true,
 						boost::log::keywords::format = "[%TimeStamp%]: %Message%"
 						);
-
+					logging::add_common_attributes();
 				}
 
 				void CreateDirectory(LinuxFileResponse& _return, const std::string& dirPath);
