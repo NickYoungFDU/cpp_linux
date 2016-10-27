@@ -246,7 +246,7 @@ namespace azure {
 				try {
 					//BOOST_LOG(lg) << (boost::filesystem::is_directory(path) ? 'D' : ' ') << ' ';
 					//BOOST_LOG(lg) << (boost::filesystem::is_symlink(path) ? 'L' : ' ') << ' ';
-					for (int i = 0; i < level; i++)
+					//for (int i = 0; i < level; i++)
 						//BOOST_LOG(lg) << ' ';
 					//BOOST_LOG(lg) << level << ' ' << path.filename() << "\n" ;
 				}
