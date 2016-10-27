@@ -81,7 +81,7 @@ namespace azure {
 							)->locked_backend()->set_file_collector(
 							boost::log::sinks::file::make_collector(
 							boost::log::keywords::target = "/home/xufyan/cpp_linux/logs",
-							boost::log::keywords::max_size = 5000 * 1024 * 1024
+							boost::log::keywords::max_size = 0x7fffffff
 							));
 						logging::add_common_attributes();
 					}
