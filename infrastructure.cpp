@@ -14,7 +14,7 @@ namespace azure {
 				try {
 					while (!feof(pipe)) {
 						if (fgets(buffer, 128, pipe) != NULL)
-							result += buffer;
+							result += std::string(buffer);
 					}
 				}
 				catch (...) {
