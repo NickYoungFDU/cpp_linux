@@ -209,6 +209,7 @@ namespace azure {
 						set_response(_return, true, "Successfully write to " + filePath);
 						BOOST_LOG(lg) << "[WriteFile] - Successfully write to " << filePath << " " ;
 						BOOST_LOG(lg) << "[WriteFile] - Dump - offset " << offset << " - count " << count << " ";
+						/*
 						BOOST_LOG(lg) << "buffer dump: ";
 						std::string result;
 						std::ostringstream convert;												
@@ -217,6 +218,7 @@ namespace azure {
 							convert << (((int)(buffer[i])) & 0xff) << " ";
 						}
 						BOOST_LOG(lg) << convert.str();
+						*/
 					}
 				}
 				catch (const std::exception& ex) {
@@ -418,6 +420,7 @@ namespace azure {
 						std::string bytes_read_string = int_to_string(bytes_read);
 						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);
 						BOOST_LOG(lg) << "bytes_read: [" << bytes_read_string << "] ";
+						/*
 						BOOST_LOG(lg) << "buffer dump: ";
 						std::string result;
 						std::ostringstream convert;
@@ -426,6 +429,7 @@ namespace azure {
 							convert << (((int)(buffer[i])) & 0xff) << " ";
 						}
 						BOOST_LOG(lg) << convert.str();
+						*/
 						BOOST_LOG(lg) << "buffer_string.length(): [" << buffer_string.length() << "] ";
 						set_response(_return, true, "Successfully read from file handle [" + int_to_string(handleId) + "]");
 
@@ -458,6 +462,7 @@ namespace azure {
 						fseek(file, offset, SEEK_SET);
 						fwrite(buffer.c_str(), sizeof(char), /* buffer.length() */ count, file);
 						fflush(file);
+						/*
 						BOOST_LOG(lg) << "buffer dump: ";
 						std::string result;
 						std::ostringstream convert;
@@ -466,6 +471,7 @@ namespace azure {
 							convert << (((int)(buffer[i])) & 0xff) << " ";
 						}
 						BOOST_LOG(lg) << convert.str();
+						*/
 						set_response(_return, true, "Successfully write to file handle [" + int_to_string(handleId) + "]");
 					}
 					else {
