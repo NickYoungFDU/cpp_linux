@@ -36,7 +36,8 @@ namespace azure {
 				printf("UnmapFileShare");
 				try {
 					std::string unmountCommand = "umount " + mountPoint + " &> tmp.txt";
-					exec(unmountCommand.c_str());
+					//exec(unmountCommand.c_str());
+					system(unmountCommand.c_str());
 					std::string ret;
 					std::fstream fs;
 					fs.open("tmp.txt", std::ios::in);
