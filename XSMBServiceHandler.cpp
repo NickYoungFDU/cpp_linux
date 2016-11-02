@@ -388,14 +388,28 @@ namespace azure {
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end()) {
 						FILE* file = it->second;
+						if (fcntl(it->first, F_GETFL) < 0) {
+							// file descriptor is invalid or closed
+							std::cout << "before fclose: fd invalid" << std::endl;
+						}
+						else {
+							std::cout << "before fclose: fd valid" << std::endl;
+						}
 						fclose(file);
+						if (fcntl(it->first, F_GETFL) < 0) {
+							// file descriptor is invalid or closed
+							std::cout << "after fclose: fd invalid" << std::endl;
+						}
+						else {
+							std::cout << "after fclose: fd valid" << std::endl;
+						}
 						int ret = close(handleId);
 						//file_pointers.erase(it);						
 						int errnosv = errno;
 						std::cout << "ret:" << ret << std::endl;
 						std::cout << "it->first" << it->first << std::endl;
 						std::cout << strerror(errnosv) << std::endl;
-						if (fcntl(it->first, F_GETFL) < 0 && errno == EBADF) {
+						if (fcntl(it->first, F_GETFL) < 0) {
 							// file descriptor is invalid or closed
 							std::cout << "fd invalid" << std::endl;
 						}
