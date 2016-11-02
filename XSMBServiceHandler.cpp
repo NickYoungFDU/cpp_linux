@@ -387,8 +387,8 @@ namespace azure {
 				try {
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end()) {
-						//FILE* file = it->second;
-						//fclose(file);
+						FILE* file = it->second;
+						fclose(file);
 						int ret = close(handleId);
 						//file_pointers.erase(it);						
 						int errnosv = errno;
