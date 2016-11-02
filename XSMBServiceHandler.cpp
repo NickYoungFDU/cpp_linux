@@ -177,6 +177,8 @@ namespace azure {
 						_return.__set_AdditionalInfo(additional_info);												
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read_string));
 						_return.__set_Buffer(buffer_string);
+
+						delete[] buffer;
 					}
 				}
 				catch (const std::exception& ex) {
@@ -388,31 +390,12 @@ namespace azure {
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end()) {
 						FILE* file = it->second;
-						if (fcntl(it->first, F_GETFL) < 0) {
-							// file descriptor is invalid or closed
-							std::cout << "before fclose: fd invalid" << std::endl;
-						}
-						else {
-							std::cout << "before fclose: fd valid" << std::endl;
-						}
 						fclose(file);
-						if (fcntl(it->first, F_GETFL) < 0) {
-							// file descriptor is invalid or closed
-							std::cout << "after fclose: fd invalid" << std::endl;
-						}
-						else {
-							std::cout << "after fclose: fd valid" << std::endl;
-						}
-						int ret = close(handleId);
-						//file_pointers.erase(it);						
-						int errnosv = errno;
-						std::cout << "ret:" << ret << std::endl;
-						std::cout << "it->first" << it->first << std::endl;
-						std::cout << strerror(errnosv) << std::endl;
-						if (fcntl(it->first, F_GETFL) < 0) {
-							// file descriptor is invalid or closed
-							std::cout << "fd invalid" << std::endl;
-						}
+						//int ret = close(handleId);
+						file_pointers.erase(it);						
+						//int errnosv = errno;
+						//std::cout << "ret:" << ret << std::endl;						
+						//std::cout << strerror(errnosv) << std::endl;						
 						BOOST_LOG(lg) << "Successfully closed file handle [" << handleId << "] ";
 						set_response(_return, true, "Successfully closed file handle [" + int_to_string(handleId) + "]");
 					}
@@ -459,6 +442,8 @@ namespace azure {
 						_return.__set_AdditionalInfo(additional_info);
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("BytesRead", bytes_read_string));
 						_return.__set_Buffer(buffer_string);
+
+						delete[] buffer;
 					}
 					else {
 						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist, or somehow it has been closed. ";
