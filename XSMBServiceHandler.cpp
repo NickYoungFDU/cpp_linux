@@ -390,8 +390,11 @@ namespace azure {
 						FILE* file = it->second;
 						fclose(file);
 						file_pointers.erase(it);
-						int ret = close(it->first);						
+						int ret = close(it->first);			
+						int errnosv = errno;
 						std::cout << "ret:" << ret << std::endl;
+						std::cout << "it->first" << it->first << std::endl;
+						std::cout << strerror(errnosv) << std::endl;
 						BOOST_LOG(lg) << "Successfully closed file handle [" << handleId << "] ";
 						set_response(_return, true, "Successfully closed file handle [" + int_to_string(handleId) + "]");
 					}
