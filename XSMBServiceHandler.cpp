@@ -387,10 +387,10 @@ namespace azure {
 				try {
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end()) {
-						FILE* file = it->second;
-						fclose(file);
-						int ret = close(it->first);
-						file_pointers.erase(it);						
+						//FILE* file = it->second;
+						//fclose(file);
+						int ret = close(handleId);
+						//file_pointers.erase(it);						
 						int errnosv = errno;
 						std::cout << "ret:" << ret << std::endl;
 						std::cout << "it->first" << it->first << std::endl;
