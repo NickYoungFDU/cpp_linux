@@ -35,7 +35,8 @@ namespace azure {
 				// Your implementation goes here
 				printf("UnmapFileShare");
 				try {
-					std::string unmountCommand = "umount " + mountPoint;
+					//std::string unmountCommand = "umount " + mountPoint;
+					std::string unmountCommand = "df -T " + mountPoint + " | tail -n +2";
 					std::string ret = exec(unmountCommand.c_str());
 					std::cout << ret << std::endl;
 					set_response(_return, true, "Successfully unmapped " + mountPoint);
