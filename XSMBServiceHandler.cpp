@@ -24,6 +24,30 @@ namespace azure {
 		{
 			// TODO: Add BOOST_LOG(lg)ging to these handler functions.
 
+			void XSMBServiceHandler::IsMounted(LinuxFileResponse& _return, const std::string& dirPath) {
+				BOOST_LOG(lg) << "Calling [IsMounted] ";
+				boost::filesystem::path directory(dirPath);
+				try {
+					if (boost::filesystem::exists(directory) && boost::filesystem::is_directory(directory)) {
+						std::string cmd = "df -T " + dirPath + " | tail -n +2";
+						std::string ret = exec(cmd.c_str());
+						bool isMounted = ret.find("cifs") != std::string::npos;
+						std::map<std::string, std::string> additional_info;
+						_return.__set_AdditionalInfo(additional_info);
+						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("IsMounted", isMounted ? "true" : "false"));
+					}
+					else {
+						set_response(_return, false, dirPath + " does not exist or is not a directory");
+						BOOST_LOG(lg) << "[IsMounted] - " << dirPath << " does not exist or is not a directory ";
+					}
+				}
+				catch (const std::exception& ex) {
+					throw set_exception(ex.what(), OperationType::IsMounted);
+				}
+
+				return;
+			}
+
 			void XSMBServiceHandler::PathExists(LinuxFileResponse& _return, const std::string& path) {
 				 
 				BOOST_LOG(lg) << "Calling [PathExists] ";

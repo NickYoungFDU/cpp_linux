@@ -38,6 +38,15 @@ enum OperationType {
     ListFile = 8,
     GetFileLength = 9,
     SetFileLength = 10
+    PathExists = 11, 
+    CopyFile = 12, 
+    OpenFileHandle = 13, 
+    CloseFileHandle = 14, 
+    ReadFileByHandle = 15, 
+    WriteFileByHandle = 16, 
+    MoveFile = 17,
+    TruncateFile = 18,
+    IsMounted = 19
 }
 
 exception LinuxFileException {
@@ -105,7 +114,7 @@ service XSMBService {
     
     LinuxFileResponse MoveFile(1:string sourcePath, 2:string destinationPath, 3:bool overwriteIfExists, 4:bool fileCopyAllowed) throws(1:LinuxFileException linuxFileException),     
     
-    LinuxFileResponse TruncateFile(1:string filePath) throws (1:LinuxFileException linuxFileException)       
+    LinuxFileResponse TruncateFile(1:string filePath) throws (1:LinuxFileException linuxFileException),       
     
-    LinuxFileResponse 
+    LinuxFileResponse IsMounted(1:string dirPath) throws (1:LinuxFileException linuxFileException)
 }

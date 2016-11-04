@@ -117,6 +117,8 @@ namespace azure {
 				void MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed);
 
 				void TruncateFile(LinuxFileResponse& _return, const std::string& filePath);
+
+				void IsMounted(LinuxFileResponse& _return, const std::string& dirPath);
 			private:				
 				std::map<int, FILE*> file_pointers;
 				boost::log::sources::logger lg;

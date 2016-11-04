@@ -107,6 +107,11 @@ class XSMBServiceHandler : virtual public XSMBServiceIf {
     printf("TruncateFile\n");
   }
 
+  void IsMounted(LinuxFileResponse& _return, const std::string& dirPath) {
+    // Your implementation goes here
+    printf("IsMounted\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

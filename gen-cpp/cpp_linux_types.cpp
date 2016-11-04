@@ -68,7 +68,16 @@ int _kOperationTypeValues[] = {
   OperationType::WriteFile,
   OperationType::ListFile,
   OperationType::GetFileLength,
-  OperationType::SetFileLength
+  OperationType::SetFileLength,
+  OperationType::PathExists,
+  OperationType::CopyFile,
+  OperationType::OpenFileHandle,
+  OperationType::CloseFileHandle,
+  OperationType::ReadFileByHandle,
+  OperationType::WriteFileByHandle,
+  OperationType::MoveFile,
+  OperationType::TruncateFile,
+  OperationType::IsMounted
 };
 const char* _kOperationTypeNames[] = {
   "MapFileShare",
@@ -81,9 +90,18 @@ const char* _kOperationTypeNames[] = {
   "WriteFile",
   "ListFile",
   "GetFileLength",
-  "SetFileLength"
+  "SetFileLength",
+  "PathExists",
+  "CopyFile",
+  "OpenFileHandle",
+  "CloseFileHandle",
+  "ReadFileByHandle",
+  "WriteFileByHandle",
+  "MoveFile",
+  "TruncateFile",
+  "IsMounted"
 };
-const std::map<int, const char*> _OperationType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(11, _kOperationTypeValues, _kOperationTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+const std::map<int, const char*> _OperationType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(20, _kOperationTypeValues, _kOperationTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 
 LinuxFileException::~LinuxFileException() throw() {

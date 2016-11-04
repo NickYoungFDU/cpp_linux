@@ -32,6 +32,7 @@ class XSMBServiceIf {
   virtual void WriteFileByHandle(LinuxFileResponse& _return, const int32_t handleId, const int64_t offset, const std::string& buffer, const int64_t count) = 0;
   virtual void MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed) = 0;
   virtual void TruncateFile(LinuxFileResponse& _return, const std::string& filePath) = 0;
+  virtual void IsMounted(LinuxFileResponse& _return, const std::string& dirPath) = 0;
 };
 
 class XSMBServiceIfFactory {
@@ -110,6 +111,9 @@ class XSMBServiceNull : virtual public XSMBServiceIf {
     return;
   }
   void TruncateFile(LinuxFileResponse& /* _return */, const std::string& /* filePath */) {
+    return;
+  }
+  void IsMounted(LinuxFileResponse& /* _return */, const std::string& /* dirPath */) {
     return;
   }
 };
@@ -2451,6 +2455,134 @@ class XSMBService_TruncateFile_presult {
   friend std::ostream& operator<<(std::ostream& out, const XSMBService_TruncateFile_presult& obj);
 };
 
+typedef struct _XSMBService_IsMounted_args__isset {
+  _XSMBService_IsMounted_args__isset() : dirPath(false) {}
+  bool dirPath :1;
+} _XSMBService_IsMounted_args__isset;
+
+class XSMBService_IsMounted_args {
+ public:
+
+  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
+  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+
+  XSMBService_IsMounted_args(const XSMBService_IsMounted_args&);
+  XSMBService_IsMounted_args& operator=(const XSMBService_IsMounted_args&);
+  XSMBService_IsMounted_args() : dirPath() {
+  }
+
+  virtual ~XSMBService_IsMounted_args() throw();
+  std::string dirPath;
+
+  _XSMBService_IsMounted_args__isset __isset;
+
+  void __set_dirPath(const std::string& val);
+
+  bool operator == (const XSMBService_IsMounted_args & rhs) const
+  {
+    if (!(dirPath == rhs.dirPath))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_IsMounted_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_IsMounted_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_IsMounted_args& obj);
+};
+
+
+class XSMBService_IsMounted_pargs {
+ public:
+
+  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
+  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+
+
+  virtual ~XSMBService_IsMounted_pargs() throw();
+  const std::string* dirPath;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_IsMounted_pargs& obj);
+};
+
+typedef struct _XSMBService_IsMounted_result__isset {
+  _XSMBService_IsMounted_result__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_IsMounted_result__isset;
+
+class XSMBService_IsMounted_result {
+ public:
+
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
+
+  XSMBService_IsMounted_result(const XSMBService_IsMounted_result&);
+  XSMBService_IsMounted_result& operator=(const XSMBService_IsMounted_result&);
+  XSMBService_IsMounted_result() {
+  }
+
+  virtual ~XSMBService_IsMounted_result() throw();
+  LinuxFileResponse success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_IsMounted_result__isset __isset;
+
+  void __set_success(const LinuxFileResponse& val);
+
+  void __set_linuxFileException(const LinuxFileException& val);
+
+  bool operator == (const XSMBService_IsMounted_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    if (!(linuxFileException == rhs.linuxFileException))
+      return false;
+    return true;
+  }
+  bool operator != (const XSMBService_IsMounted_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const XSMBService_IsMounted_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_IsMounted_result& obj);
+};
+
+typedef struct _XSMBService_IsMounted_presult__isset {
+  _XSMBService_IsMounted_presult__isset() : success(false), linuxFileException(false) {}
+  bool success :1;
+  bool linuxFileException :1;
+} _XSMBService_IsMounted_presult__isset;
+
+class XSMBService_IsMounted_presult {
+ public:
+
+  static const char* ascii_fingerprint; // = "171C3835ABF08F842D8215E7F5C4BEB2";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x1C,0x38,0x35,0xAB,0xF0,0x8F,0x84,0x2D,0x82,0x15,0xE7,0xF5,0xC4,0xBE,0xB2};
+
+
+  virtual ~XSMBService_IsMounted_presult() throw();
+  LinuxFileResponse* success;
+  LinuxFileException linuxFileException;
+
+  _XSMBService_IsMounted_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+  friend std::ostream& operator<<(std::ostream& out, const XSMBService_IsMounted_presult& obj);
+};
+
 class XSMBServiceClient : virtual public XSMBServiceIf {
  public:
   XSMBServiceClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -2527,6 +2659,9 @@ class XSMBServiceClient : virtual public XSMBServiceIf {
   void TruncateFile(LinuxFileResponse& _return, const std::string& filePath);
   void send_TruncateFile(const std::string& filePath);
   void recv_TruncateFile(LinuxFileResponse& _return);
+  void IsMounted(LinuxFileResponse& _return, const std::string& dirPath);
+  void send_IsMounted(const std::string& dirPath);
+  void recv_IsMounted(LinuxFileResponse& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -2559,6 +2694,7 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_WriteFileByHandle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MoveFile(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_TruncateFile(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_IsMounted(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   XSMBServiceProcessor(boost::shared_ptr<XSMBServiceIf> iface) :
     iface_(iface) {
@@ -2579,6 +2715,7 @@ class XSMBServiceProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["WriteFileByHandle"] = &XSMBServiceProcessor::process_WriteFileByHandle;
     processMap_["MoveFile"] = &XSMBServiceProcessor::process_MoveFile;
     processMap_["TruncateFile"] = &XSMBServiceProcessor::process_TruncateFile;
+    processMap_["IsMounted"] = &XSMBServiceProcessor::process_IsMounted;
   }
 
   virtual ~XSMBServiceProcessor() {}
@@ -2774,6 +2911,16 @@ class XSMBServiceMultiface : virtual public XSMBServiceIf {
       ifaces_[i]->TruncateFile(_return, filePath);
     }
     ifaces_[i]->TruncateFile(_return, filePath);
+    return;
+  }
+
+  void IsMounted(LinuxFileResponse& _return, const std::string& dirPath) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->IsMounted(_return, dirPath);
+    }
+    ifaces_[i]->IsMounted(_return, dirPath);
     return;
   }
 

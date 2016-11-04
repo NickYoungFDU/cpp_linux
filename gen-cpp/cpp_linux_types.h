@@ -65,7 +65,16 @@ struct OperationType {
     WriteFile = 7,
     ListFile = 8,
     GetFileLength = 9,
-    SetFileLength = 10
+    SetFileLength = 10,
+    PathExists = 11,
+    CopyFile = 12,
+    OpenFileHandle = 13,
+    CloseFileHandle = 14,
+    ReadFileByHandle = 15,
+    WriteFileByHandle = 16,
+    MoveFile = 17,
+    TruncateFile = 18,
+    IsMounted = 19
   };
 };
 
