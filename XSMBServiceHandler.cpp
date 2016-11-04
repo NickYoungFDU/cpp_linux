@@ -35,6 +35,7 @@ namespace azure {
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);
 						_return.AdditionalInfo.insert(std::pair<std::string, std::string>("IsMounted", isMounted ? "true" : "false"));
+						set_response(_return, true, dirPath + " isMounted:" + (isMounted ? "true" : "false"));
 					}
 					else {
 						set_response(_return, false, dirPath + " does not exist or is not a directory");
