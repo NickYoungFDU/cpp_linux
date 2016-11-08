@@ -34,9 +34,9 @@ namespace azure {
 			void FileShareServiceHandler::UnmapFileShare(LinuxFileResponse& _return, const std::string& mountPoint) {				
 				printf("UnmapFileShare");
 				try {
-					std::string cmd = "umount " + mountPoint;
+					std::string cmd = "umount " + mountPoint + " 2>&1";
 					std::string ret = exec(cmd.c_str());
-					std::cout << ret << std::endl;
+					std::cout << "cmd output:" << ret << std::endl;
 					/*
 					bool isUmounted = false;
 					std::string umountCmd = "umount " + mountPoint;
