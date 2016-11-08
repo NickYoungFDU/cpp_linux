@@ -27,7 +27,7 @@ int run_server(int port, unsigned int threadCount, bool logOn) {
 	boost::shared_ptr<XSMBServiceHandler> xSMBServiceHandler(new XSMBServiceHandler(logOn));
 	boost::shared_ptr<TProcessor> xSMBServiceProcessor(new XSMBServiceProcessor(xSMBServiceHandler));
 
-	boost::shared_ptr<FileShareServiceHandler> fileShareServiceHandler(new FileShareServiceHandler());
+	boost::shared_ptr<FileShareServiceHandler> fileShareServiceHandler(new FileShareServiceHandler(logOn));
 	boost::shared_ptr<TProcessor> fileShareServiceProcessor(new FileShareServiceProcessor(fileShareServiceHandler));
 	
 	boost::shared_ptr<TMultiplexedProcessor> multiplexedProcessor(new TMultiplexedProcessor());
