@@ -53,7 +53,7 @@ namespace azure {
 						BOOST_LOG(lg) << "[UnmapFileShare] " << mountPoint << " state: " << (isUmounted ? "Unmounted" : "Still mounted");
 						if (isUmounted) break;
 						attempt++;
-						BOOST_LOG(lg) << "[UnmapFileShare] Sleeping for " << timespan;
+						BOOST_LOG(lg) << "[UnmapFileShare] Sleeping...";
 						std::this_thread::sleep_for(timespan);
 						timespan *= 2;
 					}					
