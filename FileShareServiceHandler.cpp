@@ -26,7 +26,12 @@ namespace azure {
 					BOOST_LOG(lg) << "[MapFileShare] Excecuting '" << mountCommand << "'";
 					std::string ret = exec(mountCommand.c_str());
 					BOOST_LOG(lg) << "[MapFileShare] Command result: " << ret;
-					set_response(_return, true, "Successfully mapped " + mountPoint + " to " + smbShareAddress);
+					if (ret.find("error") != std::string::npos) {
+						set_response(_return, false, "Failed to map " + mountPoint + ". Error Message: " + ret);
+					}
+					else {
+						set_response(_return, true, "Successfully mapped " + mountPoint + " to " + smbShareAddress);
+					}
 				}
 				catch (const std::exception& ex) {
 					throw set_exception(ex.what(), OperationType::MapFileShare);
