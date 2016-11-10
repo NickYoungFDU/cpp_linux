@@ -58,13 +58,13 @@ namespace azure {
 				FileShareServiceHandler(bool logOn) {
 					if (logOn) {
 						logging::add_file_log(
-							boost::log::keywords::file_name = "map_log/file_%Y-%m-%d_%H-%M-%S.%N.log",
+							boost::log::keywords::file_name = "logs/file_%Y-%m-%d_%H-%M-%S.%N.log",
 							boost::log::keywords::rotation_size = 10 * 1024 * 1024,
 							boost::log::keywords::auto_flush = true,
 							boost::log::keywords::format = "[%TimeStamp%]: %Message%"
 							)->locked_backend()->set_file_collector(
 							boost::log::sinks::file::make_collector(
-							boost::log::keywords::target = "/home/xufyan/cpp_linux/map_log",
+							boost::log::keywords::target = "/home/xufyan/cpp_linux/logs",
 							boost::log::keywords::max_size = 0x7fffffff
 							));
 						logging::add_common_attributes();
