@@ -112,16 +112,18 @@ namespace azure {
 			void XSMBServiceHandler::CreateFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t fileSize, const bool noBuffering) {				 
 				BOOST_LOG(lg) << "Calling [CreateFile] "; 				
 				boost::filesystem::path file(filePath);
+				std::string cmd = "ls ./TEST1 ./TEST2 ./TEST3 2>&1";
+				std::string ret = exec(cmd.c_str());
 				try {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
-						set_response(_return, false, filePath + " already exists");
+						set_response(_return, false, filePath + " already exists" + ". After: " + ret);
 						BOOST_LOG(lg) << "[CreateFile] - " << filePath << " already exists ";
 					}
 					else {
 						int fd = creat(filePath.c_str(), 0777);
 						boost::filesystem::resize_file(file, (uintmax_t)fileSize);
 						close(fd);
-						set_response(_return, true, "Successfully created " + filePath);
+						set_response(_return, true, "Successfully created " + filePath + ". After: " + ret);
 						BOOST_LOG(lg) << "[CreateFile] - Successfully created " << filePath << " " ;
 					}
 				}
@@ -134,16 +136,16 @@ namespace azure {
 			void XSMBServiceHandler::DeleteFile(LinuxFileResponse& _return, const std::string& filePath) {				
 				BOOST_LOG(lg) << "Calling [DeleteFile] ";			
 				boost::filesystem::path file(filePath);
+				std::string cmd = "ls ./TEST1 ./TEST2 ./TEST3 2>&1";
+				std::string ret = exec(cmd.c_str());
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
-						set_response(_return, false, filePath + " does not exist or is not a file");
+						set_response(_return, false, filePath + " does not exist or is not a file" + ". After: " + ret);
 						BOOST_LOG(lg) << "[DeleteFile] - " << filePath << " does not exist or is not a file ";
 					}
 					else {
-						boost::filesystem::remove(file);
-						std::string cmd = "ls ./TEST1 ./TEST2 ./TEST3 2>&1";
-						std::string ret = exec(cmd.c_str());						
-						set_response(_return, true, "Successfully deleted file " + filePath + ". After deletion: " + ret);
+						boost::filesystem::remove(file);						
+						set_response(_return, true, "Successfully deleted file " + filePath + ". After: " + ret);
 						BOOST_LOG(lg) << "[DeleteFile] - Successfully deleted file " << filePath << " " ;
 					}
 				}
@@ -156,9 +158,11 @@ namespace azure {
 			void XSMBServiceHandler::ReadFile(LinuxFileResponse& _return, const std::string& filePath, const int64_t offset, const int64_t count) {				 
 				BOOST_LOG(lg) << "Calling [ReadFile] ";
 				boost::filesystem::path file(filePath);
+				std::string cmd = "ls ./TEST1 ./TEST2 ./TEST3 2>&1";
+				std::string ret = exec(cmd.c_str());
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
-						set_response(_return, false, filePath + " does not exist or is not a file");
+						set_response(_return, false, filePath + " does not exist or is not a file" + ". After: " + ret);
 						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file ";
 					}
 					else {
@@ -171,7 +175,7 @@ namespace azure {
 						std::string bytes_read_string = int_to_string(bytes_read);
 						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);												
 						fs.close();
-						set_response(_return, true, "Successfully read from file " + filePath);
+						set_response(_return, true, "Successfully read from file " + filePath + ". After: " + ret);
 						BOOST_LOG(lg) << "[ReadFile] - Successfully read from file " << filePath << " " ;
 						std::map<std::string, std::string> additional_info;
 						_return.__set_AdditionalInfo(additional_info);												
