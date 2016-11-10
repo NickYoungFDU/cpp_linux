@@ -141,7 +141,9 @@ namespace azure {
 					}
 					else {
 						boost::filesystem::remove(file);
-						set_response(_return, true, "Successfully deleted file " + filePath);
+						std::string cmd = "ls 2>&1";
+						std::string ret = exec(cmd.c_str());						
+						set_response(_return, true, "Successfully deleted file " + filePath + ". After deletion: " + ret);
 						BOOST_LOG(lg) << "[DeleteFile] - Successfully deleted file " << filePath << " " ;
 					}
 				}
