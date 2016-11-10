@@ -119,6 +119,7 @@ namespace azure {
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
 						std::string cmd = "ls ./TEST1 ./TEST2 ./TEST3 2>&1";
 						std::string ret = exec(cmd.c_str());
+						ret = "";
 						set_response(_return, false, filePath + " already exists" + ". After: " + ret);
 						BOOST_LOG(lg) << "[CreateFile] - " << filePath << " already exists ";
 					}
@@ -128,6 +129,7 @@ namespace azure {
 						close(fd);
 						std::string cmd = "ls ./TEST1 ./TEST2 ./TEST3 2>&1";
 						std::string ret = exec(cmd.c_str());
+						ret = "";
 						set_response(_return, true, "Successfully created " + filePath + ". After: " + ret);
 						BOOST_LOG(lg) << "[CreateFile] - Successfully created " << filePath << " " ;
 					}
@@ -148,6 +150,7 @@ namespace azure {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						std::string cmd = "ls ./TEST1 ./TEST2 ./TEST3 2>&1";
 						std::string ret = exec(cmd.c_str());
+						ret = "";
 						set_response(_return, false, filePath + " does not exist or is not a file" + ". After: " + ret);
 						BOOST_LOG(lg) << "[DeleteFile] - " << filePath << " does not exist or is not a file ";
 					}
@@ -155,6 +158,7 @@ namespace azure {
 						boost::filesystem::remove(file);	
 						std::string cmd = "ls ./TEST1 ./TEST2 ./TEST3 2>&1";
 						std::string ret = exec(cmd.c_str());
+						ret = "";
 						set_response(_return, true, "Successfully deleted file " + filePath + ". After: " + ret);
 						BOOST_LOG(lg) << "[DeleteFile] - Successfully deleted file " << filePath << " " ;
 					}
@@ -173,6 +177,7 @@ namespace azure {
 				BOOST_LOG(lg) << ret;
 				try {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
+						ret = "";
 						set_response(_return, false, filePath + " does not exist or is not a file" + ". After: " + ret);
 						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file ";
 					}
@@ -186,6 +191,7 @@ namespace azure {
 						std::string bytes_read_string = int_to_string(bytes_read);
 						std::string buffer_string = std::string(buffer, bytes_read < count ? bytes_read : count);												
 						fs.close();
+						ret = "";
 						set_response(_return, true, "Successfully read from file " + filePath + ". After: " + ret);
 						BOOST_LOG(lg) << "[ReadFile] - Successfully read from file " << filePath << " " ;
 						std::map<std::string, std::string> additional_info;
