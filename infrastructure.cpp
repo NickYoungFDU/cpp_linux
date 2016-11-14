@@ -5,12 +5,9 @@ using namespace ::azure::storage::cpp_linux;
 namespace azure {
 	namespace storage {
 		namespace cpp_linux {
-			bool exists(std::string path) {
-				std::fstream fs;
-				fs.open(path.c_str(), std::ios::in);
-				bool res = !!fs;
-				fs.close();
-				return res;
+			void refresh_client_cache(std::string path) {
+				std::string cmd = "ls " + path;
+				std::string ret = exec(cmd.c_str());
 			}
 
 			std::string exec(const char* cmd) {

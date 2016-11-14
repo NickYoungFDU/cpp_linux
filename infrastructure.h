@@ -17,7 +17,7 @@ namespace azure {
 			std::string int_to_string(int64_t integer);
 			int set_file_flag(LinuxFileAccess::type file_access, LinuxFileMode::type file_mode);
 			std::string exec(const char* cmd);
-			bool exists(std::string path);
+			void refresh_client_cache(std::string path);
 		}
 	}
 }

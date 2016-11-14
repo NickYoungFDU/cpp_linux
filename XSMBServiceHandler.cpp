@@ -25,6 +25,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [IsMounted] ";
 				boost::filesystem::path directory(dirPath);
 				try {
+					refresh_client_cache(dirPath);
 					if (boost::filesystem::exists(directory) && boost::filesystem::is_directory(directory)) {
 						std::string cmd = "df -T " + dirPath + " | tail -n +2";
 						std::string ret = exec(cmd.c_str());
@@ -49,6 +50,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [PathExists] ";
 				boost::filesystem::path b_path(path);
 				try {
+					refresh_client_cache(path);
 					if (boost::filesystem::exists(b_path)) {
 						set_response(_return, true, path + " exists");
 						BOOST_LOG(lg) << "[PathExists] - " << path << " exists. ";
@@ -67,6 +69,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [CreateDirectory] ";
 				boost::filesystem::path dir(dirPath);
 				try {
+					refresh_client_cache(dirPath);
 					if (boost::filesystem::exists(dir) && boost::filesystem::is_directory(dir)) {						
 						set_response(_return, false, dirPath + ": directory already exists");						
 						BOOST_LOG(lg) << "[CreateDirectory] - " << dirPath << ": directory already exists. ";
@@ -87,6 +90,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [DeleteDirectory] ";				
 				boost::filesystem::path dir(dirPath);
 				try {
+					refresh_client_cache(dirPath);
 					if (!boost::filesystem::exists(dir) || !boost::filesystem::is_directory(dir)) {						
 						set_response(_return, false, dirPath + " does not exist or is not a directory");
 						BOOST_LOG(lg) << "[DeleteDirectory] - " << dirPath << "does not exist or is not a directory ";
@@ -113,8 +117,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [CreateFile] "; 			
 				boost::filesystem::path file(filePath);				
 				try {
-					std::string cmd = "ls " + filePath;
-					std::string ret = exec(cmd.c_str());
+					refresh_client_cache(filePath);
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
 						set_response(_return, false, filePath + " already exists");
 						BOOST_LOG(lg) << "[CreateFile] - " << filePath << " already exists ";
@@ -137,8 +140,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [DeleteFile] ";						
 				boost::filesystem::path file(filePath);				
 				try {
-					std::string cmd = "ls " + filePath;
-					std::string ret = exec(cmd.c_str());
+					refresh_client_cache(filePath);
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[DeleteFile] - " << filePath << " does not exist or is not a file ";
@@ -169,15 +171,10 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [ReadFile] ";
 				boost::filesystem::path file(filePath);				
 				try {
-					std::string cmd = "ls " + filePath;
-					std::string ret = exec(cmd.c_str());
+					refresh_client_cache(filePath);
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {						
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file ";
-						//std::string cmd = "ls " + filePath;
-						//std::string ret = exec(cmd.c_str());
-						//BOOST_LOG(lg) << "List file: " << ret;
-						//BOOST_LOG(lg) << "Detect again - Exist: " << boost::filesystem::exists(file);
 					}
 					else {
 						std::fstream fs;
@@ -208,6 +205,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [WriteFile] ";
 				boost::filesystem::path file(filePath);
 				try {
+					refresh_client_cache(filePath);
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[WriteFile] - " << filePath << " does not exist or is not a file ";
@@ -305,6 +303,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [GetFileLength] ";
 				boost::filesystem::path file(filePath);				
 				try {
+					refresh_client_cache(filePath);
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {			
 						set_response(_return, true, "Successfully get file length for " + filePath);
 						BOOST_LOG(lg) << "[GetFileLength] - Successfully get file length for " << filePath << " " ;						
@@ -329,6 +328,7 @@ namespace azure {
 				BOOST_LOG(lg) << "SetCloudFileLength ";
 				boost::filesystem::path file(filePath);
 				try {
+					refresh_client_cache(filePath);
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {						
 						boost::filesystem::resize_file(file, (uintmax_t)fileLength);
 						set_response(_return, true, "Successfully set file length!");
@@ -347,8 +347,7 @@ namespace azure {
 				BOOST_LOG(lg) << "OpenFileHandle ";
 				boost::filesystem::path file(filePath);
 				try {	
-					std::string cmd = "ls " + filePath;
-					std::string ret = exec(cmd.c_str());
+					refresh_client_cache(filePath);
 					int flag = set_file_flag(fileAccess, fileMode);
 					int fd = open(filePath.c_str(), flag);
 					if (fd == -1) {
@@ -452,6 +451,8 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [CopyFile] ";
 				boost::filesystem::path source(sourcePath), destination(destinationPath);
 				try {
+					refresh_client_cache(sourcePath);
+					refresh_client_cache(destinationPath);
 					if (!overwriteIfExists && boost::filesystem::exists(destination)) {
 						set_response(_return, false, destinationPath + " exists, copy failed.");
 						BOOST_LOG(lg) << destinationPath << " exists, copy failed. ";
@@ -478,6 +479,8 @@ namespace azure {
 			void XSMBServiceHandler::MoveFile(LinuxFileResponse& _return, const std::string& sourcePath, const std::string& destinationPath, const bool overwriteIfExists, const bool fileCopyAllowed) {				
 				BOOST_LOG(lg) << "Calling [MoveFile] ";
 				boost::filesystem::path source(sourcePath), destination(destinationPath);
+				refresh_client_cache(sourcePath);
+				refresh_client_cache(destinationPath);
 				try {
 					if (fileCopyAllowed) {
 						if (!overwriteIfExists && boost::filesystem::exists(destination)) {
@@ -516,6 +519,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [TruncateFile] ";
 				boost::filesystem::path file(filePath);
 				try {
+					refresh_client_cache(filePath);
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[TruncateFile] - " << filePath << " does not exist or is not a file ";
