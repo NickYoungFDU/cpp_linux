@@ -22,7 +22,7 @@ namespace azure {
 						boost::filesystem::create_directory(mountPointPath);
 					}
 					std::string xsmbVersion = "3.0";
-					std::string mountCommand = "mount -t cifs " + smbShareAddress + " " + mountPoint + " -o iocharset=utf8,vers='" + xsmbVersion + "',username='" + username + "',password='" + password + "',dir_mode=0777,file_mode=0777 2>&1";
+					std::string mountCommand = "mount -t cifs " + smbShareAddress + " " + mountPoint + " -o cache=none,iocharset=utf8,vers='" + xsmbVersion + "',username='" + username + "',password='" + password + "',dir_mode=0777,file_mode=0777 2>&1";
 					BOOST_LOG(lg) << "[MapFileShare] Excecuting '" << mountCommand << "'";
 					std::string ret = exec(mountCommand.c_str());
 					BOOST_LOG(lg) << "[MapFileShare] Command result: " << ret;
