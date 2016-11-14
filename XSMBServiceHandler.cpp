@@ -347,7 +347,8 @@ namespace azure {
 				BOOST_LOG(lg) << "OpenFileHandle ";
 				boost::filesystem::path file(filePath);
 				try {	
-
+					std::string cmd = "ls " + filePath;
+					std::string ret = exec(cmd.c_str());
 					int flag = set_file_flag(fileAccess, fileMode);
 					int fd = open(filePath.c_str(), flag);
 					if (fd == -1) {
