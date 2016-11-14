@@ -347,10 +347,11 @@ namespace azure {
 				BOOST_LOG(lg) << "OpenFileHandle ";
 				boost::filesystem::path file(filePath);
 				try {	
+
 					int flag = set_file_flag(fileAccess, fileMode);
 					int fd = open(filePath.c_str(), flag);
 					if (fd == -1) {
-						printf("open() failed with error[%s] ", strerror(errno));
+						BOOST_LOG(lg) << "open() failed with error[%s] " << strerror(errno);
 						set_response(_return, false, "open() failed with error [" + std::string(strerror(errno)) + "]");
 						return;
 					}
