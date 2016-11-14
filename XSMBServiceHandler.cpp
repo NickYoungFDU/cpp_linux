@@ -168,6 +168,11 @@ namespace azure {
 					if (!exists(filePath)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file ";
+						std::fstream fs;
+						fs.open(filePath.c_str(), std::ios::in);
+						bool res = !!fs;
+						BOOST_LOG(lg) << filePath << " exists? " << res;
+						fs.close();
 					}
 					else {
 						std::fstream fs;
