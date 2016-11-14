@@ -113,6 +113,8 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [CreateFile] "; 			
 				boost::filesystem::path file(filePath);				
 				try {
+					std::string cmd = "ls " + filePath;
+					std::string ret = exec(cmd.c_str());
 					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
 						set_response(_return, false, filePath + " already exists");
 						BOOST_LOG(lg) << "[CreateFile] - " << filePath << " already exists ";
@@ -135,6 +137,8 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [DeleteFile] ";						
 				boost::filesystem::path file(filePath);				
 				try {
+					std::string cmd = "ls " + filePath;
+					std::string ret = exec(cmd.c_str());
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[DeleteFile] - " << filePath << " does not exist or is not a file ";
@@ -165,13 +169,15 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [ReadFile] ";
 				boost::filesystem::path file(filePath);				
 				try {
+					std::string cmd = "ls " + filePath;
+					std::string ret = exec(cmd.c_str());
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {						
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file ";
-						std::string cmd = "ls " + filePath;
-						std::string ret = exec(cmd.c_str());
-						BOOST_LOG(lg) << "List file: " << ret;
-						BOOST_LOG(lg) << "Detect again - Exist: " << boost::filesystem::exists(file);
+						//std::string cmd = "ls " + filePath;
+						//std::string ret = exec(cmd.c_str());
+						//BOOST_LOG(lg) << "List file: " << ret;
+						//BOOST_LOG(lg) << "Detect again - Exist: " << boost::filesystem::exists(file);
 					}
 					else {
 						std::fstream fs;
