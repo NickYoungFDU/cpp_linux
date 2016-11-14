@@ -5,6 +5,13 @@ using namespace ::azure::storage::cpp_linux;
 namespace azure {
 	namespace storage {
 		namespace cpp_linux {
+			bool exists(std::string path) {
+				std::fstream fs;
+				fs.open(path.c_str(), std::ios::in);
+				bool res = !!fs;
+				fs.close();
+				return res;
+			}
 
 			std::string exec(const char* cmd) {
 				char buffer[128];

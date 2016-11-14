@@ -113,7 +113,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [CreateFile] "; 			
 				boost::filesystem::path file(filePath);				
 				try {
-					if (boost::filesystem::exists(file) && boost::filesystem::is_regular_file(file)) {				
+					if (exists(filePath)) {				
 						set_response(_return, false, filePath + " already exists");
 						BOOST_LOG(lg) << "[CreateFile] - " << filePath << " already exists ";
 					}
@@ -135,7 +135,7 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [DeleteFile] ";						
 				boost::filesystem::path file(filePath);				
 				try {
-					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
+					if (!exists(filePath)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[DeleteFile] - " << filePath << " does not exist or is not a file ";
 						if (!boost::filesystem::exists(file)) {
@@ -165,54 +165,9 @@ namespace azure {
 				BOOST_LOG(lg) << "Calling [ReadFile] ";
 				boost::filesystem::path file(filePath);				
 				try {
-					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {						
+					if (!exists(filePath)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file ";
-						std::string cmd = "ls " + filePath;
-						std::string ret = exec(cmd.c_str());
-						BOOST_LOG(lg) << "List file: " << ret;
-						try {
-							std::fstream fs;
-							BOOST_LOG(lg) << "Trying to open non-existent file: ";
-							fs.open("./nonexist", std::ios::in);
-							if (!fs) {
-								BOOST_LOG(lg) << "Non-existent!";
-							}
-							else {
-								BOOST_LOG(lg) << "Existent!";
-							}
-						}
-						catch (const std::exception& ex) {
-							BOOST_LOG(lg) << "Exception" << ex.what();
-						}						
-						try {
-							std::fstream fs;
-							BOOST_LOG(lg) << "Trying to open non-existent file: ";
-							fs.open("./UnitTest.h", std::ios::in);
-							if (!fs) {
-								BOOST_LOG(lg) << "Non-existent!";
-							}
-							else {
-								BOOST_LOG(lg) << "Existent!";
-							}
-						}
-						catch (const std::exception& ex) {
-							BOOST_LOG(lg) << "Exception" << ex.what();
-						}
-						try {
-							std::fstream fs;
-							BOOST_LOG(lg) << "Trying to open " << filePath;
-							fs.open(filePath.c_str(), std::ios::in);
-							if (!fs) {
-								BOOST_LOG(lg) << "Non-existent!";
-							}
-							else {
-								BOOST_LOG(lg) << "Existent!";
-							}
-						}
-						catch (const std::exception& ex) {
-							BOOST_LOG(lg) << "Exception" << ex.what();
-						}
 					}
 					else {
 						std::fstream fs;
