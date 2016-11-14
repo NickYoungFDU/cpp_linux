@@ -168,9 +168,9 @@ namespace azure {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {						
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[ReadFile] - " << filePath << " does not exist or is not a file ";
-						std::string cmd = "ls .";
+						std::string cmd = "ls " + filePath;
 						std::string ret = exec(cmd.c_str());
-						BOOST_LOG(lg) << "List files: " << ret;
+						BOOST_LOG(lg) << "List file: " << ret;
 					}
 					else {
 						std::fstream fs;
