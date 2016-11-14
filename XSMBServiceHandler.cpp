@@ -187,6 +187,20 @@ namespace azure {
 						}						
 						try {
 							std::fstream fs;
+							BOOST_LOG(lg) << "Trying to open non-existent file: ";
+							fs.open("./UnitTest.h", std::ios::in);
+							if (!fs) {
+								BOOST_LOG(lg) << "Non-existent!";
+							}
+							else {
+								BOOST_LOG(lg) << "Existent!";
+							}
+						}
+						catch (const std::exception& ex) {
+							BOOST_LOG(lg) << "Exception" << ex.what();
+						}
+						try {
+							std::fstream fs;
 							BOOST_LOG(lg) << "Trying to open " << filePath;
 							fs.open(filePath.c_str(), std::ios::in);
 						}
