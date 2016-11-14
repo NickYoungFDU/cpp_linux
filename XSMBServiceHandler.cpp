@@ -138,6 +138,12 @@ namespace azure {
 					if (!boost::filesystem::exists(file) || !boost::filesystem::is_regular_file(file)) {
 						set_response(_return, false, filePath + " does not exist or is not a file");
 						BOOST_LOG(lg) << "[DeleteFile] - " << filePath << " does not exist or is not a file ";
+						if (!boost::filesystem::exists(file)) {
+							BOOST_LOG(lg) << "Exist test failed.";
+						}
+						else {
+							BOOST_LOG(lg) << "Regular file test failed";
+						}
 					}
 					else {
 						boost::filesystem::remove(file);							
