@@ -171,20 +171,7 @@ namespace azure {
 						std::string cmd = "ls " + filePath;
 						std::string ret = exec(cmd.c_str());
 						BOOST_LOG(lg) << "List file: " << ret;
-						try {
-							std::fstream fs;
-							BOOST_LOG(lg) << "Trying to open " << filePath;
-							fs.open(filePath.c_str(), std::ios::in);
-							if (!fs) {
-								BOOST_LOG(lg) << "Non-existent!";
-							}
-							else {
-								BOOST_LOG(lg) << "Existent!";
-							}
-						}
-						catch (const std::exception& ex) {
-							BOOST_LOG(lg) << "Exception" << ex.what();
-						}
+						BOOST_LOG(lg) << "Detect again - Exist: " << boost::filesystem::exists(file);
 					}
 					else {
 						std::fstream fs;
