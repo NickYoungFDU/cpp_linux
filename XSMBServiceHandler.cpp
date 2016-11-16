@@ -233,7 +233,7 @@ namespace azure {
 					return boost::filesystem::recursive_directory_iterator(path);
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
-					//BOOST_LOG(lg) << ex.what() << " " ;
+					std::cout << ex.what() << " " ;
 					return boost::filesystem::recursive_directory_iterator();
 				}
 			}
@@ -241,14 +241,14 @@ namespace azure {
 			void dump(const boost::filesystem::path& path, int level) {
 				 
 				try {
-					//BOOST_LOG(lg) << (boost::filesystem::is_directory(path) ? 'D' : ' ') << ' ';
-					//BOOST_LOG(lg) << (boost::filesystem::is_symlink(path) ? 'L' : ' ') << ' ';
-					//for (int i = 0; i < level; i++)
-						//BOOST_LOG(lg) << ' ';
-					//BOOST_LOG(lg) << level << ' ' << path.filename() << " " ;
+					std::cout << (boost::filesystem::is_directory(path) ? 'D' : ' ') << ' ';
+					std::cout << (boost::filesystem::is_symlink(path) ? 'L' : ' ') << ' ';
+					for (int i = 0; i < level; i++)
+						std::cout << ' ';
+					std::cout << level << ' ' << path.filename() << " " ;
 				}
 				catch (const boost::filesystem::filesystem_error& ex) {
-					//BOOST_LOG(lg) << ex.what() << " " ;
+					std::cout << ex.what() << " " ;
 				}
 			}
 
@@ -271,13 +271,13 @@ namespace azure {
 						it++;						
 					}
 					catch (const boost::filesystem::filesystem_error& ex) {
-						//BOOST_LOG(lg) << ex.what() << " " ;
+						std::cout << ex.what() << " " ;
 						it.no_push();
 						try {
 							it++;
 						}
 						catch (...) {
-							//BOOST_LOG(lg) << "!! ";
+							std::cout << "!! ";
 						}
 					}
 				}

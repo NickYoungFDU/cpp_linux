@@ -51,11 +51,6 @@ int main(int argc, char* argv[]) {
 	// Parse command line options
 	for (int i = 1; i < argc; i++)
 	{
-		if (strcmp(argv[i], "-test") == 0) {
-			LockFileRangeTest("/home/xufyan/testfile");
-			return -1;
-		}
-
 		if (strcmp(argv[i], "-l") == 0) {
 			logOn = true;
 		}
@@ -81,8 +76,8 @@ int main(int argc, char* argv[]) {
 
 	if (threadCount == 0)
 	{
-		// Default to twice the number of processors
-		//threadCount = get_processor_count() * 2;
+		unsigned int n = std::thread::hardware_concurrency();
+		std::cout << "n = " << n << std::endl;
 		threadCount = 15;
 	}
 
