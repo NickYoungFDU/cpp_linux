@@ -15,6 +15,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <UnitTest.h>
+#include <thread>
 
 using namespace azure::storage::cpp_linux;
 
