@@ -28,6 +28,7 @@
 #include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/sources/record_ostream.hpp>
 #include <boost/log/support/date_time.hpp>
+#include <mutex>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -100,6 +101,7 @@ namespace azure {
 			private:				
 				std::map<int, FILE*> file_pointers;
 				boost::log::sources::logger lg;
+				std::mutex mtx;
 			};
 		}
 	}

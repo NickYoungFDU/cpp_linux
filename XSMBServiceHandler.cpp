@@ -351,12 +351,23 @@ namespace azure {
 					int flag = set_file_flag(fileAccess, fileMode);
 					int fd = open(filePath.c_str(), flag);
 					if (fd == -1) {
-						BOOST_LOG(lg) << "open() failed with error[%s] " << strerror(errno);
-						set_response(_return, false, "open() failed with error [" + std::string(strerror(errno)) + "]");
+						std::string error_message = strerror(errno);
+						BOOST_LOG(lg) << "open() failed with error [" << error_message << "]";
+						set_response(_return, false, "open() failed with error [" + error_message + "]");
 						return;
 					}
 					FILE* file = fdopen(fd, "rb+");
+					if (file == NULL) {
+						std::string error_message = strerror(errno);
+						BOOST_LOG(lg) << "fdopen() failed with error [" << error_message << "]" << ". FD = " << fd;
+						set_response(_return, false, "fdopen() failed with error [" + error_message + "]");
+						return;
+					}
+					mtx.lock();
+					BOOST_LOG(lg) << "[Before insert] file_pointer.count() = " << file_pointers.size() << ". FD = " << handleId;
 					file_pointers.insert(std::pair<int, FILE*>(fd, file));
+					BOOST_LOG(lg) << "[After insert] file_pointer.count() = " << file_pointers.size() << ". FD = " << handleId;
+					mtx.unlock();
 					BOOST_LOG(lg) << "Open file " << filePath << ", descriptor " << fd << " ";
 					set_response(_return, true, "Sucessfully opened file handler [" + int_to_string(fd) + "]");
 					std::map<std::string, std::string> additional_info;
@@ -375,8 +386,23 @@ namespace azure {
 					std::map<int, FILE*>::iterator it = file_pointers.find(handleId);
 					if (it != file_pointers.end()) {
 						FILE* file = it->second;
-						fclose(file);
-						file_pointers.erase(it);											
+						int n = fclose(file);
+						if (n != 0) {
+							std::string error_message = strerror(errno);
+							BOOST_LOG(lg) << "fclose() failed with error [" << error_message << "]. FD = " << handleId;
+							set_response(_return, false, "fclose() failed with error [" + error_message + "]. FD = " + int_to_string(handleId));
+							BOOST_LOG(lg) << "[Before erase] file_pointer.count() = " << file_pointers.size() << ". FD = " << handleId;
+							mtx.lock();
+							file_pointers.erase(it);
+							mtx.unlock();
+							BOOST_LOG(lg) << "[After erase] file_pointer.count() = " << file_pointers.size() << ". FD = " << handleId;
+							return;
+						}
+						BOOST_LOG(lg) << "[Before erase] file_pointer.count() = " << file_pointers.size() << ". FD = " << handleId;
+						mtx.lock();
+						file_pointers.erase(it);
+						mtx.unlock();
+						BOOST_LOG(lg) << "[After erase] file_pointer.count() = " << file_pointers.size() << ". FD = " << handleId;
 						BOOST_LOG(lg) << "Successfully closed file handle [" << handleId << "] ";
 						set_response(_return, true, "Successfully closed file handle [" + int_to_string(handleId) + "]");
 					}
@@ -412,9 +438,13 @@ namespace azure {
 						_return.__set_Buffer(buffer_string);
 						delete[] buffer;
 					}
+					else if (it == file_pointers.end()){
+						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist";
+						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] does not exist");
+					}
 					else {
-						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist, or somehow it has been closed. ";
-						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] does not exist, or somehow it has been closed.");
+						BOOST_LOG(lg) << "file handle [" << handleId << "] exists, but corresponding FILE* is null";
+						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] exists, but corresponding FILE* is null");
 					}
 				}
 				catch (const std::exception& ex) {
@@ -436,9 +466,13 @@ namespace azure {
 						fflush(file);
 						set_response(_return, true, "Successfully write to file handle [" + int_to_string(handleId) + "]");
 					}
+					else if (it == file_pointers.end()){
+						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist";
+						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] does not exist");
+					}
 					else {
-						BOOST_LOG(lg) << "file handle [" << handleId << "] does not exist, or somehow it has been closed. ";
-						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] does not exist, or somehow it has been closed.");
+						BOOST_LOG(lg) << "file handle [" << handleId << "] exists, but corresponding FILE* is null";
+						set_response(_return, false, "file handle [" + int_to_string(handleId) + "] exists, but corresponding FILE* is null");
 					}
 				}
 				catch (const std::exception& ex) {

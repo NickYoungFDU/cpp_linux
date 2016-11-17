@@ -77,9 +77,7 @@ int main(int argc, char* argv[]) {
 
 	if (threadCount == 0)
 	{
-		unsigned int n = std::thread::hardware_concurrency();
-		std::cout << "n = " << n << std::endl;
-		threadCount = 15;
+		threadCount = std::thread::hardware_concurrency() * 2;
 	}
 
 	return run_server(port, threadCount, logOn);
